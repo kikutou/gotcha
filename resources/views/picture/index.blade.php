@@ -27,7 +27,7 @@
                             <td class="col-6">画像</td>
                         </tr>
                         @foreach($pictures as $picture)
-                        <!-- TODO loop -->
+                        <!-- TODO loops -->
                         <tr class="d-flex">
                             <td class="col-3">{{$picture->id}}</td>
                             <td class="col-3">{{$picture->description}}</td>
