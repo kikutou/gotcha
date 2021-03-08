@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGotchaPrizesTable extends Migration
+class CreatePicturesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateGotchaPrizesTable extends Migration
      */
     public function up()
     {
-        Schema::create('gotcha_prizes', function (Blueprint $table) {
+        Schema::create('pictures', function (Blueprint $table) {
             $table->id();
+            $table->text('description')->nullable();
+            $table->integer('type')->comment("1: ガチャ 2: ガチャ結果 3:景品");
+            $table->string('url');
+	        $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateGotchaPrizesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gotcha_prizes');
+        Schema::dropIfExists('pictures');
     }
 }
