@@ -1,11 +1,5 @@
 @extends('layouts.app')
 
-@if($message)
-    <div>
-        <p>{{＄message}}</p>
-    </div>
-@endif
-
 @section('content')
     <section class="container">
         <div class="page-title justify-content-center">

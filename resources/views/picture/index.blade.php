@@ -50,11 +50,6 @@
     }
   </style>
 @section('content')
-    @if($message)
-        <div class="alert alert-primary" role="alert">
-            <p>{{$message}}</p>
-        </div>
-    @endif
     <section class="container">
         <h3 class="mb-3 mt-6">画像一覧</h3>
         <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/picture/create')}}"> 新規登録</a>

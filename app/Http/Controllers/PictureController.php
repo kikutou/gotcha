@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\PictureService;
 use App\Models\Picture;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class PictureController extends Controller
 {
@@ -38,30 +39,18 @@ class PictureController extends Controller
     	if($request->isMethod('post')){
 
 		    $rules = [
-			    'name' => 'required|max_width:20|unique:bases,name',
-			    "code" => "required|max:10|unique:bases,code",
-			    'address' => 'required|max_width:100',
-			    'telephone'=> 'required:max:15',
-			    "privilege" => "required",
+			    'type_id' => 'required',
+			    'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000', // max 10000kb
 		    ];
 
 		    $errors = [
-			    "name.unique" => "すでに登録済みの名称です。変更してください。",
-			    "code.unique" => "すでに登録済みのコードです。変更してください。",
-			    'name.required' => '名前を入力してください',
-			    'code.required' => 'コードを入力してください',
-			    'address.required' => '住所を入力してください',
-			    'telephone.required' => '電話番号を入力してください',
-			    'privilege.required' => '権限を入力してください',
-			    "name.max_width" => "名称は全角10文字以内で入力してください",
-			    "address.max_width" => "住所は全角50文字以内で入力してください",
-			    "code:max" => "コードは10文字以内で入力してください",
-			    "telephone:max" => "電話番号は:max文字以内で入力してください",
-
+			    'type_id.required' => '種類を選択してください',
+			    'image.required' => '画像を選択してください',
+			    'image.mimes' => '画像以外のファイルを選択しました。',
+			    'image.max' => '画像サイズが大きい過ぎ',
 		    ];
 
 		    $validator = Validator::make($request->all(), $rules, $errors);
-
 		    if($validator->fails()) {
 			    return redirect()->back()->withErrors($validator)->withInput();
 		    }
@@ -72,11 +61,10 @@ class PictureController extends Controller
             }else{
                 $message = '失敗しました。';
             }
-            $pictures = $this->pictureService->getNoDel();
-            return view('picture.index')->with(['pictures' => $pictures, 'message' => $message]);
+            return Redirect::route('picture');
         }
 
-	    return view('picture.create',compact('message'));
+	    return view('picture.create');
     }
 
         /**
@@ -85,12 +73,11 @@ class PictureController extends Controller
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request,$id=null)
     {
-        $message = null;
         if($request->isMethod('get')){
-            $picture = $this->pictureService->getPictureById($id);
-            return view('picture.edit',compact('picture', 'message'));
+            $picture = Picture::find($id);
+            return view('picture.edit', ['picture' => $picture]);
         }elseif($request->isMethod('post')){
             $result = $this->up($request);
             if($result){
@@ -98,14 +85,9 @@ class PictureController extends Controller
             }else{
                 $message = '失敗しました。';
             }
-            $pictures = $this->pictureService->getNoDel();
-            return view('picture.index')->with(['pictures' => $pictures, 'message' => $message]);
+            return Redirect::route('picture');
         }
         
-        
-        
-        
-        dd($request);
         if($request->has('edit')){
             if(!$request->has('picture_id')){
                 return false;
@@ -118,8 +100,8 @@ class PictureController extends Controller
             if(is_null($picture) || empty($picture)) {
                 return false;
             }
-            $message = null;
-            return view('picture.edit', compact('picture', 'message'));
+
+            return view('picture.edit', compact('picture'));
         } elseif($request->has('delete')) {
             $this->delete($request);
         }
@@ -136,22 +118,17 @@ class PictureController extends Controller
         if(is_null($id) || empty($id)){
             return false;
         }
-        $picture = $this->pictureService->getPictureById($id);
+        $picture = Picture::find( $id );;
         if(is_null($picture) || empty($picture)){
             return false;
         }
-        $picture = $this->pictureService->delete($id);
-        if($picture){
-            $pictures = $this->pictureService->getAll();
+        $result = $picture->delete();
+        if($result){
             $message = "削除しました。";
-            return redirect('/picture')->with([
-                'pictures' => $pictures,
-                'message' => $message
-                ]);
+            return Redirect::route('picture');
         }else{
-            $pictures = $this->pictureService->getAll();
             $message = "削除失敗しました。";
-            return view('picture.index', compact('pictures', 'message'));
+            return Redirect::back()->with('message', $message);
         }
     }
 
@@ -161,6 +138,7 @@ class PictureController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function insert(Request $request){
+
         $path = $request->file('image')->store('public/imgs');
         $description = $request->get('description');
         $type_id = $request->get('type_id');
@@ -168,16 +146,32 @@ class PictureController extends Controller
         $create_data = [
             'description' => $description,
             'type_id' => $type_id,
-            'name' => $image,
+            'url' => $image,
         ];
 
         $picture = $this->pictureService->create($create_data);
-        $picture =true;
+
         if($picture){
             return true;
         }else{
             return false;
         }
+    }
 
+    /**
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    private function up(Request $request){
+        $picture = Picture::find($request->get('picture_id'));
+        if($request->file('image')){
+            $path = $request->file('image')->store('public/imgs');
+            $image = basename($path);
+            $picture->url = $image;
+        }
+        $picture->description = $request->get('description');
+        $picture->type = $request->get('type_id');
+        $picture->save();
     }
 }

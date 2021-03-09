@@ -74,20 +74,18 @@
         });
     };
 </script>
-@if($message)
-    <div>
-        <p>{{＄message}}</p>
-    </div>
-@endif
 
 @section('content')
+    <div>
+        @foreach($errors->all() as $error)
+            {{ $error }}
+        @endforeach
+    </div>
     <section class="container">
         <h3 class="mb-3 mt-6">画像登録</h3>
         <div class="form-area">  
             <form action="{{url('picture/create')}}" method="post" enctype="multipart/form-data">
                 @csrf
-                <br style="clear:both">
-                <p style="margin-bottom: 25px; text-align: left;">ガチャ画像ID：003<span class="ml-3">※自動設定</span></p>
                 <div class="form-group">
                     <label for="description">⽤途</label>
                     <input type="text" class="form-control" placeholder="半角/全角テキスト/英数字/記号" id="description" name="description" >
@@ -105,7 +103,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6 text-left">
-                        <a href="{{ url()->previous() }}" class="btn btn-primary" >もどる</a>
+                        <a href="{{ route('picture') }}" class="btn btn-primary" >もどる</a>
                         <button type="submit" id="insert" name="insert" class="btn btn-success" >登録する</button>
                     </div>
                 </div> 
