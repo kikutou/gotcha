@@ -12,11 +12,6 @@
 }
 
 </style>
-@if($message)
-    <div>
-        <p>{{＄message}}</p>
-    </div>
-@endif
 
 @section('content')
     <section class="container">

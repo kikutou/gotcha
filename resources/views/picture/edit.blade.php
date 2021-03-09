@@ -73,20 +73,16 @@
         });
     };
 </script>
-@if($message)
-    <div>
-        <p>{{＄message}}</p>
-    </div>
-@endif
 
 @section('content')
     <section class="container">
         <h3 class="mb-3 mt-6">画像詳細/編集</h3>
         <div class="form-area">
-            <form action="{{url('post.picture.edit')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('post.picture.edit')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <br style="clear:both">
                 <label for="description">ガチャ画像ID：</label>{{$picture->id}}<span class="ml-3">※自動設定</span>
+                <input type="hidden" id="picture_id" value="{{$picture->id}}">
                 <div class="form-group">
                     <label for="description">⽤途</label>
                     <input type="text" class="form-control" placeholder="半角/全角テキスト/英数字/記号" id="description" name="description" value='{{$picture->description}}'>
@@ -107,7 +103,7 @@
                     <div class="col-xs-6 col-md-6 text-left">
                         <a href="{{ url()->previous() }}" class="btn btn-primary" >もどる</a>
                         <a class="btn btn-danger" href="{{ route('picture.delete', ['id' => $picture->id]) }}">削除</a>
-                        <button type="submit" id="insert" name="insert" class="btn btn-success" >更新する</button>
+                        <button type="submit" id="update" name="update" class="btn btn-success" >更新する</button>
                     </div>
                 </div>
             </form>

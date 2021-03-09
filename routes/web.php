@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('/picture/create', 'App\Http\Controllers\PictureController@create')->name('get_picture_create');
     Route::post('/picture/create', 'App\Http\Controllers\PictureController@create')->name('post_picture_create');
     Route::get('/picture/{id}/edit', 'App\Http\Controllers\PictureController@edit')->name('picture.edit');
-    Route::post('/picture/{id}/edit', 'App\Http\Controllers\PictureController@edit')->name('post.picture.edit');
+    Route::post('/picture/edit', 'App\Http\Controllers\PictureController@edit')->name('post.picture.edit');
     Route::get('/picture/{id}/delete', 'App\Http\Controllers\PictureController@delete')->name('picture.delete');
     // Route::get('/picture/{id}/delete', ['as'=>'picture.delete', 'uses'=> 'PictureController@delete']);
 // Route::post('/picture_edit', 'App\Http\Controllers\PictureController@edit_action');

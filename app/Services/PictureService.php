@@ -21,15 +21,22 @@ class PictureService{
         return $picture = Picture::create([
             'description' => $data['description'],
             'type' =>$data['type_id'],
-            'url' => $data['name'],
+            'url' => $data['url'],
         ]);
     }
 
     public function up($data){
-        return $picture = Picture::create([
+        $picture = Picture::find($data['id']);
+        $picture->description = $data['description'];
+        $picture->type = $data['type_id'];
+        if(!empty($data['url'])){
+            $picture->url = $data['url'];
+        }
+        $picture->save();
+        return $picture = Picture::where('id', 1)->update([
             'description' => $data['description'],
             'type' =>$data['type_id'],
-            'url' => $data['name'],
+            'url' => $data['url'],
         ]);
     }
 

@@ -64,12 +64,6 @@
 
 </style>
 
-@if($message)
-    <div>
-        <p>{{＄message}}</p>
-    </div>
-@endif
-
 @section('content')
     <section class="container">
         <h3 class="mb-3 mt-6">ガチャ登録</h3>

@@ -1,11 +1,5 @@
 @extends('layouts.app')
 
-@if($message)
-    <div>
-        <p>{{＄message}}</p>
-    </div>
-@endif
-
 @section('content')
     <section class="container">
         <h3 class="mb-3 mt-6">景品一覧</h3>

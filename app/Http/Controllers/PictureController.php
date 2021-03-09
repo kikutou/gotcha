@@ -38,30 +38,18 @@ class PictureController extends Controller
     	if($request->isMethod('post')){
 
 		    $rules = [
-			    'name' => 'required|max_width:20|unique:bases,name',
-			    "code" => "required|max:10|unique:bases,code",
-			    'address' => 'required|max_width:100',
-			    'telephone'=> 'required:max:15',
-			    "privilege" => "required",
+			    'type_id' => 'required',
+			    'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000', // max 10000kb
 		    ];
 
 		    $errors = [
-			    "name.unique" => "すでに登録済みの名称です。変更してください。",
-			    "code.unique" => "すでに登録済みのコードです。変更してください。",
-			    'name.required' => '名前を入力してください',
-			    'code.required' => 'コードを入力してください',
-			    'address.required' => '住所を入力してください',
-			    'telephone.required' => '電話番号を入力してください',
-			    'privilege.required' => '権限を入力してください',
-			    "name.max_width" => "名称は全角10文字以内で入力してください",
-			    "address.max_width" => "住所は全角50文字以内で入力してください",
-			    "code:max" => "コードは10文字以内で入力してください",
-			    "telephone:max" => "電話番号は:max文字以内で入力してください",
-
+			    'type_id.required' => '種類を選択してください',
+			    'image.required' => '画像を選択してください',
+			    'image.mimes' => '画像以外のファイルを選択しました。',
+			    'image.max' => '画像サイズが大きい過ぎ',
 		    ];
 
 		    $validator = Validator::make($request->all(), $rules, $errors);
-
 		    if($validator->fails()) {
 			    return redirect()->back()->withErrors($validator)->withInput();
 		    }
@@ -73,10 +61,10 @@ class PictureController extends Controller
                 $message = '失敗しました。';
             }
             $pictures = $this->pictureService->getNoDel();
-            return view('picture.index')->with(['pictures' => $pictures, 'message' => $message]);
+            return view('picture.index')->with(['pictures' => $pictures]);
         }
 
-	    return view('picture.create',compact('message'));
+	    return view('picture.create');
     }
 
         /**
@@ -87,10 +75,9 @@ class PictureController extends Controller
      */
     public function edit(Request $request,$id)
     {
-        $message = null;
         if($request->isMethod('get')){
             $picture = $this->pictureService->getPictureById($id);
-            return view('picture.edit',compact('picture', 'message'));
+            return view('picture.edit',compact('picture'));
         }elseif($request->isMethod('post')){
             $result = $this->up($request);
             if($result){
@@ -99,7 +86,7 @@ class PictureController extends Controller
                 $message = '失敗しました。';
             }
             $pictures = $this->pictureService->getNoDel();
-            return view('picture.index')->with(['pictures' => $pictures, 'message' => $message]);
+            return view('picture.index')->with(['pictures' => $pictures]);
         }
         
         
@@ -118,8 +105,8 @@ class PictureController extends Controller
             if(is_null($picture) || empty($picture)) {
                 return false;
             }
-            $message = null;
-            return view('picture.edit', compact('picture', 'message'));
+
+            return view('picture.edit', compact('picture'));
         } elseif($request->has('delete')) {
             $this->delete($request);
         }
@@ -168,7 +155,7 @@ class PictureController extends Controller
         $create_data = [
             'description' => $description,
             'type_id' => $type_id,
-            'name' => $image,
+            'url' => $image,
         ];
 
         $picture = $this->pictureService->create($create_data);
