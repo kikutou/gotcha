@@ -18,14 +18,13 @@
 
 @section('content')
     <section class="container">
-        <h3 class="mb-3 mt-6">景品登録</h3>
+        <div class="page-title justify-content-center">
+            <h3 class="mb-3 mt-6 text-center">景品登録</h3>
+        </div>
+
         <form action="{{url('prize_create')}}" method="post">
             @csrf
                 <table class="table table-dark(thead-light)">
-                    <tr>
-                        <td>景品ID</td>
-                        <td><span>001</span><span>※自動設定</span></td>
-                    </tr>
                     <tr>
                         <td>景品名称</td>
                         <td><input type="text" id="gotcha_name" value=""></td>
@@ -46,13 +45,13 @@
                 </table>
                 <div class="btn">
                     <div class="btn">
-                        <button type="submit">もどる
+                        <button type="submit">もどる</button>
                     </div>
                     <div class="btn">
-                        <button type="submit">削除
+                        <button type="submit">削除</button>
                     </div>
                     <div class="btn">
-                        <button type="submit">登録する
+                        <button type="submit">登録する</button>
                     </div>
                 </div>
             </form>

@@ -8,8 +8,14 @@
 
 @section('content')
     <section class="container">
-        <h3 class="mb-3 mt-6">景品一覧</h3>
-        <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/prize/create')}}"> 新規登録</a>
+        <div class="page-title justify-content-center">
+            <h3 class="mb-3 mt-6 text-center">景品一覧</h3>
+        </div>
+
+        <div class="float-right">
+            <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/prize/create')}}"> 新規登録</a>
+        </div>
+
         @if(!empty($prizes) || !is_null($prizes))
             <form action="{{url('get_gotcha_edit')}}" method="get">
                 @csrf

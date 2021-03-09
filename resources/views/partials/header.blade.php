@@ -1,8 +1,5 @@
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
         <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link h2 mr-3" href="{{url('gotcha')}}">ガチャシステム</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ガチャ一覧</a>
             </li>
@@ -27,13 +24,13 @@
             @guest
                 @if (Route::has('login'))
                     <li class="nav-item">
-                        <a class="nav-link h4 mr-3" href="{{ route('login') }}">ログイン</a>
+                        <a class="nav-link h4 mr-3 btn-primary rounded" href="{{ route('login') }}">ログイン</a>
                     </li>
                 @endif
                                 
             @else
                 <li class="nav-item dropdown pull-right">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle h4 mr-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle h4 mr-3 btn-primary rounded" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}
                     </a>
 
@@ -52,8 +49,3 @@
             @endguest
         </ul>
     </nav>
-
-    <!-- Right Side Of Navbar -->
-    <ul class="navbar-nav ml-auto">
-
-    </ul>
