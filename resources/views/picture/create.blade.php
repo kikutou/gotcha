@@ -103,7 +103,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6 text-left">
-                        <a href="{{ url()->previous() }}" class="btn btn-primary" >もどる</a>
+                        <a href="{{ route('picture') }}" class="btn btn-primary" >もどる</a>
                         <button type="submit" id="insert" name="insert" class="btn btn-success" >登録する</button>
                     </div>
                 </div> 

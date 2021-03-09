@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\PictureService;
 use App\Models\Picture;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class PictureController extends Controller
 {
@@ -60,8 +61,7 @@ class PictureController extends Controller
             }else{
                 $message = '失敗しました。';
             }
-            $pictures = $this->pictureService->getNoDel();
-            return view('picture.index')->with(['pictures' => $pictures]);
+            return Redirect::route('picture');
         }
 
 	    return view('picture.create');
@@ -73,11 +73,11 @@ class PictureController extends Controller
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request,$id=null)
     {
         if($request->isMethod('get')){
-            $picture = $this->pictureService->getPictureById($id);
-            return view('picture.edit',compact('picture'));
+            $picture = Picture::find($id);
+            return view('picture.edit', ['picture' => $picture]);
         }elseif($request->isMethod('post')){
             $result = $this->up($request);
             if($result){
@@ -85,14 +85,9 @@ class PictureController extends Controller
             }else{
                 $message = '失敗しました。';
             }
-            $pictures = $this->pictureService->getNoDel();
-            return view('picture.index')->with(['pictures' => $pictures]);
+            return Redirect::route('picture');
         }
         
-        
-        
-        
-        dd($request);
         if($request->has('edit')){
             if(!$request->has('picture_id')){
                 return false;
@@ -123,22 +118,17 @@ class PictureController extends Controller
         if(is_null($id) || empty($id)){
             return false;
         }
-        $picture = $this->pictureService->getPictureById($id);
+        $picture = Picture::find( $id );;
         if(is_null($picture) || empty($picture)){
             return false;
         }
-        $picture = $this->pictureService->delete($id);
-        if($picture){
-            $pictures = $this->pictureService->getAll();
+        $result = $picture->delete();
+        if($result){
             $message = "削除しました。";
-            return redirect('/picture')->with([
-                'pictures' => $pictures,
-                'message' => $message
-                ]);
+            return Redirect::route('picture');
         }else{
-            $pictures = $this->pictureService->getAll();
             $message = "削除失敗しました。";
-            return view('picture.index', compact('pictures', 'message'));
+            return Redirect::back()->with('message', $message);
         }
     }
 
@@ -148,6 +138,7 @@ class PictureController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function insert(Request $request){
+
         $path = $request->file('image')->store('public/imgs');
         $description = $request->get('description');
         $type_id = $request->get('type_id');
@@ -159,12 +150,28 @@ class PictureController extends Controller
         ];
 
         $picture = $this->pictureService->create($create_data);
-        $picture =true;
+
         if($picture){
             return true;
         }else{
             return false;
         }
+    }
 
+    /**
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    private function up(Request $request){
+        $picture = Picture::find($request->get('picture_id'));
+        if($request->file('image')){
+            $path = $request->file('image')->store('public/imgs');
+            $image = basename($path);
+            $picture->url = $image;
+        }
+        $picture->description = $request->get('description');
+        $picture->type = $request->get('type_id');
+        $picture->save();
     }
 }
