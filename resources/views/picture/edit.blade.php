@@ -93,11 +93,11 @@
                     {{Form::select('type_id', config('const.picture_type'),$picture->type)}}
                 </div>
                 <div class="form-group">
-                    <label for="image">画像素材</label>
-                    <input type="file" name="image" id="image" accept="image/*"　display: none>
+                    <label class="btn btn-primary" for="image">画像選択</label>
+                    <input id="image" type="file" multiple="multiple" name="image" accept="image/*" style="display:none;">
                 </div>
                 <div class="form-group">
-                    <img id="preview" class="img-fluid" src="{{ asset('storage/imgs/' . $picture->url) }}">
+                    <img id="preview" class="img-fluid img-responsive" src="{{ asset('storage/imgs/' . $picture->url) }}">
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6 text-left">
