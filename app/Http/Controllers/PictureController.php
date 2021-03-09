@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\PictureService;
+use App\Models\Picture;
+use Illuminate\Support\Facades\Validator;
 
 class PictureController extends Controller
 {
@@ -19,9 +21,11 @@ class PictureController extends Controller
      */
     public function index(Request $request)
     {
-        $pictures = $this->pictureService->getAll();
-        $message = null;
-        return view('picture.index', compact('pictures', 'message'));
+        $pictures = Picture::all();
+
+        return view('picture.index', [
+        	"pictures" => $pictures
+        ]);
     }
 
     /**
@@ -31,10 +35,37 @@ class PictureController extends Controller
      */
     public function create(Request $request)
     {
-        $message = null;
-        if($request->isMethod('get')){
-            return view('picture.create',compact('message'));
-        }elseif($request->isMethod('post')){
+    	if($request->isMethod('post')){
+
+		    $rules = [
+			    'name' => 'required|max_width:20|unique:bases,name',
+			    "code" => "required|max:10|unique:bases,code",
+			    'address' => 'required|max_width:100',
+			    'telephone'=> 'required:max:15',
+			    "privilege" => "required",
+		    ];
+
+		    $errors = [
+			    "name.unique" => "すでに登録済みの名称です。変更してください。",
+			    "code.unique" => "すでに登録済みのコードです。変更してください。",
+			    'name.required' => '名前を入力してください',
+			    'code.required' => 'コードを入力してください',
+			    'address.required' => '住所を入力してください',
+			    'telephone.required' => '電話番号を入力してください',
+			    'privilege.required' => '権限を入力してください',
+			    "name.max_width" => "名称は全角10文字以内で入力してください",
+			    "address.max_width" => "住所は全角50文字以内で入力してください",
+			    "code:max" => "コードは10文字以内で入力してください",
+			    "telephone:max" => "電話番号は:max文字以内で入力してください",
+
+		    ];
+
+		    $validator = Validator::make($request->all(), $rules, $errors);
+
+		    if($validator->fails()) {
+			    return redirect()->back()->withErrors($validator)->withInput();
+		    }
+
             $result = $this->insert($request);
             if($result){
                 $message = '成功しました。';
@@ -44,6 +75,8 @@ class PictureController extends Controller
             $pictures = $this->pictureService->getNoDel();
             return view('picture.index')->with(['pictures' => $pictures, 'message' => $message]);
         }
+
+	    return view('picture.create',compact('message'));
     }
 
         /**
