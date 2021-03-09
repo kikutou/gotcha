@@ -65,9 +65,7 @@
     </style>
 </head>
 <body>
-    @if(Auth::check())
-        @include('partials.header')
-    @endif
+    @include('partials.header')
 
     @yield('content')
 

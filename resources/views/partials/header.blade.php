@@ -3,7 +3,6 @@
             <li class="nav-item active">
                 <a class="nav-link h2 mr-3" href="{{url('gotcha')}}">ガチャシステム</a>
             </li>
-        @if(Auth::check())
             <li class="nav-item">
                 <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ガチャ一覧</a>
             </li>
@@ -24,7 +23,6 @@
                 <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ログ</a>
 
             </li>
-        @endif
             <!-- Authentication Links -->
             @guest
                 @if (Route::has('login'))
@@ -34,7 +32,7 @@
                 @endif
                                 
             @else
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown pull-right">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle h4 mr-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}
                     </a>
