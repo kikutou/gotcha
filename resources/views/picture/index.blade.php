@@ -50,6 +50,12 @@
     }
   </style>
 @section('content')
+
+    @if (session('flash_message'))
+        <div class="flash_message">
+            {{ session('flash_message') }}
+        </div>
+    @endif
     <section class="container">
         <h3 class="mb-3 mt-6">画像一覧</h3>
         <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/picture/create')}}"> 新規登録</a>

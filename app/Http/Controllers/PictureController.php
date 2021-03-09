@@ -36,30 +36,17 @@ class PictureController extends Controller
      */
     public function create(Request $request)
     {
-    	if($request->isMethod('post')){
-
-		    $rules = [
-			    'type_id' => 'required',
-			    'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000', // max 10000kb
-		    ];
-
-		    $errors = [
-			    'type_id.required' => '種類を選択してください',
-			    'image.required' => '画像を選択してください',
-			    'image.mimes' => '画像以外のファイルを選択しました。',
-			    'image.max' => '画像サイズが大きい過ぎ',
-		    ];
-
-		    $validator = Validator::make($request->all(), $rules, $errors);
-		    if($validator->fails()) {
-			    return redirect()->back()->withErrors($validator)->withInput();
+    	if($request->isMethod('post')) {
+            $check = $this->check($request);
+		    if($check->fails()) {
+			    return redirect()->back()->withErrors($check)->withInput();
 		    }
 
             $result = $this->insert($request);
             if($result){
-                $message = '成功しました。';
+                session()->flash('flash_message', '成功しました');
             }else{
-                $message = '失敗しました。';
+                session()->flash('flash_message', '失敗しました');
             }
             return Redirect::route('picture');
         }
@@ -67,7 +54,7 @@ class PictureController extends Controller
 	    return view('picture.create');
     }
 
-        /**
+    /**
      * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
      * @param  $id
@@ -81,9 +68,9 @@ class PictureController extends Controller
         }elseif($request->isMethod('post')){
             $result = $this->up($request);
             if($result){
-                $message = '成功しました。';
+                session()->flash('flash_message', '成功しました');
             }else{
-                $message = '失敗しました。';
+                session()->flash('flash_message', '失敗しました');
             }
             return Redirect::route('picture');
         }
@@ -124,12 +111,27 @@ class PictureController extends Controller
         }
         $result = $picture->delete();
         if($result){
-            $message = "削除しました。";
-            return Redirect::route('picture');
+            session()->flash('flash_message', '成功しました');
         }else{
-            $message = "削除失敗しました。";
-            return Redirect::back()->with('message', $message);
+            session()->flash('flash_message', '失敗しました');
         }
+        return Redirect::route('picture');
+    }
+
+    public function check(Request $request){
+        $rules = [
+            'type_id' => 'required',
+            'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000', // max 10000kb
+        ];
+
+        $errors = [
+            'type_id.required' => '種類を選択してください',
+            'image.required' => '画像を選択してください',
+            'image.mimes' => '画像以外のファイルを選択しました。',
+            'image.max' => '画像サイズが大きい過ぎ',
+        ];
+
+        return $validator = Validator::make($request->all(), $rules, $errors);
     }
 
     /**
@@ -172,6 +174,6 @@ class PictureController extends Controller
         }
         $picture->description = $request->get('description');
         $picture->type = $request->get('type_id');
-        $picture->save();
+        return $picture->save();
     }
 }
