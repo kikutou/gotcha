@@ -6,7 +6,7 @@ use App\Models\Picture;
 
 class PictureService{
     public function getAll(){
-        return Picture::all()->where('del_flg',0);
+        return Picture::all();
     }
 
     public function getNoDel(){
@@ -31,5 +31,9 @@ class PictureService{
             'type' =>$data['type_id'],
             'url' => $data['name'],
         ]);
+    }
+
+    public function delete($id){
+        return $picture = Picture::where('id', $id)->delete();
     }
 }

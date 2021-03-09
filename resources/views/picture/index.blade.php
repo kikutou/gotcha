@@ -51,7 +51,7 @@
   </style>
 @section('content')
     @if($message)
-        <div>
+        <div class="alert alert-primary" role="alert">
             <p>{{$message}}</p>
         </div>
     @endif
@@ -80,7 +80,7 @@
                                     <td class="col-4"><img class="img-thumbnail" src="{{ asset('storage/imgs/' . $picture->url) }}" alt="{{ $picture->url }}"> </td>
                                     <td class="col-2">
                                         <button class="btn btn-info" name="edit" type="submit">詳細/編集</button>
-                                        <button class="btn btn-danger" name="delete" type="submit">削除</button>
+                                        <a class="btn btn-danger" href="{{ route('picture.delete', ['id' => $picture->id]) }}">削除</button>
                                         <input type="hidden" name="picture_id_{{$picture->id}}" id="picture_id_{{$picture->id}}" value="{{$picture->id}}">
                                     </td>
                                 </tr>

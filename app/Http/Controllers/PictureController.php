@@ -19,7 +19,7 @@ class PictureController extends Controller
      */
     public function index(Request $request)
     {
-        $pictures = $this->pictureService->getNoDel();
+        $pictures = $this->pictureService->getAll();
         $message = null;
         return view('picture.index', compact('pictures', 'message'));
     }
@@ -29,22 +29,12 @@ class PictureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create_index(Request $request)
+    public function create(Request $request)
     {
         $message = null;
-        return view('picture.create', compact('message'));
-    }
-
-    /**
-     * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create_action(Request $request)
-    {
-        if($request->has('delete')){
-
-        }elseif($request->has('insert')){
+        if($request->isMethod('get')){
+            return view('picture.create',compact('message'));
+        }elseif($request->isMethod('post')){
             $result = $this->insert($request);
             if($result){
                 $message = '成功しました。';
@@ -102,21 +92,27 @@ class PictureController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    private function delete(Request $request){
-        if(!$request->has('picture_id')){
+    public function delete($id){
+        if(is_null($id) || empty($id)){
             return false;
         }
-        $picture_id = $request->get('picture_id');
-        $picture = $this->pictureService->getPictureById($picture_id);
+        $picture = $this->pictureService->getPictureById($id);
         if(is_null($picture) || empty($picture)){
             return false;
         }
-        $picture->del_flg = 1;
-        $picture = $this->pictureService->getPictureById($picture_id);
-        dd($picture);
+        $picture = $this->pictureService->delete($id);
+        if($picture){
+            $pictures = $this->pictureService->getAll();
+            $message = "削除しました。";
+            return view('picture.index', compact('pictures', 'message'));
+        }else{
+            $pictures = $this->pictureService->getAll();
+            $message = "削除失敗しました。";
+            return view('picture.index', compact('pictures', 'message'));
+        }
     }
 
     /**

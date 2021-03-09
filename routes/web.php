@@ -43,11 +43,12 @@ use Illuminate\Support\Facades\Route;
 
     // Picture
     Route::get('/picture', 'App\Http\Controllers\PictureController@index')->name('picture');
-    Route::get('/picture/create', 'App\Http\Controllers\PictureController@create_index')->name('get_picture_create');
-    Route::post('/picture/create', 'App\Http\Controllers\PictureController@create_action')->name('post_picture_create');
-    Route::get('/picture/edit', 'App\Http\Controllers\PictureController@edit_index')->name('get_picture_edit');
-    Route::post('/picture/edit', 'App\Http\Controllers\PictureController@edit_index')->name('post_picture_edit');
-
+    Route::get('/picture/create', 'App\Http\Controllers\PictureController@create')->name('get_picture_create');
+    Route::post('/picture/create', 'App\Http\Controllers\PictureController@create')->name('post_picture_create');
+    Route::get('/picture/{id}/edit', 'App\Http\Controllers\PictureController@edit')->name('get_picture_edit');
+    Route::post('/picture/{id}/edit', 'App\Http\Controllers\PictureController@edit')->name('post_picture_edit');
+    Route::get('/picture/{id}/delete', 'App\Http\Controllers\PictureController@delete')->name('picture.delete');
+    // Route::get('/picture/{id}/delete', ['as'=>'picture.delete', 'uses'=> 'PictureController@delete']);
 // Route::post('/picture_edit', 'App\Http\Controllers\PictureController@edit_action');
 // Route::get('/gotcha_register', 'App\Http\Controllers\GotchaController@register')->name('gotcha_register');
 // Route::post('/gotcha_register', 'App\Http\Controllers\GotchaController@register')->name('gotcha_register');

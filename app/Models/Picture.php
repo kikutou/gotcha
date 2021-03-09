@@ -18,6 +18,5 @@ class Picture extends Model
         'description',
         'type',
         'url',
-        'del_flg',
     ];
 }
