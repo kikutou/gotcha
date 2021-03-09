@@ -17,15 +17,10 @@
 @endif
 
 @section('content')
-    <section class="content-header">
-
-        <div class="">
-            <h1>景品詳細</h1>
-        </div>
-
-        <div class="">
-            <form action="{{url('prize_create')}}" method="post">
-                @csrf
+    <section class="container">
+        <h3 class="mb-3 mt-6">景品登録</h3>
+        <form action="{{url('prize_create')}}" method="post">
+            @csrf
                 <table class="table table-dark(thead-light)">
                     <tr>
                         <td>景品ID</td>

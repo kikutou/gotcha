@@ -7,26 +7,23 @@
 @endif
 
 @section('content')
-    <section class="content-header">
-        <div class="mt-3 mb-3">
-           <h1>景品一覧</h1>
-        </div>
-        <div class="mt-3 mb-3">
-            <a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" href="{{url('prize_create')}}">新規登録</a>
-        </div>
-
-        <div class="">
-            @if(!empty($prizes) || !is_null($prizes))
-                <form action="{{url('gotcha_edit')}}" method="get">
-                    @csrf
-                    <table class="table table-dark(thead-light)">
+    <section class="container">
+        <h3 class="mb-3 mt-6">景品一覧</h3>
+        <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/prize/create')}}"> 新規登録</a>
+        @if(!empty($prizes) || !is_null($prizes))
+            <form action="{{url('get_gotcha_edit')}}" method="get">
+                @csrf
+                <table class="table table-striped custab">
+                    <thead>
                         <tr>
-                            <td>景品ID</td>
-                            <td>景品名</td>
-                            <td>種別</td>
-                            <td>画像</td>
+                            <th>景品ID</th>
+                            <th>景品名</th>
+                            <th>種別</th>
+                            <th>画像</th>
                         </tr>
-                        @foreach($prizes as $prize)
+                    </thead>
+                    <tbody>
+                    @foreach($prizes as $prize)
                         <!-- TODO loop -->
                         <tr>
                             <td>{{$prize->id}}</td>
@@ -34,17 +31,17 @@
                             <td>{{$prize->type}}</td>
                             <td>{{$prize->picture_id}}</td>
                             <td>
-                                <input type="submit" value="詳細/編集" id="edit">
-                                <input type="hidden" name="gotcha_id" id="gotcha_id" value="{{$gotcha->id}}">
+                                <button class="btn btn-info btn-xs" type="submit" value="詳細/編集" id="edit">
+                                <button class="btn btn-danger btn-xs" type="submit" value="削除" id="delete">
+                                <input type="hidden" name="prize_id" id="prize_id" value="{{$prize->id}}">
                             </td>
-                            <td><input type="submit" value="削除" id="delete"></td>
                         </tr>
-                        @endforeach
-                    </table>
-                </form>
-            @else
+                    @endforeach
+                    </tbody>
+                </table>
+            </form>
+        @else
             <p>該当情報がありません</p>
-            @endif
-        </div>
+        @endif
     </section>
 @endsection

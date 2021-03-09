@@ -1,58 +1,61 @@
-<!-- Main Header -->
-<header class="main-header">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link h2 mr-3" href="{{url('gotcha')}}">ガチャシステム</a>
+            </li>
+        @if(Auth::check())
+            <li class="nav-item">
+                <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ガチャ一覧</a>
+            </li>
 
-    <!-- Logo -->
-    <a href="" class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini">logo-mini</span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">logo-lg</span>
-    </a>
+            <li class="nav-item">
+                <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">景品種別別挙動</a>
+            </li>
 
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-        <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-        </a>
-        <ul class="nav navbar-nav hidden-sm visible-lg-block">
-        </ul>
-        <!-- Navbar Right Menu -->
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link h4 mr-3" href="{{url('picture')}}">画像一覧(ガチャ/結果)</a>
+            </li>
 
-                <!-- User Account Menu -->
-                <li class="dropdown user user-menu">
-                    <!-- Menu Toggle Button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <!-- The user image in the navbar-->
-                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs">name</span>
+            <li class="nav-item">
+                <a class="nav-link h4 mr-3" href="{{url('prize')}}">景品一覧</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ログ</a>
+
+            </li>
+        @endif
+            <!-- Authentication Links -->
+            @guest
+                @if (Route::has('login'))
+                    <li class="nav-item">
+                        <a class="nav-link h4 mr-3" href="{{ route('login') }}">ログイン</a>
+                    </li>
+                @endif
+                                
+            @else
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle h4 mr-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
                     </a>
-                    <ul class="dropdown-menu">
-                        <!-- The user image in the menu -->
-                        <li class="user-header">
 
-                            <p>
-                                name
-                                <small>Member since admin created_at </small>
-                            </p>
-                        </li>
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="" class="btn btn-default btn-flat">setting</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="" class="btn btn-default btn-flat">logout</a>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
                 </li>
-                <!-- Control Sidebar Toggle Button -->
-                {{--<li>--}}
-                    {{--<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>--}}
-                {{--</li>--}}
-            </ul>
-        </div>
+            @endguest
+        </ul>
     </nav>
-</header>
+
+    <!-- Right Side Of Navbar -->
+    <ul class="navbar-nav ml-auto">
+
+    </ul>

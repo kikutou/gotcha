@@ -24,7 +24,7 @@
         </div>
 
         <div class="">
-            <form action="{{url('picture_create')}}" method="post" enctype="multipart/form-data">
+            <form action="{{url('post_picture_edit')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <table class="table table-dark(thead-light)">
                     <tr>

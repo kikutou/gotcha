@@ -1,47 +1,91 @@
 @extends('layouts.app')
 
-@if($message)
-    <div>
-        <p>{{＄message}}</p>
-    </div>
-@endif
+<style>
+    .wrapper {
+      margin-top: 80px;
+      margin-bottom: 20px;
+    }
 
+    .form-signin {
+      max-width: 420px;
+      padding: 30px 38px 66px;
+      margin: 0 auto;
+      background-color: #FAFAFA;
+      border: 3px dotted rgba(0, 0, 0, 0.1);
+    }
+
+    .form-signin-heading {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-control {
+      position: relative;
+      font-size: 16px;
+      height: auto;
+      padding: 10px;
+    }
+
+    input[type="text"] {
+      margin-bottom: 0px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    input[type="password"] {
+      margin-bottom: 20px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .colorgraph {
+      height: 3px;
+      border-top: 0;
+      background: #c4e17f;
+      border-radius: 5px;
+      background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+      background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+      background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+      background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    }
+  </style>
 @section('content')
-    <section class="content-header">
-        <div class="mt-3 mb-3">
-           <h1>画像一覧</h1>
+    @if($message)
+        <div>
+            <p>{{$message}}</p>
         </div>
-        <div class="mt-3 mb-3">
-            <a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" href="{{url('picture_create')}}">新規登録</a>
-        </div>
-
-        <div class="">
+    @endif
+    <section class="container">
+        <h3 class="mb-3 mt-6">画像一覧</h3>
+        <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/picture/create')}}"> 新規登録</a>
             @if(!empty($pictures) || !is_null($pictures))
-                <form action="{{url('picture_edit')}}" method="post">
-                    @csrf
-                    <table class="table table-dark(thead-light)">
-                        <tr class="d-flex">
-                            <td class="col-3">画像ID</td>
-                            <td class="col-3">⽤途</td>
-                            <td class="col-3">種別</td>
-                            <td class="col-6">画像</td>
-                        </tr>
-                        @foreach($pictures as $picture)
-                        <!-- TODO loops -->
-                        <tr class="d-flex">
-                            <td class="col-3">{{$picture->id}}</td>
-                            <td class="col-3">{{$picture->description}}</td>
-                            <td class="col-3">{{config('const.picture_type')[$picture->type]}}</td>
-                            <td class="col-8"><img src="{{ asset('image/' . $picture->url) }}" alt="{{ $picture->url }}"> </td>
-                            <td class="col-2">
-                                <button class="btn btn-danger" name="edit" type="submit">詳細/編集</button> 
-                            </td>
-                            <td class="col-2">
-                                <button class="btn btn-danger" name="delete" type="submit">削除</button>
-                                <input type="hidden" n  ame="picture_id_{{$picture->id}}" id="picture_id_{{$picture->id}}" value="{{$picture->id}}">
-                            </td>
-                        </tr>
-                        @endforeach
+
+                    <table class="table table-striped custab">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-1">画像ID</th>
+                                <th class="col-3">⽤途</th>
+                                <th class="col-2">種別</th>
+                                <th class="col-4">画像</th>
+                                <th class="col-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($pictures as $picture)
+                                <!-- TODO loops -->
+                                <tr class="d-flex">
+                                    <td class="col-1">{{$picture->id}}</td>
+                                    <td class="col-3">{{$picture->description}}</td>
+                                    <td class="col-2">{{config('const.picture_type')[$picture->type]}}</td>
+                                    <td class="col-4"><img class="img-thumbnail" src="{{ asset('storage/imgs/' . $picture->url) }}" alt="{{ $picture->url }}"> </td>
+                                    <td class="col-2">
+                                        <button class="btn btn-info" name="edit" type="submit">詳細/編集</button>
+                                        <button class="btn btn-danger" name="delete" type="submit">削除</button>
+                                        <input type="hidden" name="picture_id_{{$picture->id}}" id="picture_id_{{$picture->id}}" value="{{$picture->id}}">
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </form>
             @else

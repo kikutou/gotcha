@@ -24,28 +24,30 @@ use Illuminate\Support\Facades\Route;
 //     })->name('users');
 
 // });
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Gotcha
-Route::get('/gotcha_list', 'App\Http\Controllers\GotchaController@index')->name('gotcha_list');
-Route::get('/gotcha_create', 'App\Http\Controllers\GotchaController@create_index')->name('gotcha_create');
-Route::post('/gotcha_create', 'App\Http\Controllers\GotchaController@create_action')->name('gotcha_create');
-Route::get('/gotcha_edit', 'App\Http\Controllers\GotchaController@edit_index')->name('gotcha_edit');
-Route::post('/gotcha_edit', 'App\Http\Controllers\GotchaController@edit_action')->name('gotcha_edit');
+Route::get('/gotcha', 'App\Http\Controllers\GotchaController@index')->name('gotcha');
+Route::get('/gotcha/create', 'App\Http\Controllers\GotchaController@create_index')->name('get_gotcha_create');
+Route::post('/gotcha/create', 'App\Http\Controllers\GotchaController@create_action')->name('post_gotcha_create');
+Route::get('/gotcha/edit', 'App\Http\Controllers\GotchaController@edit_index')->name('get_gotcha_edit');
+Route::post('/gotcha/edit', 'App\Http\Controllers\GotchaController@edit_action')->name('post_gotcha_edit');
 
 // Prize
-Route::get('/prize_list', 'App\Http\Controllers\PrizeController@index')->name('prize_list');
-Route::get('/prize_create', 'App\Http\Controllers\PrizeController@create_index')->name('prize_create');
-Route::post('/prize_create', 'App\Http\Controllers\PrizeController@create_action')->name('prize_create');
-Route::get('/prize_edit', 'App\Http\Controllers\PrizeController@edit_index')->name('prize_edit');
-Route::post('/prize_edit', 'App\Http\Controllers\PrizeController@edit_action')->name('prize_edit');
+Route::get('/prize', 'App\Http\Controllers\PrizeController@index')->name('prize');
+Route::get('/prize/create', 'App\Http\Controllers\PrizeController@create_index')->name('get_prize_create');
+Route::post('/prize/create', 'App\Http\Controllers\PrizeController@create_action')->name('post_prize_create');
+Route::get('/prize/{id}/edit', 'App\Http\Controllers\PrizeController@edit_index')->name('prize_edit');
+Route::post('/prize/{id}/edit', 'App\Http\Controllers\PrizeController@edit_action')->name('prize_edit');
 
 // Picture
-Route::get('/picture_list', 'App\Http\Controllers\PictureController@index')->name('picture_list');
-Route::get('/picture_create', 'App\Http\Controllers\PictureController@create_index')->name('picture_create');
-Route::post('/picture_create', 'App\Http\Controllers\PictureController@create_action')->name('picture_create');
-Route::post('/picture_edit', 'App\Http\Controllers\PictureController@edit_index')->name('picture_edit');
+Route::get('/picture', 'App\Http\Controllers\PictureController@index')->name('picture');
+Route::get('/picture/create', 'App\Http\Controllers\PictureController@create_index')->name('get_picture_create');
+Route::post('/picture/create', 'App\Http\Controllers\PictureController@create_action')->name('post_picture_create');
+Route::get('/picture/edit', 'App\Http\Controllers\PictureController@edit_index')->name('get_picture_edit');
+Route::post('/picture/edit', 'App\Http\Controllers\PictureController@edit_index')->name('post_picture_edit');
 // Route::post('/picture_edit', 'App\Http\Controllers\PictureController@edit_action');
 // Route::get('/gotcha_register', 'App\Http\Controllers\GotchaController@register')->name('gotcha_register');
 // Route::post('/gotcha_register', 'App\Http\Controllers\GotchaController@register')->name('gotcha_register');

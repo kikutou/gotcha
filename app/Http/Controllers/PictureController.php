@@ -45,7 +45,14 @@ class PictureController extends Controller
         if($request->has('delete')){
 
         }elseif($request->has('insert')){
-            $this->insert($request);
+            $result = $this->insert($request);
+            if($result){
+                $message = '成功しました。';
+            }else{
+                $message = '失敗しました。';
+            }
+            $pictures = $this->pictureService->getNoDel();
+            return view('picture.index')->with(['pictures' => $pictures, 'message' => $message]);
         }
     }
 
@@ -89,7 +96,7 @@ class PictureController extends Controller
         if($request->has('delete')){
 
         }elseif($request->has('insert')){
-            $this->insert($request);
+            $result = $this->update($request);
         }
     }
 
@@ -118,7 +125,7 @@ class PictureController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function insert(Request $request){
-        $path = $request->file('image')->store('storage/uploads');
+        $path = $request->file('image')->store('public/imgs');
         $description = $request->get('description');
         $type_id = $request->get('type_id');
         $image = basename($path);
@@ -127,9 +134,14 @@ class PictureController extends Controller
             'type_id' => $type_id,
             'name' => $image,
         ];
-        $picture = $this->pictureService->create($create_data);
-        dd($picture);
-        $message = null;
-        return view('picture.create', compact('pictures', 'message'));
+
+        // $picture = $this->pictureService->create($create_data);
+        $picture =true;
+        if($picture){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
