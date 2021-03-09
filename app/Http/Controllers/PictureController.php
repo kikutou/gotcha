@@ -135,7 +135,7 @@ class PictureController extends Controller
             'name' => $image,
         ];
 
-        // $picture = $this->pictureService->create($create_data);
+        $picture = $this->pictureService->create($create_data);
         $picture =true;
         if($picture){
             return true;
