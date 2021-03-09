@@ -49,10 +49,29 @@ class PictureController extends Controller
         /**
      * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit_index(Request $request)
+    public function edit(Request $request,$id)
     {
+        $message = null;
+        if($request->isMethod('get')){
+            $picture = $this->pictureService->getPictureById($id);
+            return view('picture.edit',compact('picture', 'message'));
+        }elseif($request->isMethod('post')){
+            $result = $this->up($request);
+            if($result){
+                $message = '成功しました。';
+            }else{
+                $message = '失敗しました。';
+            }
+            $pictures = $this->pictureService->getNoDel();
+            return view('picture.index')->with(['pictures' => $pictures, 'message' => $message]);
+        }
+        
+        
+        
+        
         dd($request);
         if($request->has('edit')){
             if(!$request->has('picture_id')){
@@ -77,21 +96,6 @@ class PictureController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function edit_action(Request $request)
-    {
-        dd($request);
-        if($request->has('delete')){
-
-        }elseif($request->has('insert')){
-            $result = $this->update($request);
-        }
-    }
-
-    /**
-     * Display a listing of the resource.
      * @param  $id
      * @return \Illuminate\Http\Response
      */
@@ -107,7 +111,10 @@ class PictureController extends Controller
         if($picture){
             $pictures = $this->pictureService->getAll();
             $message = "削除しました。";
-            return view('picture.index', compact('pictures', 'message'));
+            return redirect('/picture')->with([
+                'pictures' => $pictures,
+                'message' => $message
+                ]);
         }else{
             $pictures = $this->pictureService->getAll();
             $message = "削除失敗しました。";

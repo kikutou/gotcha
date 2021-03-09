@@ -37,6 +37,30 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>News</td>
+                            <td>News Cate</td>
+                            <td>News Cate</td>
+                            <td>News Cate</td>
+                            
+                            <td class="text-center">
+                                <a class='btn btn-info btn-md' href="#"><span class="glyphicon glyphicon-edit"></span> 詳細/編集</a> 
+                                <a class="btn btn-danger btn-md" href="#"><span class="glyphicon glyphicon-remove"></span> 削除</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>News</td>
+                            <td>News Cate</td>
+                            <td>News Cate</td>
+                            <td>News Cate</td>
+                            
+                            <td class="text-center">
+                                <a class='btn btn-info btn-md' href="#"><span class="glyphicon glyphicon-edit"></span> 詳細/編集</a> 
+                                <a class="btn btn-danger btn-md" href="#"><span class="glyphicon glyphicon-remove"></span> 削除</a>
+                            </td>
+                        </tr>
                     @foreach($gotchas as $gotcha)
                         <!-- TODO loop -->
                         <tr>
