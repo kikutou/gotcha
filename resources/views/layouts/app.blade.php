@@ -67,6 +67,25 @@
 <body>
     @include('partials.header')
 
+    <section class="container">
+
+        <!-- フラッシュメッセージ -->
+        @if (session('message'))
+            <div class="alert alert-primary message" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+
+        <!-- フラッシュメッセージ -->
+        @if (session('error'))
+            <div class="alert alert-danger error" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+
+    </section>
+
+
     @yield('content')
 
 </body>

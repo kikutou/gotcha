@@ -39,7 +39,7 @@ class PictureController extends Controller
     	if($request->isMethod('post')) {
             $check = $this->check($request);
 		    if($check->fails()) {
-			    return redirect()->back()->withErrors($check)->withInput();
+			    return redirect()->back()->withErrors($check)->withInput()->with("error", "画像登録失敗");
 		    }
 
             $result = $this->insert($request);
@@ -48,7 +48,7 @@ class PictureController extends Controller
             }else{
                 session()->flash('flash_message', '失敗しました');
             }
-            return Redirect::route('picture');
+            return redirect()->route("picture")->with('message', '画像を登録しました。');
         }
 
 	    return view('picture.create');
@@ -102,7 +102,7 @@ class PictureController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function delete($id){
-        if(is_null($id) || empty($id)){
+    	if(is_null($id) || empty($id)){
             return false;
         }
         $picture = Picture::find( $id );;
