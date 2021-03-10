@@ -5,4 +5,3 @@
 - php artisan migrateコマンドでテーブルを構築する。
 - php artisan storage:link コマンドで、画像ファイルのルートを公開する。
 - php artisan serve でテスト用のサーバーを起動する。
-
