@@ -17,11 +17,10 @@ class CreateUserTicketsTable extends Migration
             $table->id();
             $table->text('user_id');
             $table->integer('tickets');
-            $table->integer('gotcha_id');
+            $table->integer('gotcha_result_id');
             $table->text('type');
             $table->softDeletes();
             $table->timestamps();
-
         });
     }
 
