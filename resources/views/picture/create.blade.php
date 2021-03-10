@@ -76,11 +76,6 @@
 </script>
 
 @section('content')
-    <div>
-        @foreach($errors->all() as $error)
-            {{ $error }}
-        @endforeach
-    </div>
     <section class="container">
         <h3 class="mb-3 mt-6">画像登録</h3>
         <div class="form-area">  
@@ -93,10 +88,20 @@
                 <div class="form-group">
                     <label for="type_id">種別</label>
                     {{Form::select('type_id', config('const.picture_type'))}}
+                    @if ($errors->first('type_id'))   <!-- ここ追加 -->
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <p class="validation">※{{$errors->first('type_id')}}</p>
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label class="btn btn-primary" for="image">画像選択</label>
                     <input id="image" type="file" multiple="multiple" name="image" accept="image/*" style="display:none;">
+                    @if ($errors->first('image'))   <!-- ここ追加 -->
+                        <div class="text-danger mt-3">
+                            <p class="validation">※{{$errors->first('image')}}</p>
+                        </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <img id="preview" class="img-fluid img-responsive">
