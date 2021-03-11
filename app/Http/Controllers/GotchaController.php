@@ -48,7 +48,7 @@ class GotchaController extends Controller
             }else{
                 session()->flash('flash_message', '失敗しました');
             }
-            return redirect()->route("prize")->with('message', 'ガチャを登録しました。');
+            return redirect()->route("gotcha")->with('message', 'ガチャを登録しました。');
         }
 
         $gotcha_disp_imgs = Picture::all()->where('type',1);
@@ -60,22 +60,34 @@ class GotchaController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+     * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id=null)
+    public function edit(Request $request,$id=null)
     {
-        if(!$request->has('gotcha_id')){
-            return false;
+        $gotcha = Gotcha::with('picture')->with('result_picture')->get();
+        if($request->isMethod('post')){
+            // validation check
+            $check = $this->check($request, "edit");
+		    if($check->fails()) {
+			    return redirect()->back()->withErrors($check)->withInput()->with("error", "ガチャ更新失敗");
+		    }
+            $result = $this->up($request);
+            if($result){
+                session()->flash('flash_message', '成功しました');
+            }else{
+                session()->flash('flash_message', '失敗しました');
+            }
+            return redirect()->route('picture');
         }
-        $gotcha_id = $request->get('gotcha_id');
 
-        $gotchas = $this->gotchaService->getGotchaById($gotcha_id);
-        return view('gotcha.detail', [
-            'gotchas' => $gotchas,
+        $gotcha = Gotcha::find($id);
+        $gotcha_disp_imgs = Picture::all()->where('type',1);
+        $gotcha_result_imgs = Picture::all()->where('type',2);
+        return view('gotcha.edit',[
+            'gotcha' => $gotcha,
             'gotcha_disp_imgs' => $gotcha_disp_imgs,
             'gotcha_result_imgs' => $gotcha_result_imgs
         ]);
@@ -101,11 +113,34 @@ class GotchaController extends Controller
         }
     }
 
+    /**
+     * Display a listing of the resource.
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id){
+    	if(is_null($id) || empty($id)){
+            return false;
+        }
+
+        $gotcha = Gotcha::find( $id );
+        if(is_null($gotcha) || empty($gotcha)){
+            return false;
+        }
+        $result = $gotcha->delete();
+        if($result){
+            session()->flash('flash_message', '成功しました');
+        }else{
+            session()->flash('flash_message', '失敗しました');
+        }
+        return redirect()->route('gotcha');
+    }
+
     public function check(Request $request){
         $rules = [
             'name' => 'required',
             'cost_name' => 'required',
-            'cost_value' => 'required|numeric',
+            'cost_value' => 'required|numeric|between:1,999999',
             'id_img_disp' => 'required|min:1',
             'id_img_result' => 'required|min:1',
         ];
@@ -115,6 +150,7 @@ class GotchaController extends Controller
             'cost_name.required' => 'コスト名を入力してください',
             'cost_value.required' => 'コスト量を入力してください',
             'cost_value.numeric' => '数値を入力してください', 
+            'cost_value.between' => '0より大きい数値を入力してください', 
             'id_img_disp.required' => '画像を選択してください',
             'id_img_result.required' => '画像を選択してください',
         ];

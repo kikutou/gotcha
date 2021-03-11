@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('/gotcha', 'App\Http\Controllers\GotchaController@index')->name('gotcha');
     Route::get('/gotcha/create', 'App\Http\Controllers\GotchaController@create')->name('gotcha.create');
     Route::post('/gotcha/create', 'App\Http\Controllers\GotchaController@create')->name('post.gotcha.create');
-    Route::get('/gotcha/edit', 'App\Http\Controllers\GotchaController@edit')->name('gotcha.edit');
+    Route::get('/gotcha/{id}/edit', 'App\Http\Controllers\GotchaController@edit')->name('gotcha.edit');
     Route::post('/gotcha/edit', 'App\Http\Controllers\GotchaController@edit')->name('post.gotcha.edit');
     Route::get('/gotcha/{id}/delete', 'App\Http\Controllers\GotchaController@delete')->name('gotcha.delete');
 

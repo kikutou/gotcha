@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Prize;
+use App\Models\Gotcha;
 
 class Picture extends Model
 {
@@ -16,6 +17,10 @@ class Picture extends Model
 
     public function prizes(){
         return $this->belongsTo(Prize::class, 'picture_id');
+    }
+
+    public function gotcha(){
+        return $this->belongsTo(Gotcha::class, 'picture_id');
     }
 
     /**

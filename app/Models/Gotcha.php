@@ -12,7 +12,15 @@ class Gotcha extends Model
     use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
-    
+
+    public function picture(){
+        return $this->hasOne(Picture::class, 'id', 'picture_id')->withDefault();
+    }
+
+    public function result_picture(){
+        return $this->hasOne(Picture::class, 'id', 'result_picture_id')->withDefault();
+    }
+
     /**
      * The attributes that are mass assignable.
      *

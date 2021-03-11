@@ -51,7 +51,7 @@ window.onload = function () {
 
     //セレクトボックスが切り替わったら発動
     $('[name=id_img_result]').on('change', function () {
-        $('#preview2').attr('src', '');
+        $('#preview_result').attr('src', '');
         var url = '';
         var id = $(this).val();
         console.log(id);
@@ -74,7 +74,7 @@ window.onload = function () {
                     console.log("失敗しました");
                 } else {
                     console.log("成功しました");
-                    $('#preview2').attr('src', url);
+                    $('#preview_result').attr('src', url);
                 }
             })
             // Ajaxリクエストが失敗した場合
@@ -86,7 +86,7 @@ window.onload = function () {
 
     //セレクトボックスが切り替わったら発動
     $('[name=id_img_disp]').on('change', function () {
-        $('#preview1').attr('src', '');
+        $('#preview').attr('src', '');
         var url = '';
         var id = $(this).val();
         console.log(id);
@@ -109,7 +109,7 @@ window.onload = function () {
                     console.log("失敗しました");
                 } else {
                     console.log("成功しました");
-                    $('#preview1').attr('src', url);
+                    $('#preview').attr('src', url);
                 }
             })
             // Ajaxリクエストが失敗した場合
