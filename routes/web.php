@@ -29,10 +29,11 @@ use Illuminate\Support\Facades\Route;
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     // Gotcha
     Route::get('/gotcha', 'App\Http\Controllers\GotchaController@index')->name('gotcha');
-    Route::get('/gotcha/create', 'App\Http\Controllers\GotchaController@create_index')->name('get_gotcha_create');
-    Route::post('/gotcha/create', 'App\Http\Controllers\GotchaController@create_action')->name('post_gotcha_create');
-    Route::get('/gotcha/edit', 'App\Http\Controllers\GotchaController@edit_index')->name('get_gotcha_edit');
-    Route::post('/gotcha/edit', 'App\Http\Controllers\GotchaController@edit_action')->name('post_gotcha_edit');
+    Route::get('/gotcha/create', 'App\Http\Controllers\GotchaController@create')->name('gotcha.create');
+    Route::post('/gotcha/create', 'App\Http\Controllers\GotchaController@create')->name('post.gotcha.create');
+    Route::get('/gotcha/edit', 'App\Http\Controllers\GotchaController@edit')->name('gotcha.edit');
+    Route::post('/gotcha/edit', 'App\Http\Controllers\GotchaController@edit')->name('post.gotcha.edit');
+    Route::get('/gotcha/{id}/delete', 'App\Http\Controllers\GotchaController@delete')->name('gotcha.delete');
 
     // Prize
     Route::get('/prize', 'App\Http\Controllers\PrizeController@index')->name('prize');
