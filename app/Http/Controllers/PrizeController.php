@@ -25,7 +25,7 @@ class PrizeController extends Controller
     {
         // $prizes = Prize::all()->pictures;
         $prizes = Prize::with('picture')->get();
-        return view('prize.index', compact('prizes'));
+        return view('prize.index', ['prizes' => $prizes]);
     }
 
     /**
@@ -51,7 +51,7 @@ class PrizeController extends Controller
             return redirect()->route("prize")->with('message', '景品を登録しました。');
         }
         $pictures = Picture::where('type',3)->get();
-	    return view('prize.create')->with('pictures',$pictures);
+	    return view('prize.create', ['pictures' => $pictures]);
     }
 
     /**
@@ -94,7 +94,6 @@ class PrizeController extends Controller
         $picture_id = $request->get('picture_id');
         
         $prize = Prize::find($prize_id);
-        var_dump($prize);
         $prize->name = $name;
         $prize->type = $type;
         $prize->picture_id = $picture_id;
@@ -110,17 +109,12 @@ class PrizeController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function insert(Request $request){
-        $name = $request->get('name');
-        $type_id = $request->get('type_id');
-        $picture_id = $request->get('picture_id');
-        $create_data = [
-            'name' => $name,
-            'type' => $type_id,
-            'picture_id' => $picture_id,
-        ];
-        $prize = Prize::create($create_data);
-
-        if($prize){
+        $prize = new Prize();
+        $prize->name = $request->get('name');
+        $prize->type = $request->get('type_id');
+        $prize->picture_id = $request->get('picture_id');
+        $result = $prize->save();
+        if($result){
             return true;
         }else{
             return false;

@@ -2,7 +2,9 @@
 
 @section('content')
     <section class="container">
-        <h3 class="mb-3 mt-6">画像登録</h3>
+        <div class="page-title justify-content-center">
+            <h3 class="mb-3 mt-6 text-center">画像登録</h3>
+        </div>
         <div class="form-area">  
             <form action="{{url('picture/create')}}" method="post" enctype="multipart/form-data">
                 @csrf

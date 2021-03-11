@@ -1,161 +1,101 @@
 @extends('layouts.app')
-        
-<style>
-
-    .red{
-        color:red;
-        }
-    .form-area{
-        background-color: #FAFAFA;
-        padding: 5px 20px 10px;
-        margin: 5px 0px 30px;
-        border: 1px solid GREY;
-        }
-    .fixed_headers {
-        width: 100%;
-        table-layout: fixed;
-        border-collapse: collapse;
-    }
-    .fixed_headers th {
-        text-decoration: underline;
-    }
-    .fixed_headers th,
-    .fixed_headers td {
-        padding: 5px;
-        text-align: center;
-    }
-    .fixed_headers td:nth-child(1),
-    .fixed_headers th:nth-child(1) {
-        min-width: 100px;
-    }
-    .fixed_headers td:nth-child(2),
-    .fixed_headers th:nth-child(2) {
-        min-width: 100px;
-    }
-    .fixed_headers td:nth-child(3),
-    .fixed_headers th:nth-child(3) {
-        min-width: 600px;
-    }
-    .fixed_headers td:nth-child(4),
-    .fixed_headers th:nth-child(4) {
-        min-width: 200px;
-    }
-    .fixed_headers td:nth-child(5),
-    .fixed_headers th:nth-child(5) {
-        width: 200px;
-    }
-    .fixed_headers thead {
-        background-color: #333;
-        color: #FAFAFA;
-    }
-    .fixed_headers thead tr {
-        display: block;
-        position: relative;
-    }
-    .fixed_headers tbody {
-        display: block;
-        overflow: auto;
-        width: 100%;
-        height: 300px;
-    }
-    .fixed_headers tbody tr:nth-child(even) {
-        background-color: #DDD;
-    }    
-
-</style>
 
 @section('content')
     <section class="container">
-        <h3 class="mb-3 mt-6">ガチャ登録</h3>
-
+        <div class="page-title justify-content-center">
+            <h3 class="mb-3 mt-6 text-center">ガチャ登録</h3>
+        </div>
         <div class="form-area">  
-            <form action="{{url('post.picture.create')}}" method="post" enctype="multipart/form-data">
+            <form action="{{url('gotcha/create')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <br style="clear:both">           
                 <div class="form-group">
                     <label for="name">ガチャ名称</label>
                     <input type="text" class="form-control" placeholder="半角/全角テキスト/英数字/記号" id="name" name="name" value="{{ old('name') }}">
+                    @if ($errors->first('name'))   <!-- ここ追加 -->
+                        <div class="text-danger mt-3">
+                            <p class="validation">※{{$errors->first('name')}}</p>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="row">
                     <div class="col-xs-8 col-md-8 form-group">
-                        <label for="cosuto">必要コスト名(表示用)</label>
-                        <input type="text" class="form-control" placeholder="半角/全角テキスト/英数字/記号" id="cosuto" name="cosuto" >
+                        <label for="cost_name">必要コスト名(表示用)</label>
+                        <input type="text" class="form-control" placeholder="半角/全角テキスト/英数字/記号" id="cost_name" name="cost_name" value="{{ old('cost_name') }}">
+                        @if ($errors->first('cost_name'))   <!-- ここ追加 -->
+                            <div class="text-danger mt-3">
+                                <p class="validation">※{{$errors->first('cost_name')}}</p>
+                            </div>
+                        @endif
                     </div>
                                
                     <div class="col-xs-4 col-md-4 form-group">
-                        <label for="amount">必要コスト量</label>
-                        <input type="text" class="form-control" placeholder="半角数字のみ" id="amount" name="amount" >
+                        <label for="cost_value">必要コスト量</label>
+                        <input type="number" class="form-control" placeholder="半角数字のみ" id="cost_value" name="cost_value" value="{{ old('cost_value') }}">
+                        @if ($errors->first('cost_value'))   <!-- ここ追加 -->
+                            <div class="text-danger mt-3">
+                                <p class="validation">※{{$errors->first('cost_value')}}</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="id_img_disp">画像ID(ガチャ)</label>
-                    <input type="number" class="form-control" id="id_img_disp" name="id_img_disp">
+                    <select name="id_img_disp">
+                        <option value="">
+                            画像選択してください
+                        </option>
+                        @foreach ($gotcha_disp_imgs as $disp_img)
+                            <option value="{{$disp_img->id}}"
+                                @if(old('id_img_disp') && old("id_img_disp") == 1)
+                                    selected
+                                @endif
+                            >{{$disp_img->description}}
+                            </option>
+                        @endforeach
+                    </select>
+                    @if ($errors->first('id_img_disp'))   <!-- ここ追加 -->
+                        <div class="text-danger mt-3">
+                            <p class="validation">※{{$errors->first('id_img_disp')}}</p>
+                        </div>
+                    @endif
+                    <div class="form-group">
+                        <img id="preview1" class="img-fluid img-responsive">
+                    </div>
                 </div>
                                              
                 <div class="form-group">
                     <label for="id_img_result">画像ID(結果)</label>
-                    <input type="number" class="form-control" id="id_img_result" name="id_img_result" >
+                    <select name="id_img_result">
+                        <option value="">
+                            画像選択してください
+                        </option>
+                        @foreach ($gotcha_result_imgs as $result_img)
+                            <option value="{{$result_img->id}}"
+                                @if(old('id_img_result') && old("id_img_result") == 1)
+                                    selected
+                                @endif
+                            >{{$result_img->description}}
+                            </option>
+                        @endforeach
+                    </select>
+                    @if ($errors->first('id_img_result'))   <!-- ここ追加 -->
+                        <div class="text-danger mt-3">
+                            <p class="validation">※{{$errors->first('id_img_result')}}</p>
+                        </div>
+                    @endif
+                    <div class="form-group">
+                        <img id="preview2" class="img-fluid img-responsive">
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-xs-6 col-md-6 text-left">
+                        <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a>
+                        <button type="submit" id="insert" name="insert" class="btn btn-success" >登録する</button>
+                    </div>
+                </div> 
             </form>
         </div>  
 @endsection
-
-<script>
-    window.onload = function(){ 
-        //セレクトボックスが切り替わったら発動
-        $('#id_img_disp').change(function() {
-            var id = $('#id_img_disp').val();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "{{ route('picture.get') }}",
-                type: 'POST',
-                dataType:"json",
-                data: { 'id': id, 'type':'disp' }
-            })
-            // Ajaxリクエストが成功した場合
-            .done(function(data) {
-                console.log(data.url);
-                if(data.url==''){
-                    console.log("失敗しました")
-                }else{
-                    console.log("成功しました")
-                }
-            })
-            // Ajaxリクエストが失敗した場合
-            .fail(function(data) {
-                console.log("失敗しました")
-            });
-        });
-
-        //セレクトボックスが切り替わったら発動
-        $('#id_img_result').change(function() {
-            var id = $('#id_img_result').val();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "{{ route('picture.get') }}",
-                type: 'POST',
-                dataType:"json",
-                data: { 'id': id, 'type':'disp' }
-            })
-            // Ajaxリクエストが成功した場合
-            .done(function(data) {
-                console.log(data.url);
-                if(data.url==''){
-                    console.log("失敗しました")
-                }else{
-                    console.log("成功しました")
-                }
-            })
-            // Ajaxリクエストが失敗した場合
-            .fail(function(data) {
-                console.log("失敗しました")
-            });
-        });
-    };
-</script>

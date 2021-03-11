@@ -28,8 +28,8 @@
                             <td class="col-2">{{config('const.picture_type')[$picture->type]}}</td>
                             <td class="col-4"><img class="img-thumbnail" src="{{ asset('storage/imgs/' . $picture->url) }}" alt="{{ $picture->url }}"> </td>
                             <td class="col-2">
-                                <a class="btn btn-danger" href="{{ route('picture.edit', ['id' => $picture->id]) }}">詳細/編集</a>
-                                <a class="btn btn-danger" onclick="return confirm('この内容を削除しますか︖')" href="{{ route('picture.delete', ['id' => $picture->id]) }}">削除</a>
+                                <a class="btn btn-info btn-md" href="{{ route('picture.edit', ['id' => $picture->id]) }}">詳細/編集</a>
+                                <a class="btn btn-danger btn-md" onclick="return confirm('この内容を削除しますか︖')" href="{{ route('picture.delete', ['id' => $picture->id]) }}">削除</a>
                             </td>
                         </tr>
                     @endforeach

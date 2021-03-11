@@ -81,22 +81,6 @@ class PictureController extends Controller
 
         $picture = Picture::find($id);
         return view('picture.edit', ['picture' => $picture]);
-        
-        // if($request->has('edit')){
-        //     if(!$request->has('picture_id')){
-        //         return false;
-        //     }
-        //     $picture_id = $request->get('picture_id');
-        //     if(is_null($picture_id) || empty($picture_id)){
-        //         return false;
-        //     }
-        //     $picture = $this->pictureService->getPictureById($picture_id);
-        //     if(is_null($picture) || empty($picture)) {
-        //         return false;
-        //     }
-
-        //     return view('picture.edit', compact('picture'));
-        // }
     }
 
     /**
@@ -128,20 +112,14 @@ class PictureController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function insert(Request $request){
-
         $path = $request->file('image')->store('public/imgs');
-        $description = $request->get('description');
-        $type_id = $request->get('type_id');
-        $image = basename($path);
-        $create_data = [
-            'description' => $description,
-            'type' => $type_id,
-            'url' => $image,
-        ];
+        $picture = new Picture();
+        $picture->url = basename($path);
+        $picture->description = $request->get('description');
+        $picture->type = $request->get('type_id');
+        $result = $picture->save();
 
-        $picture = Picture::create($create_data);
-
-        if($picture){
+        if($result){
             return true;
         }else{
             return false;

@@ -35,8 +35,8 @@
                             @endif
                         </td>
                         <td class="col-2">
-                            <a class="btn btn-danger" href="{{ route('prize.edit', ['id' => $prize->id]) }}">詳細/編集</a>
-                            <a class="btn btn-danger" onclick="return confirm('この内容を削除しますか︖')" href="{{ route('prize.delete', ['id' => $prize->id]) }}">削除</a>
+                            <a class="btn btn-info btn-md" href="{{ route('prize.edit', ['id' => $prize->id]) }}">詳細/編集</a>
+                            <a class="btn btn-danger btn-md" onclick="return confirm('この内容を削除しますか︖')" href="{{ route('prize.delete', ['id' => $prize->id]) }}">削除</a>
                         </td>
                     </tr>
                 @endforeach
