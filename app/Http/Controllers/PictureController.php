@@ -36,8 +36,10 @@ class PictureController extends Controller
      */
     public function create(Request $request)
     {
+        
     	if($request->isMethod('post')) {
-            $check = $this->check($request);
+            // validation check
+            $check = $this->check($request, "create");
 		    if($check->fails()) {
 			    return redirect()->back()->withErrors($check)->withInput()->with("error", "画像登録失敗");
 		    }
@@ -62,38 +64,39 @@ class PictureController extends Controller
      */
     public function edit(Request $request,$id=null)
     {
-        if($request->isMethod('get')){
-            $picture = Picture::find($id);
-            return view('picture.edit', ['picture' => $picture]);
-        }elseif($request->isMethod('post')){
+        if($request->isMethod('post')){
+            // validation check
+            $check = $this->check($request, "edit");
+		    if($check->fails()) {
+			    return redirect()->back()->withErrors($check)->withInput()->with("error", "画像登録失敗");
+		    }
             $result = $this->up($request);
             if($result){
                 session()->flash('flash_message', '成功しました');
             }else{
                 session()->flash('flash_message', '失敗しました');
             }
-            return Redirect::route('picture');
+            return redirect()->route('picture');
         }
+
+        $picture = Picture::find($id);
+        return view('picture.edit', ['picture' => $picture]);
         
-        if($request->has('edit')){
-            if(!$request->has('picture_id')){
-                return false;
-            }
-            $picture_id = $request->get('picture_id');
-            if(is_null($picture_id) || empty($picture_id)){
-                return false;
-            }
-            $picture = $this->pictureService->getPictureById($picture_id);
-            if(is_null($picture) || empty($picture)) {
-                return false;
-            }
+        // if($request->has('edit')){
+        //     if(!$request->has('picture_id')){
+        //         return false;
+        //     }
+        //     $picture_id = $request->get('picture_id');
+        //     if(is_null($picture_id) || empty($picture_id)){
+        //         return false;
+        //     }
+        //     $picture = $this->pictureService->getPictureById($picture_id);
+        //     if(is_null($picture) || empty($picture)) {
+        //         return false;
+        //     }
 
-            return view('picture.edit', compact('picture'));
-        } elseif($request->has('delete')) {
-            $this->delete($request);
-        }
-
-
+        //     return view('picture.edit', compact('picture'));
+        // }
     }
 
     /**
@@ -105,7 +108,8 @@ class PictureController extends Controller
     	if(is_null($id) || empty($id)){
             return false;
         }
-        $picture = Picture::find( $id );;
+
+        $picture = Picture::find( $id );
         if(is_null($picture) || empty($picture)){
             return false;
         }
@@ -115,23 +119,7 @@ class PictureController extends Controller
         }else{
             session()->flash('flash_message', '失敗しました');
         }
-        return Redirect::route('picture');
-    }
-
-    public function check(Request $request){
-        $rules = [
-            'type_id' => 'required',
-            'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000', // max 10000kb
-        ];
-
-        $errors = [
-            'type_id.required' => '種類を選択してください',
-            'image.required' => '画像を選択してください',
-            'image.mimes' => '画像以外のファイルを選択しました。',
-            'image.max' => '画像サイズが大きい過ぎ',
-        ];
-
-        return $validator = Validator::make($request->all(), $rules, $errors);
+        return redirect()->route('picture');
     }
 
     /**
@@ -147,11 +135,11 @@ class PictureController extends Controller
         $image = basename($path);
         $create_data = [
             'description' => $description,
-            'type_id' => $type_id,
+            'type' => $type_id,
             'url' => $image,
         ];
 
-        $picture = $this->pictureService->create($create_data);
+        $picture = Picture::create($create_data);
 
         if($picture){
             return true;
@@ -175,5 +163,53 @@ class PictureController extends Controller
         $picture->description = $request->get('description');
         $picture->type = $request->get('type_id');
         return $picture->save();
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getPicture(Request $request){
+        $url = null;
+        if($request->has('id')){
+            $id = intval($request->get('id'));
+            $picture = Picture::find($id);
+            if ( !is_null($picture) && !empty($picture) ) {
+                $url = asset('storage/imgs/'.'/'.$picture->url);
+            }
+        };
+        return response()->json([
+            'url' => $url
+            ]);
+    }
+
+    public function check(Request $request, $type){
+        if($type == 'create') {
+            $rules = [
+                'description' => 'required',
+                'type_id' => 'required',
+                'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000', // max 10000kb
+            ];
+
+            $errors = [
+                'description.required' => '⽤途を入力してください', 
+                'type_id.required' => '種類を選択してください',
+                'image.required' => '画像を選択してください',
+                'image.mimes' => '画像以外のファイルを選択しました。',
+                'image.max' => '画像サイズが大きい過ぎ',
+            ];
+        } else {
+            $rules = [
+                'description' => 'required',
+                'type_id' => 'required',
+            ];
+
+            $errors = [
+                'description.required' => '⽤途を入力してください', 
+                'type_id.required' => '種類を選択してください',
+            ];
+        }
+        return $validator = Validator::make($request->all(), $rules, $errors);
     }
 }

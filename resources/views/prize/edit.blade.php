@@ -3,11 +3,14 @@
 @section('content')
     <section class="container">
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">景品登録</h3>
+            <h3 class="mb-3 mt-6 text-center">景品詳細/編集</h3>
         </div>
         <div class="form-area">  
-            <form action="{{url('prize/create')}}" method="post">
+        <form action="{{url('/prize/edit')}}" method="post">
                 @csrf
+                <br style="clear:both">
+                <label for="prize_id">景品ID：</label>{{$prize->id}}
+                <input type="hidden" id="prize_id" name="prize_id" value="{{$prize->id}}">
                 <div class="form-group">
                     <label for="name">景品名称</label>
                     <input 
@@ -16,7 +19,7 @@
                         placeholder="半角/全角テキスト/英数字/記号"
                         id="name"
                         name="name"
-                        value="{{ old('name') }}"
+                        value="{{ old('name', $prize->name) }}"
                     >
                     @if ($errors->first('name'))   <!-- ここ追加 -->
                         <div class="text-danger mt-3">
@@ -28,14 +31,12 @@
                     <label for="type">景品種別</label>
                     <select name="type_id">
                         <option value="1"
-                            @if(old('type_id') && old("type_id") == 1)
-                                selected
-                            @endif
+                            {{ (($prize->type == 1)
+                                ||(old('type_id') && old('type_id')) == 1) ? 'selected' : '' }}
                         >ゲーム内利用</option>
                         <option value="2"
-                            @if(old('type_id') && old("type_id") == 2)
-                                selected
-                            @endif
+                            {{ ( ($prize->type == 2)
+                                ||(old('type_id') && old('type_id')) == 2) ? 'selected' : '' }}
                         >発送物</option>
                     </select>
                     @if ($errors->first('type_id'))   <!-- ここ追加 -->
@@ -52,9 +53,8 @@
                         </option>
                         @foreach ($pictures as $picture)
                             <option value="{{$picture->id}}"
-                                @if(old('picture_id') && old("picture_id") == 1)
-                                    selected
-                                @endif
+                                {{ $picture->id == $prize->picture->id
+                                    || (old('picture_id') && old("picture_id") == $picture->id) ? 'selected' : '' }}
                             >{{$picture->description}}
                             </option>
                         @endforeach
@@ -66,12 +66,16 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <img id="preview" class="img-fluid img-responsive">
+                    @if (is_null($prize->picture->url) || $prize->picture->type != 3)
+                        <img id="preview" class="img-fluid img-responsive" src="">
+                    @else
+                        <img id="preview" class="img-fluid img-responsive" src="{{ asset('storage/imgs/' . $prize->picture->url) }}">
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6 text-left">
                         <a href="{{ route('prize') }}" class="btn btn-primary" >もどる</a>
-                        <button type="submit" id="insert" name="insert" class="btn btn-success" >登録する</button>
+                        <button type="submit" id="update" name="update" class="btn btn-success" >更新する</button>
                     </div>
                 </div>
             </form>

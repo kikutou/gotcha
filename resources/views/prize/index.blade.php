@@ -11,35 +11,37 @@
         </div>
 
         @if(!empty($prizes) || !is_null($prizes))
-            <form action="{{url('get_gotcha_edit')}}" method="get">
-                @csrf
-                <table class="table table-striped custab">
-                    <thead>
-                        <tr>
-                            <th>景品ID</th>
-                            <th>景品名</th>
-                            <th>種別</th>
-                            <th>画像</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($prizes as $prize)
-                        <!-- TODO loop -->
-                        <tr>
-                            <td>{{$prize->id}}</td>
-                            <td>{{$prize->name}}</td>
-                            <td>{{$prize->type}}</td>
-                            <td>{{$prize->picture_id}}</td>
-                            <td>
-                                <button class="btn btn-info btn-xs" type="submit" value="詳細/編集" id="edit">
-                                <button class="btn btn-danger btn-xs" type="submit" value="削除" id="delete">
-                                <input type="hidden" name="prize_id" id="prize_id" value="{{$prize->id}}">
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </form>
+            <table class="table table-striped custab">
+                <thead>
+                    <tr class="d-flex">
+                        <th class="col-1">景品ID</th>
+                        <th class="col-3">景品名</th>
+                        <th class="col-2">種別</th>
+                        <th class="col-4">画像</th>
+                        <th class="col-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($prizes as $prize)
+                    <tr class="d-flex">
+                        <td class="col-1">{{$prize->id}}</td>
+                        <td class="col-3">{{$prize->name}}</td>
+                        <td class="col-2">{{config('const.prize_type')[$prize->type]}}</td>
+                        <td class="col-4">
+                            @if (is_null($prize->picture->url) || $prize->picture->type != 3)
+                                <p>画像が存在しない</p>
+                            @else
+                                <img class="img-thumbnail" src="{{ asset('storage/imgs/'.$prize->picture->url) }}" alt="{{$prize->picture->url}}">
+                            @endif
+                        </td>
+                        <td class="col-2">
+                            <a class="btn btn-danger" href="{{ route('prize.edit', ['id' => $prize->id]) }}">詳細/編集</a>
+                            <a class="btn btn-danger" onclick="return confirm('この内容を削除しますか︖')" href="{{ route('prize.delete', ['id' => $prize->id]) }}">削除</a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         @else
             <p>該当情報がありません</p>
         @endif

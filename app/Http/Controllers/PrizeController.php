@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\PrizeService;
+use App\Models\Picture;
+use App\Models\Prize;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class PrizeController extends Controller
 {
@@ -19,9 +23,9 @@ class PrizeController extends Controller
      */
     public function index(Request $request)
     {
-        $prizes = $this->prizeService->getPrize();
-        $message = null;
-        return view('prize.index', compact('prizes', 'message'));
+        // $prizes = Prize::all()->pictures;
+        $prizes = Prize::with('picture')->get();
+        return view('prize.index', compact('prizes'));
     }
 
     /**
@@ -29,53 +33,135 @@ class PrizeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create_index(Request $request)
+    public function create(Request $request)
     {
-        $message = null;
-        return view('prize.create',compact('message'));
-    }
+    	if($request->isMethod('post')) {
+            // validation check
+            $check = $this->check($request);
+		    if($check->fails()) {
+			    return redirect()->back()->withErrors($check)->withInput()->with("error", "画像登録失敗");
+		    }
 
-    /**
-     * Show the form for creating a new resource.
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create_action(Request $request)
-    {
-        dd(1);
-        $message = null;
-        return view('prize.create',compact('message'));
+            $result = $this->insert($request);
+            if($result){
+                session()->flash('flash_message', '成功しました');
+            }else{
+                session()->flash('flash_message', '失敗しました');
+            }
+            return redirect()->route("prize")->with('message', '景品を登録しました。');
+        }
+        $pictures = Picture::where('type',3)->get();
+	    return view('prize.create')->with('pictures',$pictures);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, $id=null)
+    {
+        if($request->isMethod('post')){
+            // validation check
+            $check = $this->check($request);
+            if($check->fails()) {
+                return redirect()->back()->withErrors($check)->withInput()->with("error", "景品登録失敗");
+            }
+            $result = $this->up($request);
+            if($result){
+                session()->flash('flash_message', '成功しました');
+            }else{
+                session()->flash('flash_message', '失敗しました');
+            }
+            return redirect()->route('prize');
+        }
+        $prize = Prize::find($id)->with('picture')->where('id',$id)->first();
+        $pictures = Picture::where('type',3)->get();
+        return view('prize.edit', ['prize' => $prize, 'pictures' => $pictures]);
+    }
+
+    /**
+     * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit_index(Request $request)
-    {
-        if(!$request->has('prize_id')){
+    private function up(Request $request){
+        $prize_id = $request->get('prize_id');
+        $name = $request->get('name');
+        $type = $request->get('type_id');
+        $picture_id = $request->get('picture_id');
+        
+        $prize = Prize::find($prize_id);
+        var_dump($prize);
+        $prize->name = $name;
+        $prize->type = $type;
+        $prize->picture_id = $picture_id;
+        if (is_null($prize) || empty($prize)){
+            return redirect()->back()->withErrors($check)->withInput()->with("error", "更新失敗しました");
+        }
+        return $prize->save();
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    private function insert(Request $request){
+        $name = $request->get('name');
+        $type_id = $request->get('type_id');
+        $picture_id = $request->get('picture_id');
+        $create_data = [
+            'name' => $name,
+            'type' => $type_id,
+            'picture_id' => $picture_id,
+        ];
+        $prize = Prize::create($create_data);
+
+        if($prize){
+            return true;
+        }else{
             return false;
         }
-        $prize_id = $request->get('prize_id');
-
-        $prize = $this->gotchaService->getPrizeById($prize_id);
-        return view('prize.detail', compact('prize'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @param  \Illuminate\Http\Request  $request
+     * Display a listing of the resource.
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit_action(Request $request)
-    {
-        dd($request);
-        $prize = $this->prizeService->getPrize();
-        return view('gotcha.detail', compact('prize'));
+    public function delete($id){
+    	if(is_null($id) || empty($id)){
+            return false;
+        }
+        $prize = Prize::find( $id );
+        if(is_null($prize) || empty($prize)){
+            return false;
+        }
+        $result = $prize->delete($id);
+        if($result){
+            session()->flash('flash_message', '成功しました');
+        }else{
+            session()->flash('flash_message', '失敗しました');
+        }
+        return redirect()->route('prize');
+    }
+
+    public function check(Request $request){
+        $rules = [
+            'name' => 'required',
+            'type_id' => 'required',
+            'picture_id' => 'required|min:1', // max 10000kb
+        ];
+
+        $errors = [
+            'name.required' => '景品名称を入力してください', 
+            'type_id.required' => '景品種別を選択してください',
+            'picture_id.required' => '画像を選択してください',
+        ];
+
+        return $validator = Validator::make($request->all(), $rules, $errors);
     }
 }

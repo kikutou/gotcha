@@ -36,18 +36,20 @@ use Illuminate\Support\Facades\Route;
 
     // Prize
     Route::get('/prize', 'App\Http\Controllers\PrizeController@index')->name('prize');
-    Route::get('/prize/create', 'App\Http\Controllers\PrizeController@create_index')->name('get_prize_create');
-    Route::post('/prize/create', 'App\Http\Controllers\PrizeController@create_action')->name('post_prize_create');
-    Route::get('/prize/{id}/edit', 'App\Http\Controllers\PrizeController@edit_index')->name('prize_edit');
-    Route::post('/prize/{id}/edit', 'App\Http\Controllers\PrizeController@edit_action')->name('prize_edit');
+    Route::get('/prize/create', 'App\Http\Controllers\PrizeController@create')->name('prize.create');
+    Route::post('/prize/create', 'App\Http\Controllers\PrizeController@create')->name('post.prize.create');
+    Route::get('/prize/{id}/edit', 'App\Http\Controllers\PrizeController@edit')->name('prize.edit');
+    Route::post('/prize/edit', 'App\Http\Controllers\PrizeController@edit')->name('post.prize.edit');
+    Route::get('/prize/{id}/delete', 'App\Http\Controllers\PrizeController@delete')->name('prize.delete');
 
     // Picture
     Route::get('/picture', 'App\Http\Controllers\PictureController@index')->name('picture');
-    Route::get('/picture/create', 'App\Http\Controllers\PictureController@create')->name('get_picture_create');
-    Route::post('/picture/create', 'App\Http\Controllers\PictureController@create')->name('post_picture_create');
+    Route::get('/picture/create', 'App\Http\Controllers\PictureController@create')->name('picture.create');
+    Route::post('/picture/create', 'App\Http\Controllers\PictureController@create')->name('post.picture.create');
     Route::get('/picture/{id}/edit', 'App\Http\Controllers\PictureController@edit')->name('picture.edit');
     Route::post('/picture/edit', 'App\Http\Controllers\PictureController@edit')->name('post.picture.edit');
     Route::get('/picture/{id}/delete', 'App\Http\Controllers\PictureController@delete')->name('picture.delete');
+    Route::post('/picture/get', 'App\Http\Controllers\PictureController@getPicture')->name('picture.get');
     // Route::get('/picture/{id}/delete', ['as'=>'picture.delete', 'uses'=> 'PictureController@delete']);
 // Route::post('/picture_edit', 'App\Http\Controllers\PictureController@edit_action');
 // Route::get('/gotcha_register', 'App\Http\Controllers\GotchaController@register')->name('gotcha_register');

@@ -69,14 +69,12 @@
         <h3 class="mb-3 mt-6">ガチャ登録</h3>
 
         <div class="form-area">  
-            <form action="{{url('post_picture_create')}}" method="post" enctype="multipart/form-data">
+            <form action="{{url('post.picture.create')}}" method="post" enctype="multipart/form-data">
                 @csrf
-                <br style="clear:both">
-                <p style="margin-bottom: 25px; text-align: left;">ガチャID：003</p>
-                            
+                <br style="clear:both">           
                 <div class="form-group">
                     <label for="name">ガチャ名称</label>
-                    <input type="text" class="form-control" placeholder="半角/全角テキスト/英数字/記号" id="name" name="name" >
+                    <input type="text" class="form-control" placeholder="半角/全角テキスト/英数字/記号" id="name" name="name" value="{{ old('name') }}">
                 </div>
 
                 <div class="row">
@@ -92,72 +90,72 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="id_img">画像ID(ガチャ)</label>
-                    <input type="text" class="form-control" id="id_img" name="id_img" >
+                    <label for="id_img_disp">画像ID(ガチャ)</label>
+                    <input type="number" class="form-control" id="id_img_disp" name="id_img_disp">
                 </div>
                                              
                 <div class="form-group">
-                    <label for="id_img">画像ID(結果)</label>
-                    <input type="text" class="form-control" id="id_img" name="id_img" >
+                    <label for="id_img_result">画像ID(結果)</label>
+                    <input type="number" class="form-control" id="id_img_result" name="id_img_result" >
                 </div>
             </form>
-        </div>
-
-        <table class="fixed_headers table-bordered mb-3" id="gotcha_js">
-            <thead>
-                <tr>
-                    <th>tableID</th>
-                    <th>景品ID</th>
-                    <th>景品名(自動表示)</th>
-                    <th>重み</th>
-                    <th>参考出現率</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>0001</td>
-                    <td>001</td>
-                    <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                    <td>500</td>
-                    <td>62.9</td>
-                </tr>
-                <tr>
-                    <td>0001</td>
-                    <td>001</td>
-                    <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                    <td>500</td>
-                    <td>62.9</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row"> 
-            <div class="col-xs-6 col-md-6 ">
-                <button type="button" id="submit" name="submit" onclick="addRow();return false;" class="btn btn-primary pull-right">行を増やす</button>
-            </div>
-
-            <div class="col-xs-6 col-md-6 text-right">
-                <button type="button" id="submit" name="submit" class="btn btn-primary" >もどる</button>               
-                <button type="button" id="submit" name="submit" class="btn btn-danger" >削除する</button>               
-                <button type="button" id="submit" name="submit" class="btn btn-success" >登録する</button>
-            </div>
-        </div> 
-    </section>
-<script>
-    function addRow(){
-        // table要素を取得
-        var tableElem = document.getElementById('gotcha_js');
-        
-        // tbody要素にtr要素（行）を最後に追加
-        var trElem = tableElem.tBodies[0].insertRow(-1);
-        
-        // td要素を追加
-        for (var i=0;i<5;i++){
-            var cellElem = trElem.insertCell(i);
-        }    
-        // td要素にテキストを追加
-        cellElem.appendChild(document.createTextNode('test'));
-    }
-</script>
+        </div>  
 @endsection
 
+<script>
+    window.onload = function(){ 
+        //セレクトボックスが切り替わったら発動
+        $('#id_img_disp').change(function() {
+            var id = $('#id_img_disp').val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ route('picture.get') }}",
+                type: 'POST',
+                dataType:"json",
+                data: { 'id': id, 'type':'disp' }
+            })
+            // Ajaxリクエストが成功した場合
+            .done(function(data) {
+                console.log(data.url);
+                if(data.url==''){
+                    console.log("失敗しました")
+                }else{
+                    console.log("成功しました")
+                }
+            })
+            // Ajaxリクエストが失敗した場合
+            .fail(function(data) {
+                console.log("失敗しました")
+            });
+        });
+
+        //セレクトボックスが切り替わったら発動
+        $('#id_img_result').change(function() {
+            var id = $('#id_img_result').val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ route('picture.get') }}",
+                type: 'POST',
+                dataType:"json",
+                data: { 'id': id, 'type':'disp' }
+            })
+            // Ajaxリクエストが成功した場合
+            .done(function(data) {
+                console.log(data.url);
+                if(data.url==''){
+                    console.log("失敗しました")
+                }else{
+                    console.log("成功しました")
+                }
+            })
+            // Ajaxリクエストが失敗した場合
+            .fail(function(data) {
+                console.log("失敗しました")
+            });
+        });
+    };
+</script>
