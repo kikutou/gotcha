@@ -3,7 +3,7 @@
 @section('content')
     <section class="container">
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">ガチャ登録</h3>
+            <h3 class="mb-3 mt-6 text-center">ガチャ景品登録</h3>
         </div>
         <div class="form-area">  
             <form action="{{url('gotcha/create')}}" method="post" enctype="multipart/form-data">
@@ -98,12 +98,103 @@
                         @endif
                     </div>
                 </div>
-                <div class="row">
+
+
+                <h2>ガチャテーブル</h2>
+
+                <table class="fixed_headers table-bordered ">
+                    <thead>
+                        <tr>
+                            <th>tableID</th>
+                            <th>景品ID</th>
+                            <th>景品名(自動表示)</th>
+                            <th>重み</th>
+                            <th>参考出現率</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                        <tr>
+                            <td>0001</td>
+                            <td>001</td>
+                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
+                            <td>500</td>
+                            <td>62.9</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row mt-3">
                     <div class="col-xs-6 col-md-6 text-left">
+                        <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a>
                         <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a>
                         <button type="submit" id="insert" name="insert" class="btn btn-success" >登録する</button>
                     </div>
                 </div> 
             </form>
-        </div>  
+        </div>
+    </section>
 @endsection
