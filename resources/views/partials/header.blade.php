@@ -2,20 +2,20 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link h4 mr-3
-                {{ $title && $title == "ガチャ-ガチャ" ? "active" : "" }}
+                {{ isset($title) && $title == "ガチャ-ガチャ" ? "active" : "" }}
                 " href="{{url('gotcha')}}">ガチャ</a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link h4 mr-3
-                {{ $title && $title == "ガチャ-画像" ? "active" : "" }}
+                {{ isset($title) && $title == "ガチャ-画像" ? "active" : "" }}
                 " href="{{url('picture')}}">画像</a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link h4 mr-3
 
-                {{ $title && $title == "ガチャ-景品" ? "active" : "" }}
+                {{ isset($title) && $title == "ガチャ-景品" ? "active" : "" }}
 
                 " href="{{url('prize')}}">景品</a>
             </li>
