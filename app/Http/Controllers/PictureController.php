@@ -25,7 +25,8 @@ class PictureController extends Controller
         $pictures = Picture::all();
 
         return view('picture.index', [
-        	"pictures" => $pictures
+        	"pictures" => $pictures,
+	        "title" => "ガチャ-画像"
         ]);
     }
 
@@ -53,7 +54,10 @@ class PictureController extends Controller
             return redirect()->route("picture")->with('message', '画像を登録しました。');
         }
 
-	    return view('picture.create');
+	    return view('picture.create',
+		    [
+			    "title" => "ガチャ-画像"
+		    ]);
     }
 
     /**
@@ -80,7 +84,12 @@ class PictureController extends Controller
         }
 
         $picture = Picture::find($id);
-        return view('picture.edit', ['picture' => $picture]);
+        return view('picture.edit',
+	        [
+	        	'picture' => $picture,
+		        "title" => "ガチャ-画像"
+	        ]
+        );
     }
 
     /**

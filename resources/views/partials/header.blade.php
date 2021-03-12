@@ -1,24 +1,27 @@
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ガチャ一覧</a>
+                <a class="nav-link h4 mr-3
+                {{ $title && $title == "ガチャ-ガチャ" ? "active" : "" }}
+                " href="{{url('gotcha')}}">ガチャ</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">景品種別別挙動</a>
+                <a class="nav-link h4 mr-3
+                {{ $title && $title == "ガチャ-画像" ? "active" : "" }}
+                " href="{{url('picture')}}">画像</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link h4 mr-3" href="{{url('picture')}}">画像一覧(ガチャ/結果)</a>
-            </li>
+                <a class="nav-link h4 mr-3
 
-            <li class="nav-item">
-                <a class="nav-link h4 mr-3" href="{{url('prize')}}">景品一覧</a>
+                {{ $title && $title == "ガチャ-景品" ? "active" : "" }}
+
+                " href="{{url('prize')}}">景品</a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ログ</a>
-
             </li>
             <!-- Authentication Links -->
             @guest

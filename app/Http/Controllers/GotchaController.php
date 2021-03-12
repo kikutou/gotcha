@@ -25,7 +25,12 @@ class GotchaController extends Controller
     public function index(Request $request)
     {
         $gotchas = Gotcha::all();
-        return view('gotcha.index', ['gotchas' => $gotchas]);
+        return view('gotcha.index',
+	        [
+	        	'gotchas' => $gotchas,
+		        "title" => "ガチャ-ガチャ"
+	        ]
+        );
     }
 
     /**
@@ -55,7 +60,8 @@ class GotchaController extends Controller
         $gotcha_result_imgs = Picture::all()->where('type',2);
         return view('gotcha.create',[
             'gotcha_disp_imgs' => $gotcha_disp_imgs,
-            'gotcha_result_imgs' => $gotcha_result_imgs
+            'gotcha_result_imgs' => $gotcha_result_imgs,
+	        "title" => "ガチャ-ガチャ"
         ]);
     }
 
@@ -99,7 +105,8 @@ class GotchaController extends Controller
             'gotcha' => $gotcha,
             'gotcha_disp_imgs' => $gotcha_disp_imgs,
             'gotcha_result_imgs' => $gotcha_result_imgs,
-            'prizes' => $prizes
+            'prizes' => $prizes,
+	        "title" => "ガチャ-ガチャ"
         ]);
     }
 

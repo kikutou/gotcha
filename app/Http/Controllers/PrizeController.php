@@ -25,7 +25,12 @@ class PrizeController extends Controller
     {
         // $prizes = Prize::all()->pictures;
         $prizes = Prize::with('picture')->get();
-        return view('prize.index', ['prizes' => $prizes]);
+        return view('prize.index',
+	        [
+	        	'prizes' => $prizes,
+		        "title" => "ガチャ-景品"
+	        ]
+        );
     }
 
     /**
@@ -51,7 +56,12 @@ class PrizeController extends Controller
             return redirect()->route("prize")->with('message', '景品を登録しました。');
         }
         $pictures = Picture::where('type',3)->get();
-	    return view('prize.create', ['pictures' => $pictures]);
+	    return view('prize.create',
+		    [
+		    	'pictures' => $pictures,
+			    "title" => "ガチャ-景品"
+		    ]
+	    );
     }
 
     /**
@@ -79,7 +89,13 @@ class PrizeController extends Controller
         }
         $prize = Prize::find($id)->with('picture')->where('id',$id)->first();
         $pictures = Picture::where('type',3)->get();
-        return view('prize.edit', ['prize' => $prize, 'pictures' => $pictures]);
+        return view('prize.edit',
+	        [
+	        	'prize' => $prize,
+		        'pictures' => $pictures,
+		        "title" => "ガチャ-景品"
+	        ]
+        );
     }
 
     /**

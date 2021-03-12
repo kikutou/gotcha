@@ -3,7 +3,7 @@
 <head>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>ガチャシステム</title>
+    <title>{{ $title ? $title : "ガチャシステム" }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
