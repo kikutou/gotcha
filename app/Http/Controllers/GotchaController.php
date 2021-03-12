@@ -76,7 +76,6 @@ class GotchaController extends Controller
         $prizes = Prize::all();
         // $gotcha = Gotcha::with('picture')->with('result_picture')->get();
         if($request->isMethod('post')){
-            dd($request->all());
             // validation check
             $check = $this->check($request, "edit");
 		    if($check->fails()) {
@@ -190,6 +189,11 @@ class GotchaController extends Controller
                 $prize_error['prize_id'] = $prize_ids;
             }
         } else {
+            
+            if (count($prize_ids) != count(array_unique($prize_ids))) {  
+                var_dump('该数组有重复值'); 
+            }
+            dd('pass');
             foreach($prize_ids as $prize_id) {
                 $prize = Prize::find($prize_id);
                 if(is_null($prize) || empty($prize)) {

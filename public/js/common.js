@@ -123,8 +123,8 @@ window.onload = function () {
             '<td class="">' +
             '<select id="id_' + length + '" name="prize_id[]" class="optionSelect"></select>' +
             '<td class=""><input type="text" class="form-control" id="prize_name" name="prize_name"  readonly></td>' +
-            '<td class=""><input type="number" class="frequency form-control" id="frequency" name="frequency" class="frequency"></td>' +
-            '<td class=""><input type="number" class="form-control" id="occurrence_rate" name="occurrence_rate"></td>' +
+            '<td class=""><input type="number" class="frequency form-control" id="frequency" name="frequency" class="frequency" readonly></td>' +
+            '<td class=""><input type="number" class="form-control" id="occurrence_rate" name="occurrence_rate" readonly></td>' +
             '</tr>';// 挿入する行のテンプレート
         var row_cnt = $("[id=prize_data] tbody").children().length;// 現在のDOMで表示されているtrの数
         $(tr_row).appendTo($('[id=prize_data] > tbody'));// tbody末尾にテンプレートを挿入
@@ -135,24 +135,36 @@ window.onload = function () {
         });// input name部分を変更
     });
 
-    $(document).on('change', '.frequency', function () {
+    function occurrence_rate_sum() {
         var frequency_sum = 0;
         var occurrence_rate = 0;
         $('.frequency').each(function (index, value) {
+            $('input[name="occurrence_rate[' + index + ']"]').attr("value", "");
+
             var prize_id = $("#id_" + index).find("option:selected").val();
-            var frequency = $('input[name="frequency[' + index + ']"').val();
-            if (prize_id != "") {
+            var frequency = parseInt($('input[name="frequency[' + index + ']"').val());
+            // $('input[name="frequency[' + index + ']"').val(frequency)
+            if (prize_id != "" && frequency > 0) {
                 frequency_sum = parseInt(frequency_sum) + parseInt(frequency);
             }
         });
         $('.frequency').each(function (index) {
             var prize_id = $("#id_" + index).find("option:selected").val();
-            var frequency = $('input[name="frequency[' + index + ']"').val();
-            if (prize_id != "") {
-                occurrence_rate = parseInt(frequency) / parseInt(frequency_sum);
+            var frequency = parseInt($('input[name="frequency[' + index + ']"').val());
+            if (prize_id != "" && frequency > 0) {
+                occurrence_rate = frequency / frequency_sum;
+                console.log(frequency);
+                console.log(frequency_sum);
+                console.log(occurrence_rate);
+                $('input[name="occurrence_rate[' + index + ']"]').attr("value", (occurrence_rate * 100).toFixed(1));
             }
-            $('input[name="occurrence_rate[' + index + ']"]').attr("value", (occurrence_rate * 100).toFixed(1));
+
         });
+    }
+
+    $(document).on('change', '.frequency', function () {
+
+        occurrence_rate_sum();
     });
 
 
@@ -160,28 +172,35 @@ window.onload = function () {
         var select_str = $(this).attr("id");
         var str_start = select_str.indexOf("_");
         var num = select_str.substring(str_start + 1)
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "/prize/get",
-            type: 'POST',
-            dataType: "json",
-            data: { 'id': $(this).val() }
-        })
-            // Ajaxリクエストが成功した場合
-            .done(function (data) {
-                var name = data.name;
-                if (data.name == '') {
-                    console.log("失敗しました");
-                } else {
-                    console.log("成功しました");
-                    $('input[name="prize_name[' + num + ']"]').attr("value", name);
-                }
+        if ($(this).val() != "") {
+            $('input[name="frequency[' + num + ']"').removeAttr("readonly");
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "/prize/get",
+                type: 'POST',
+                dataType: "json",
+                data: { 'id': $(this).val() }
             })
-            // Ajaxリクエストが失敗した場合
-            .fail(function (data) {
-                console.log("失敗しました");
-            });
+                // Ajaxリクエストが成功した場合
+                .done(function (data) {
+                    var name = data.name;
+                    if (data.name == '') {
+                        console.log("失敗しました");
+                    } else {
+                        console.log("成功しました");
+                        $('input[name="prize_name[' + num + ']"]').attr("value", name);
+                    }
+                })
+                // Ajaxリクエストが失敗した場合
+                .fail(function (data) {
+                    console.log("失敗しました");
+                });
+        } else {
+            $('input[name="frequency[' + num + ']"').attr('readonly', 'readonly');
+            $('input[name="frequency[' + num + ']"').val("");
+            occurrence_rate_sum();
+        }
     });
 };

@@ -125,7 +125,7 @@
                                 </select>
                             </td>
                             <td class=""><input type="text" class="form-control" id="prize_name" name="prize_name[0]" value="{{ old('prize_name') }}" readonly></td>
-                            <td class=""><input type="number" class="frequency form-control" id="frequency" name="frequency[0]" value="{{ old('frequency') }}"></td>
+                            <td class=""><input type="number" class="frequency form-control" id="frequency" name="frequency[0]" value="{{ old('frequency') }}" readonly></td>
                             <td class=""><input type="text" class="form-control" id="occurrence_rate" name="occurrence_rate[0]" value="{{ old('occurrence_rate') }}" readonly></td>
                         </tr>
                     </tbody>
