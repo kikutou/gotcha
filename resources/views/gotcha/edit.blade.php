@@ -91,10 +91,10 @@
                         </div>
                     @endif
                     <div class="form-group">
-                    @if (is_null($gotcha->picture->url) || $gotcha->picture->type != 1)
+                    @if (is_null($gotcha->result_picture->url) || $gotcha->result_picture->type != 2)
                             <img id="preview_result" class="img-thumbnail img-responsive" src="">
                         @else
-                            <img id="preview_result" class="img-thumbnail img-responsive" src="{{ asset('storage/imgs/' . $gotcha->picture->url) }}">
+                            <img id="preview_result" class="img-thumbnail img-responsive" src="{{ asset('storage/imgs/' . $gotcha->result_picture->url) }}">
                         @endif
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                         <tr class="">
                             <td class="">
                                 <select id="id_0" name="prize_id[]" class="optionSelect">
-                                    <option value="">
+                                    <option value="" selected>
                                         景品を選択してください
                                     </option>
                                     @foreach ($prizes as $prize)
@@ -124,9 +124,9 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class=""><input type="text" class="form-control" id="prize_name[]" name="prize_name[0]" value="{{ old('prize_name') }}" readonly></td>
-                            <td class=""><input type="number" class="form-control" id="frequency[]" name="frequency[0]" value="{{ old('frequency') }}"></td>
-                            <td class=""><input type="text" class="form-control" id="occurrence_rate[]" name="occurrence_rate[0]" value="{{ old('occurrence_rate') }}" readonly></td>
+                            <td class=""><input type="text" class="form-control" id="prize_name" name="prize_name[0]" value="{{ old('prize_name') }}" readonly></td>
+                            <td class=""><input type="number" class="frequency form-control" id="frequency" name="frequency[0]" value="{{ old('frequency') }}"></td>
+                            <td class=""><input type="text" class="form-control" id="occurrence_rate" name="occurrence_rate[0]" value="{{ old('occurrence_rate') }}" readonly></td>
                         </tr>
                     </tbody>
                 </table>

@@ -126,9 +126,9 @@ window.onload = function () {
             '<tr>' +
             '<td class="">' +
             '<select id="id_' + length + '" name="prize_id[]" class="optionSelect"></select>' +
-            '<td class=""><input type="text" id="prize_name[]" name="prize_name" class="form-control" readonly></td>' +
-            '<td class=""><input type="number" class="form-control" id="frequency[]" name="frequency"></td>' +
-            '<td class=""><input type="number" class="form-control" id="occurrence_rate[]" name="occurrence_rate"></td>' +
+            '<td class=""><input type="text" class="form-control" id="prize_name" name="prize_name"  readonly></td>' +
+            '<td class=""><input type="number" class="frequency form-control" id="frequency" name="frequency" class="frequency"></td>' +
+            '<td class=""><input type="number" class="form-control" id="occurrence_rate" name="occurrence_rate"></td>' +
             '</tr>';// 挿入する行のテンプレート
         var row_cnt = $("[id=prize_data] tbody").children().length;// 現在のDOMで表示されているtrの数
         $(tr_row).appendTo($('[id=prize_data] > tbody'));// tbody末尾にテンプレートを挿入
@@ -138,6 +138,27 @@ window.onload = function () {
             $(this).attr('name', base_name + '[' + row_cnt + ']');
         });// input name部分を変更
     });
+
+    $(document).on('change', '.frequency', function () {
+        var frequency_sum = 0;
+        var occurrence_rate = 0;
+        $('.frequency').each(function (index, value) {
+            console.log(value);
+            var prize_id = $("#id_" + index).find("option:selected").val();
+            if (prize_id != "") {
+                // frequency_sum = frequency_sum + value;
+            }
+        });
+        console.log(frequency_sum);
+        $('.frequency').each(function (index) {
+            var prize_id = $("#id_" + index).find("option:selected").val();
+            if (prize_id != "") {
+                // occurrence_rate = value / frequency_sum;
+            }
+            console.log(occurrence_rate);
+        });
+    });
+
 
     $(document).on('change', '.optionSelect', function () {
         var select_str = $(this).attr("id");
@@ -155,14 +176,11 @@ window.onload = function () {
             // Ajaxリクエストが成功した場合
             .done(function (data) {
                 var name = data.name;
-                console.log(data);
                 if (data.name == '') {
                     console.log("失敗しました");
                 } else {
                     console.log("成功しました");
-                    console.log(name);
-                    console.log(num);
-                    $('#prize_name[' + num + ']').attr("value", name);
+                    $('input[name="prize_name[' + num + ']"]').attr("value", name);
                 }
             })
             // Ajaxリクエストが失敗した場合

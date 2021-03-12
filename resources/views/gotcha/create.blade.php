@@ -62,7 +62,7 @@
                         </div>
                     @endif
                     <div class="form-group">
-                        <img id="preview1" class="img-fluid img-responsive">
+                        <img id="preview" class="img-fluid img-responsive">
                     </div>
                 </div>
                                              
@@ -87,7 +87,7 @@
                         </div>
                     @endif
                     <div class="form-group">
-                        <img id="preview2" class="img-fluid img-responsive">
+                        <img id="preview_result" class="img-fluid img-responsive">
                     </div>
                 </div>
                 <div class="row">

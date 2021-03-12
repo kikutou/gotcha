@@ -74,7 +74,7 @@ class GotchaController extends Controller
     public function edit(Request $request,$id=null)
     {
         $prizes = Prize::all();
-        $gotcha = Gotcha::with('picture')->with('result_picture')->get();
+        // $gotcha = Gotcha::with('picture')->with('result_picture')->get();
         if($request->isMethod('post')){
             dd($request->all());
             // validation check
