@@ -143,6 +143,25 @@ class PrizeController extends Controller
         return redirect()->route('prize');
     }
 
+    /**
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getPrize(Request $request){
+        $name = null;
+        if($request->has('id')){
+            $id = intval($request->get('id'));
+            $prize = Prize::find($id);
+            if ( !is_null($prize) && !empty($prize) ) {
+                $name = $prize->name;
+            }
+        };
+        return response()->json([
+            'name' => $name
+        ]);
+    }
+
     public function check(Request $request){
         $rules = [
             'name' => 'required',

@@ -6,7 +6,7 @@
             <h3 class="mb-3 mt-6 text-center">ガチャ景品登録</h3>
         </div>
         <div class="form-area">  
-            <form action="{{url('gotcha/create')}}" method="post" enctype="multipart/form-data">
+            <form action="{{url('gotcha/edit')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <br style="clear:both">
                 <label for="id">ガチャ画像ID：</label>{{$gotcha->id}}
@@ -64,9 +64,9 @@
                     @endif
                     <div class="form-group">
                         @if (is_null($gotcha->picture->url) || $gotcha->picture->type != 1)
-                            <img id="preview" class="img-fluid img-responsive" src="">
+                            <img id="preview" class="img-thumbnail img-responsive" src="">
                         @else
-                            <img id="preview" class="img-fluid img-responsive" src="{{ asset('storage/imgs/' . $gotcha->picture->url) }}">
+                            <img id="preview" class="img-thumbnail img-responsive" src="{{ asset('storage/imgs/' . $gotcha->picture->url) }}">
                         @endif
                     </div>
                 </div>
@@ -92,9 +92,9 @@
                     @endif
                     <div class="form-group">
                     @if (is_null($gotcha->picture->url) || $gotcha->picture->type != 1)
-                            <img id="preview_result" class="img-fluid img-responsive" src="">
+                            <img id="preview_result" class="img-thumbnail img-responsive" src="">
                         @else
-                            <img id="preview_result" class="img-fluid img-responsive" src="{{ asset('storage/imgs/' . $gotcha->picture->url) }}">
+                            <img id="preview_result" class="img-thumbnail img-responsive" src="{{ asset('storage/imgs/' . $gotcha->picture->url) }}">
                         @endif
                     </div>
                 </div>
@@ -102,94 +102,38 @@
 
                 <h2>ガチャテーブル</h2>
 
-                <table class="fixed_headers table-bordered ">
+                <table id="prize_data" class="fixed_headers table-bordered">
                     <thead>
-                        <tr>
-                            <th>tableID</th>
-                            <th>景品ID</th>
-                            <th>景品名(自動表示)</th>
-                            <th>重み</th>
-                            <th>参考出現率</th>
+                        <tr class="">
+                            <th class="">景品ID</th>
+                            <th class="">景品名(自動表示)</th>
+                            <th class="">重み</th>
+                            <th class="">参考出現率</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>001</td>
-                            <td>[⻤滅の刃]炭治郎ぬいぐるみ</td>
-                            <td>500</td>
-                            <td>62.9</td>
+                        <tr class="">
+                            <td class="">
+                                <select id="id_0" name="prize_id[]" class="optionSelect">
+                                    <option value="">
+                                        景品を選択してください
+                                    </option>
+                                    @foreach ($prizes as $prize)
+                                        <option value="{{$prize->id}}">{{$prize->id}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class=""><input type="text" class="form-control" id="prize_name[]" name="prize_name[0]" value="{{ old('prize_name') }}" readonly></td>
+                            <td class=""><input type="number" class="form-control" id="frequency[]" name="frequency[0]" value="{{ old('frequency') }}"></td>
+                            <td class=""><input type="text" class="form-control" id="occurrence_rate[]" name="occurrence_rate[0]" value="{{ old('occurrence_rate') }}" readonly></td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div class="row mt-3">
                     <div class="col-xs-6 col-md-6 text-left">
-                        <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a>
+                        <a class="btn btn-primary" id="add" name="add" onclick="return false;">行追加</a>
                         <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a>
                         <button type="submit" id="insert" name="insert" class="btn btn-success" >登録する</button>
                     </div>

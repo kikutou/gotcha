@@ -67,13 +67,22 @@ class GotchaController extends Controller
      */
     public function edit(Request $request,$id=null)
     {
+        $prizes = Prize::all();
         $gotcha = Gotcha::with('picture')->with('result_picture')->get();
         if($request->isMethod('post')){
+            dd($request->all());
             // validation check
             $check = $this->check($request, "edit");
 		    if($check->fails()) {
 			    return redirect()->back()->withErrors($check)->withInput()->with("error", "ガチャ更新失敗");
 		    }
+            $prize_ids = $request->get('prize_id');
+            $frequencies = $request->get('frequency');
+            $occurrence_rates = $request->get('occurrence_rate');
+            $check_result = $this->check_prizes($prize_ids, $frequencies);
+            if($check_result){
+            }
+            dd($check_result);
             $result = $this->up($request);
             if($result){
                 session()->flash('flash_message', '成功しました');
@@ -89,7 +98,8 @@ class GotchaController extends Controller
         return view('gotcha.edit',[
             'gotcha' => $gotcha,
             'gotcha_disp_imgs' => $gotcha_disp_imgs,
-            'gotcha_result_imgs' => $gotcha_result_imgs
+            'gotcha_result_imgs' => $gotcha_result_imgs,
+            'prizes' => $prizes
         ]);
     }
 
@@ -136,7 +146,7 @@ class GotchaController extends Controller
         return redirect()->route('gotcha');
     }
 
-    public function check(Request $request){
+    public function check(Request $request) {
         $rules = [
             'name' => 'required',
             'cost_name' => 'required',
@@ -158,4 +168,42 @@ class GotchaController extends Controller
         return $validator = Validator::make($request->all(), $rules, $errors);
     }
 
+    public function check_prizes($prize_ids, $frequencies) {
+        $prize_error = [];
+        $prize_error['prize_id'] = "";
+        $prize_error['prize_id_all'] = "";
+        $prize_error['frequency'] = "";
+        $prize_error['frequency_all'] = "";
+
+        if(is_null($prize_ids) || empty($prize_ids)) {
+            $prize_error['prize_id_all'] = 1;
+        } elseif(!is_array($prize_ids)) {
+            $prize = Prize::find($prize_ids);
+            if(is_null($prize) || empty($prize)) {
+                $prize_error['prize_id'] = $prize_ids;
+            }
+        } else {
+            foreach($prize_ids as $prize_id) {
+                $prize = Prize::find($prize_id);
+                if(is_null($prize) || empty($prize)) {
+                    $prize_error['prize_id'] = $prize_id;
+                }
+            }
+        }
+
+        if(is_null($prize_ids) || empty($prize_ids)) {
+            $prize_error['frequency_all'] = 1;
+        } elseif(!is_array($frequencies)) {
+            if(is_null($frequencies) || empty($frequencies)) {
+                $prize_error['frequency'] = $frequencies;
+            }
+        } else {
+            foreach($frequencies as $frequency) {
+                if(is_null($frequency) || empty($frequency)) {
+                    $prize_error['frequency'] = $frequency;
+                }
+            }
+        }
+        return $prize_error;
+    }
 }
