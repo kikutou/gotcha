@@ -163,7 +163,7 @@ class PictureController extends Controller
             $id = intval($request->get('id'));
             $picture = Picture::find($id);
             if ( !is_null($picture) && !empty($picture) ) {
-                $url = asset('storage/imgs/'.'/'.$picture->url);
+                $url = asset('storage/imgs/'.$picture->url);
             }
         };
         return response()->json([

@@ -136,6 +136,13 @@ window.onload = function () {
     });
 
     function occurrence_rate_sum() {
+        // var prize_arr = [];
+        // var i = 0;
+        // $('.frequency').each(function (index, value) {
+        //     prize_id = $("#id_" + index).find("option:selected").val();
+        //     prize_arr[i] = prize_id;
+        //     i++;
+        // });
         var frequency_sum = 0;
         var occurrence_rate = 0;
         $('.frequency').each(function (index, value) {

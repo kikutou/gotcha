@@ -82,12 +82,14 @@ class GotchaController extends Controller
 			    return redirect()->back()->withErrors($check)->withInput()->with("error", "ガチャ更新失敗");
 		    }
 
+            $result = $this->up($request);
+
             if($result){
                 session()->flash('flash_message', '成功しました');
             }else{
                 session()->flash('flash_message', '失敗しました');
             }
-            return redirect()->route('picture');
+            return redirect()->route("gotcha")->with('message', 'ガチャを更新しました。');
         }
 
         $gotcha = Gotcha::find($id);
@@ -110,6 +112,7 @@ class GotchaController extends Controller
      */
     public function prizeInsert(Request $request,$id=null)
     {
+        $prize_arr = null;
         $prizes = Prize::all();
         // $gotcha = Gotcha::with('picture')->with('result_picture')->get();
         if($request->isMethod('post')){
@@ -118,9 +121,14 @@ class GotchaController extends Controller
             $frequencies = $request->get('frequency');
             $occurrence_rates = $request->get('occurrence_rate');
             $check_result = $this->check_prizes($prize_ids, $frequencies);
-            if($check_result){
+            if(!$check_result['prize_id'] == ""
+            || !$check_result['prize_id_all'] == ""
+            || !$check_result['frequency'] == ""
+            || !$check_result['frequency_all'] == ""
+            || !$check_result['prize_id_repeat'] == ""){
+                return redirect()->back()->with("error", "ガチャ更新失敗");
             }
-            $result = $this->up($request);
+            $result = $this->prize_insert($prize_ids, $frequencies);
             if($result){
                 session()->flash('flash_message', '成功しました');
             }else{
@@ -129,13 +137,9 @@ class GotchaController extends Controller
             return redirect()->route('picture');
         }
 
-        $gotcha = Gotcha::find($id);
-        $gotcha_disp_imgs = Picture::all()->where('type',1);
-        $gotcha_result_imgs = Picture::all()->where('type',2);
         return view('gotcha.prize_insert',[
-            'gotcha' => $gotcha,
-            'gotcha_disp_imgs' => $gotcha_disp_imgs,
-            'gotcha_result_imgs' => $gotcha_result_imgs,
+            'id' => $id,
+            'prize_arr' => $prize_arr,
             'prizes' => $prizes,
 	        "title" => "ガチャ-ガチャ"
         ]);
@@ -159,6 +163,27 @@ class GotchaController extends Controller
         }else{
             return false;
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    private function up(Request $request){
+
+        // validation check
+        $check = $this->check($request, "edit");
+        if($check->fails()) {
+            return redirect()->back()->withErrors($check)->withInput()->with("error", "ガチャ更新失敗");
+        }
+        $gotcha = Gotcha::find($request->get('id'));
+        $gotcha->name = $request->get('name');
+        $gotcha->cost_name = $request->get('cost_name');
+        $gotcha->cost_value = $request->get('cost_value');
+        $gotcha->picture_id = $request->get('id_img_disp');
+        $gotcha->result_picture_id = $request->get('id_img_result');
+        return $gotcha->save();
     }
 
     /**
@@ -212,24 +237,29 @@ class GotchaController extends Controller
         $prize_error['prize_id_all'] = "";
         $prize_error['frequency'] = "";
         $prize_error['frequency_all'] = "";
-
+        $prize_error['prize_id_repeat'] = "";
+        // $unique_arr = array_unique ( $prize_ids ); 
+        // // 获取重复数据的数组 
+        // $repeat_arr = array_diff_assoc ( $prize_ids, $unique_arr );
+        // if(!empty($repeat_arr) || !isnull($repeat_arr)){
+        //     $prize_error['prize_id_repeat'] = 1;
+        // };
         if(is_null($prize_ids) || empty($prize_ids)) {
-            $prize_error['prize_id_all'] = 1;
+            $prize_error['prize_id_all'] = "景品を選択してください";
         } elseif(!is_array($prize_ids)) {
             $prize = Prize::find($prize_ids);
             if(is_null($prize) || empty($prize)) {
-                $prize_error['prize_id'] = $prize_ids;
+                $prize_error['prize_id'] = "景品が存在しません";
             }
         } else {
             
             if (count($prize_ids) != count(array_unique($prize_ids))) {  
-                var_dump('该数组有重复值'); 
+                $prize_error['prize_id_repeat'] = "同じ景品idを選択した"; 
             }
-            dd('pass');
             foreach($prize_ids as $prize_id) {
                 $prize = Prize::find($prize_id);
                 if(is_null($prize) || empty($prize)) {
-                    $prize_error['prize_id'] = $prize_id;
+                    $prize_error['prize_id'] = "景品が存在しません";
                 }
             }
         }
@@ -238,12 +268,12 @@ class GotchaController extends Controller
             $prize_error['frequency_all'] = 1;
         } elseif(!is_array($frequencies)) {
             if(is_null($frequencies) || empty($frequencies)) {
-                $prize_error['frequency'] = $frequencies;
+                $prize_error['frequency'] = "重み数値を入力してください";
             }
         } else {
             foreach($frequencies as $frequency) {
                 if(is_null($frequency) || empty($frequency)) {
-                    $prize_error['frequency'] = $frequency;
+                    $prize_error['frequency'] = "重み数値を入力してください";
                 }
             }
         }

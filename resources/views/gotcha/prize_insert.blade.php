@@ -5,8 +5,11 @@
         <div class="page-title justify-content-center">
             <h3 class="mb-3 mt-6 text-center">ガチャ景品登録</h3>
         </div>
-        <form action="{{url('gotcha/edit')}}" method="post" enctype="multipart/form-data">
+        <form action="{{url('/gotcha/prize')}}" method="post" enctype="multipart/form-data">
             @csrf
+            <br style="clear:both">
+            <label for="id">ガチャID：</label>{{$id}}
+            <input type="hidden" id="id" name="id" value="{{$id}}">
             <table id="prize_data" class="fixed_headers table-bordered">
                 <thead>
                     <tr class="">
@@ -39,7 +42,6 @@
             <div class="row mt-3">
                 <div class="col-xs-6 col-md-6 text-left">
                     <a class="btn btn-primary" id="add" name="add" onclick="return false;">行追加</a>
-                    <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a>
                     <button type="submit" id="insert" name="insert" class="btn btn-success" >登録する</button>
                 </div>
             </div> 

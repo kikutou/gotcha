@@ -102,8 +102,8 @@
                 <div class="row mt-3">
                     <div class="col-xs-6 col-md-6 text-left">
                     <a class='btn btn-info btn-md' href="{{ route('gotcha.prize.insert', ['id' => $gotcha->id]) }}">景品登録</a>
-                        <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a>
-                        <button type="submit" id="insert" name="insert" class="btn btn-success" >登録する</button>
+                        <!-- <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a> -->
+                        <button type="submit" id="insert" name="insert" class="btn btn-success" >更新する</button>
                     </div>
                 </div> 
             </form>
