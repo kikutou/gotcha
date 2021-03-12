@@ -35,4 +35,9 @@ class Gotcha extends Model
         'use_numbers',
         'del_flg',
     ];
+
+    public function prizes()
+    {
+    	return $this->belongsToMany(Prize::class, "gotchas_prizes", "gotcha_id", "prize_id");
+    }
 }

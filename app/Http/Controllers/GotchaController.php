@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GotchaPrize;
 use Illuminate\Http\Request;
 use App\Services\GotchaService;
 use App\Models\Picture;
@@ -116,32 +117,58 @@ class GotchaController extends Controller
         $prizes = Prize::all();
         // $gotcha = Gotcha::with('picture')->with('result_picture')->get();
         if($request->isMethod('post')){
+
+        	$gotcha_id = $request->get("id");
             // check
             $prize_ids = $request->get('prize_id');
             $frequencies = $request->get('frequency');
-            $occurrence_rates = $request->get('occurrence_rate');
-            $check_result = $this->check_prizes($prize_ids, $frequencies);
-            if(!$check_result['prize_id'] == ""
-            || !$check_result['prize_id_all'] == ""
-            || !$check_result['frequency'] == ""
-            || !$check_result['frequency_all'] == ""
-            || !$check_result['prize_id_repeat'] == ""){
-                return redirect()->back()->with("error", "ガチャ更新失敗");
+
+            $old_gotcha_prize = GotchaPrize::query()->where("gotcha_id", $gotcha_id)->get();
+            foreach ($old_gotcha_prize as $old_record) {
+            	$old_record->delete();
             }
-            $result = $this->prize_insert($prize_ids, $frequencies);
-            if($result){
-                session()->flash('flash_message', '成功しました');
-            }else{
-                session()->flash('flash_message', '失敗しました');
+
+            for ($i = 0; $i < count($prize_ids) ; $i++) {
+            	$prize_id = $prize_ids[$i];
+            	$frequency = $frequencies[$i];
+            	if ($prize_id and $frequency) {
+		            $gotcha_prize = new GotchaPrize();
+		            $gotcha_prize->gotcha_id = $gotcha_id;
+		            $gotcha_prize->prize_id = $prize_id;
+		            $gotcha_prize->frequency = $frequency;
+		            $gotcha_prize->save();
+	            }
+
             }
-            return redirect()->route('picture');
+
+            return redirect()->back()->with("message", '成功しました');
+        }
+
+        $records = [];
+        $gotcha_prize = GotchaPrize::query()->where("gotcha_id", $id)->get()->toArray();
+
+
+        $sum = 0;
+	    for($i=0; $i < count($gotcha_prize); $i++) {
+		    $sum += $gotcha_prize[$i]["frequency"];
+
+	    }
+
+        for($i=0; $i < count($gotcha_prize); $i++) {
+        	$one_record = array();
+        	$one_record["prize_id"] = $gotcha_prize[$i]["prize_id"];
+        	$one_record["frequency"] = $gotcha_prize[$i]["frequency"];
+        	$one_record["chance"] = sprintf('%.1f',$gotcha_prize[$i]["frequency"]/$sum * 100) . "%";
+
+        	$records[] = $one_record;
         }
 
         return view('gotcha.prize_insert',[
             'id' => $id,
             'prize_arr' => $prize_arr,
             'prizes' => $prizes,
-	        "title" => "ガチャ-ガチャ"
+	        "title" => "ガチャ-ガチャ",
+	        "records" => $records
         ]);
     }
     

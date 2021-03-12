@@ -61,3 +61,5 @@ use Illuminate\Support\Facades\Route;
 	});
 
 Route::get('/play', 'App\Http\Controllers\PlayController@index')->name('get_play');
+Route::get('/play/list/{id}', 'App\Http\Controllers\PlayController@list')->name('get_play_list');
+Route::get('/play/result/{id}', 'App\Http\Controllers\PlayController@result')->name('get_play_result');

@@ -38,7 +38,7 @@
         </div>
 
         <div class="text-center">
-            <a href="">内容物詳細</a>
+            <a href="{{ route('get_play_list', ['id' => $gotcha->id]) }}?sid={{ $sid }}">内容物詳細</a>
         </div>
 
         <div class="text-center">
@@ -72,7 +72,7 @@
 
                 <div class="text-center">
                     <div>
-                        <button class="btn btn-primary text-align: center" data-dismiss="modal" data-toggle="modal" data-target="#result-{{ $gotcha->id }}"  data-backdrop="static" data-keyboard="false">はい</button>
+                        <a href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?sid={{ $sid }}">はい</a>
                     </div>
                     <div>
                         <button type="button" class="btn btn-sm" data-dismiss="modal">いいえ</button>
