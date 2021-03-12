@@ -114,7 +114,7 @@ class PrizeController extends Controller
         $prize->type = $type;
         $prize->picture_id = $picture_id;
         if (is_null($prize) || empty($prize)){
-            return redirect()->back()->withErrors($check)->withInput()->with("error", "更新失敗しました");
+            return redirect()->back()->with("error", "更新失敗しました");
         }
         return $prize->save();
     }

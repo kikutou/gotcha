@@ -8,16 +8,14 @@
 
             <li class="nav-item">
                 <a class="nav-link h4 mr-3
-                {{ isset($title) && $title == "ガチャ-画像" ? "active" : "" }}
-                " href="{{url('picture')}}">画像</a>
+                {{ isset($title) && $title == "ガチャ-景品" ? "active" : "" }}
+                 " href="{{url('prize')}}">景品</a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link h4 mr-3
-
-                {{ isset($title) && $title == "ガチャ-景品" ? "active" : "" }}
-
-                " href="{{url('prize')}}">景品</a>
+                {{ isset($title) && $title == "ガチャ-画像" ? "active" : "" }}
+                " href="{{url('picture')}}">画像</a>
             </li>
 
             <li class="nav-item">
@@ -38,6 +36,8 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                        <a class="dropdown-item" href="{{ route('get_change_password') }}">パスワード変更</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">

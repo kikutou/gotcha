@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/add_user_ticket', 'App\Http\Controllers\Api\GotchaController@add_user_ticket')->name('post_add_user_ticket');
