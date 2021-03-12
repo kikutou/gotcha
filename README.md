@@ -5,3 +5,9 @@
 - php artisan migrateコマンドでテーブルを構築する。
 - php artisan storage:link コマンドで、画像ファイルのルートを公開する。
 - php artisan serve でテスト用のサーバーを起動する。
+
+
+マイグレーションが実行されると、以下のアカウントは自動的にDBに挿入される。
+初期アカウント:
+mail: admin@admin.com
+password: admin
