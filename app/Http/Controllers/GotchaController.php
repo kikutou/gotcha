@@ -81,14 +81,7 @@ class GotchaController extends Controller
 		    if($check->fails()) {
 			    return redirect()->back()->withErrors($check)->withInput()->with("error", "ガチャ更新失敗");
 		    }
-            $prize_ids = $request->get('prize_id');
-            $frequencies = $request->get('frequency');
-            $occurrence_rates = $request->get('occurrence_rate');
-            $check_result = $this->check_prizes($prize_ids, $frequencies);
-            if($check_result){
-            }
-            dd($check_result);
-            $result = $this->up($request);
+
             if($result){
                 session()->flash('flash_message', '成功しました');
             }else{
@@ -109,6 +102,45 @@ class GotchaController extends Controller
         ]);
     }
 
+    /**
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function prizeInsert(Request $request,$id=null)
+    {
+        $prizes = Prize::all();
+        // $gotcha = Gotcha::with('picture')->with('result_picture')->get();
+        if($request->isMethod('post')){
+            // check
+            $prize_ids = $request->get('prize_id');
+            $frequencies = $request->get('frequency');
+            $occurrence_rates = $request->get('occurrence_rate');
+            $check_result = $this->check_prizes($prize_ids, $frequencies);
+            if($check_result){
+            }
+            $result = $this->up($request);
+            if($result){
+                session()->flash('flash_message', '成功しました');
+            }else{
+                session()->flash('flash_message', '失敗しました');
+            }
+            return redirect()->route('picture');
+        }
+
+        $gotcha = Gotcha::find($id);
+        $gotcha_disp_imgs = Picture::all()->where('type',1);
+        $gotcha_result_imgs = Picture::all()->where('type',2);
+        return view('gotcha.prize_insert',[
+            'gotcha' => $gotcha,
+            'gotcha_disp_imgs' => $gotcha_disp_imgs,
+            'gotcha_result_imgs' => $gotcha_result_imgs,
+            'prizes' => $prizes,
+	        "title" => "ガチャ-ガチャ"
+        ]);
+    }
+    
     /**
      * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
