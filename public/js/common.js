@@ -20,7 +20,6 @@ window.onload = function () {
         $('#preview').attr('src', '');
         var url = '';
         var id = $(this).val();
-        console.log(id);
         if (id == 0) {
             return;
         }
@@ -54,7 +53,6 @@ window.onload = function () {
         $('#preview_result').attr('src', '');
         var url = '';
         var id = $(this).val();
-        console.log(id);
         if (id == 0) {
             return;
         }
@@ -89,7 +87,6 @@ window.onload = function () {
         $('#preview').attr('src', '');
         var url = '';
         var id = $(this).val();
-        console.log(id);
         if (id == 0) {
             return;
         }
@@ -120,7 +117,6 @@ window.onload = function () {
 
 
     $("#add").on('click', function (e) {
-        console.log($('[id=prize_data] > tbody > tr').length);
         var length = $('[id=prize_data] > tbody > tr').length;
         var tr_row = '' +
             '<tr>' +
@@ -143,19 +139,19 @@ window.onload = function () {
         var frequency_sum = 0;
         var occurrence_rate = 0;
         $('.frequency').each(function (index, value) {
-            console.log(value);
             var prize_id = $("#id_" + index).find("option:selected").val();
+            var frequency = $('input[name="frequency[' + index + ']"').val();
             if (prize_id != "") {
-                // frequency_sum = frequency_sum + value;
+                frequency_sum = parseInt(frequency_sum) + parseInt(frequency);
             }
         });
-        console.log(frequency_sum);
         $('.frequency').each(function (index) {
             var prize_id = $("#id_" + index).find("option:selected").val();
+            var frequency = $('input[name="frequency[' + index + ']"').val();
             if (prize_id != "") {
-                // occurrence_rate = value / frequency_sum;
+                occurrence_rate = parseInt(frequency) / parseInt(frequency_sum);
             }
-            console.log(occurrence_rate);
+            $('input[name="occurrence_rate[' + index + ']"]').attr("value", (occurrence_rate * 100).toFixed(1));
         });
     });
 

@@ -108,7 +108,7 @@
                             <th class="">景品ID</th>
                             <th class="">景品名(自動表示)</th>
                             <th class="">重み</th>
-                            <th class="">参考出現率</th>
+                            <th class="">参考出現率(%)</th>
                         </tr>
                     </thead>
 
