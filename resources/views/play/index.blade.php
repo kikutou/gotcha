@@ -18,9 +18,10 @@
 
     </style>
     <script type="text/javascript">
-        if ({{$gotcha_id}} != null){
+        gotcha_id = {!! json_encode($gotcha_id) !!};
+        if (gotcha_id != ""){
             $(function(){
-                $('#result-' + {{$gotcha_id}}).modal('toggle');
+                $('#result-' + gotcha_id).modal('toggle');
             })
         }
     </script>
