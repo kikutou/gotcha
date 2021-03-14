@@ -11,7 +11,11 @@
                 {{ isset($title) && $title == "ガチャ-景品" ? "active" : "" }}
                  " href="{{url('prize')}}">景品</a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link h4 mr-3
+                {{ isset($title) && $title == "ガチャ-景品種別挙動" ? "active" : "" }}
+                 " href="{{url('prize/link')}}">景品種別挙動</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link h4 mr-3
                 {{ isset($title) && $title == "ガチャ-画像" ? "active" : "" }}

@@ -81,7 +81,7 @@
         <!-- フラッシュメッセージ -->
         @if (session('error'))
             <div class="alert alert-danger error" role="alert">
-                {{ session('error') }}
+                {!! nl2br(session('error')) !!}
             </div>
         @endif
 

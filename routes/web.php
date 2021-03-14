@@ -46,7 +46,9 @@ use Illuminate\Support\Facades\Route;
 		Route::post('/prize/edit', 'App\Http\Controllers\PrizeController@edit')->name('post.prize.edit');
 		Route::get('/prize/{id}/delete', 'App\Http\Controllers\PrizeController@delete')->name('prize.delete');
 		Route::post('/prize/get', 'App\Http\Controllers\PrizeController@getPrize')->name('prize.get');
-
+        // Prize_link
+        Route::get('/prize/link', 'App\Http\Controllers\PrizeController@prizeLink')->name('prize.link');
+        Route::post('/prize/link', 'App\Http\Controllers\PrizeController@prizeLink')->name('post.prize.link');
 		// Picture
 		Route::get('/picture', 'App\Http\Controllers\PictureController@index')->name('picture');
 		Route::get('/picture/create', 'App\Http\Controllers\PictureController@create')->name('picture.create');

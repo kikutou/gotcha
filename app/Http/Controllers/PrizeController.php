@@ -98,6 +98,38 @@ class PrizeController extends Controller
         );
     }
 
+    public function prizeLink(Request $request)
+    {
+        if($request->isMethod('post')){
+            // validation check
+            $check = $this->check($request, "url");
+            if($check->fails()) {
+                return redirect()->back()->withErrors($check)->withInput()->with("error", "景品種別挙動登録失敗しました");
+            }
+
+            $prizes = Prize::query()->where('type',2)->get();
+            if (isset($prizes)){
+                return redirect()->back()->with("error", "景品種別挙動登録失敗しました \n 発送物が存在しません");
+            }
+            foreach($prizes as $prize) {
+                $prize->url = $request->get('url');
+                $prize->save();
+            }
+            redirect()->back()->with("message", '成功しました');
+        }
+        $prize = Prize::query()->where('type',2)->first();
+        $url = null;
+        if (isset($prize)){
+            $url = $prize->url;
+        }
+        return view('prize.link',
+	        [
+	        	'url' => $url,
+		        "title" => "ガチャ-景品種別挙動"
+	        ]
+        );
+    }
+
     /**
      * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
@@ -178,18 +210,28 @@ class PrizeController extends Controller
         ]);
     }
 
-    public function check(Request $request){
-        $rules = [
-            'name' => 'required',
-            'type_id' => 'required',
-            'picture_id' => 'required|min:1', // max 10000kb
-        ];
-
-        $errors = [
-            'name.required' => '景品名称を入力してください', 
-            'type_id.required' => '景品種別を選択してください',
-            'picture_id.required' => '画像を選択してください',
-        ];
+    public function check(Request $request, $type=null){
+        if($type == "url"){
+            $rules = [
+                'url' => 'required|url'
+            ];
+            $errors = [
+                'url.required' => 'URLを入力してください', 
+                'url.url' => '正確のURLを入力してください',
+            ];
+        }else {
+            $rules = [
+                'name' => 'required',
+                'type_id' => 'required',
+                'picture_id' => 'required|min:1',
+            ];
+    
+            $errors = [
+                'name.required' => '景品名称を入力してください', 
+                'type_id.required' => '景品種別を選択してください',
+                'picture_id.required' => '画像を選択してください',
+            ];
+        }
 
         return $validator = Validator::make($request->all(), $rules, $errors);
     }
