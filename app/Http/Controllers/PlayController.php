@@ -13,7 +13,17 @@ class PlayController extends Controller
 {
     public function index(Request $request)
     {
-
+		$target_prize_id = '';
+		$gotcha_id = '';
+		$result_gotcha = '';
+		$prize = '';
+		$result = $request->session()->get('play');
+		if(isset($result)){
+			$target_prize_id = $result['target_prize_id'];
+			$gotcha_id = $result['gotcha_id'];
+			$result_gotcha = Gotcha::find($gotcha_id);
+			$prize = Prize::find($target_prize_id);
+		}
     	$sid = $request->get("sid");
     	if (!$sid) {
     		throw new NotFoundHttpException();
@@ -32,13 +42,16 @@ class PlayController extends Controller
 		    }
 	    }
 
-	    $gotchas = Gotcha::all();
-
+	    $gotchas = Gotcha::with('prizes')->get();
 
     	return view("play.index", [
     		"gotchas" => $gotchas,
 		    "tickets" => $tickets,
-		    "sid" => $sid
+		    "sid" => $sid,
+			"gotcha_id" => $gotcha_id,
+			"target_prize_id" => $target_prize_id,
+			"result_gotcha" => $result_gotcha,
+	    	"prize" => $prize
 	    ]);
     }
 
@@ -79,7 +92,6 @@ class PlayController extends Controller
 			    $tickets -= $record->tickets;
 		    }
 	    }
-
     	$gotcha = Gotcha::find($id);
 
 	    if($tickets < $gotcha->cost_value) {
@@ -127,10 +139,16 @@ class PlayController extends Controller
 	    $user_ticket->type = 2;
 	    $user_ticket->save();
 
-	    return view("play.result", [
-	    	"gotcha" => $gotcha,
-	    	"prize" => $prize
-	    ]);
+		
+    	$sid = $request->get("sid");
+    	if (!$sid) {
+    		throw new NotFoundHttpException();
+	    }
 
-    }
+		return redirect()->back()->with('play',[
+		    "sid" => $sid,
+			"target_prize_id" => $target_prize_id,
+			"gotcha_id" => $id,
+		]);
+	}
 }
