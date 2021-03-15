@@ -18,6 +18,12 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link h4 mr-3
+                {{ isset($title) && $title == "ガチャ結果一覧" ? "active" : "" }}
+                " href="{{url('result')}}">ガチャ結果一覧</a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ログ</a>
             </li>
             <!-- Authentication Links -->

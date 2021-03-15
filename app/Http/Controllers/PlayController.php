@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gotcha;
 use App\Models\GotchaPrize;
 use App\Models\Prize;
+use App\Models\Result;
 use App\Models\UserTicket;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -129,21 +130,25 @@ class PlayController extends Controller
 	    		break;
 		    }
 	    }
+		try {
+			$prize = Prize::find($target_prize_id);
 
-	    $prize = Prize::find($target_prize_id);
+			$user_ticket = new UserTicket();
+			$user_ticket->sid = $sid;
+			$user_ticket->api_token = $sid;
+			$user_ticket->tickets = $gotcha->cost_value;
+			$user_ticket->type = 2;
+			$user_ticket->save();
 
-	    $user_ticket = new UserTicket();
-	    $user_ticket->sid = $sid;
-	    $user_ticket->api_token = $sid;
-	    $user_ticket->tickets = $gotcha->cost_value;
-	    $user_ticket->type = 2;
-	    $user_ticket->save();
-
-		
-    	$sid = $request->get("sid");
-    	if (!$sid) {
-    		throw new NotFoundHttpException();
-	    }
+			$result = new Result();
+			$result->gotcha_id = $id;
+			$result->participant = $sid;
+			$result->prize_id = $target_prize_id;
+			$result->status = 1;
+			$result->save();
+		} catch (Throwable $e) {
+			return redirect()->back()->with('error',$e);
+		}
 
 		return redirect()->back()->with('play',[
 		    "sid" => $sid,

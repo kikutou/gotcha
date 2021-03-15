@@ -56,8 +56,10 @@ use Illuminate\Support\Facades\Route;
 		Route::get('/picture/{id}/delete', 'App\Http\Controllers\PictureController@delete')->name('picture.delete');
 		Route::post('/picture/get', 'App\Http\Controllers\PictureController@getPicture')->name('picture.get');
 
-		//log
-		
+		//result
+		Route::get('/result', 'App\Http\Controllers\ResultController@index')->name('result');
+		Route::get('/result/search', 'App\Http\Controllers\ResultController@search')->name('result.search');
+
 		Route::get("/change_password", "App\Http\Controllers\UserController@change_password")->name("get_change_password");
 		Route::post("/change_password", "App\Http\Controllers\UserController@change_password")->name("post_change_password");
 	});

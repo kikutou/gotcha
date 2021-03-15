@@ -4,7 +4,7 @@
     <section class="container">
         <div class="page-title justify-content-center">
             <h3 class="mb-3 mt-6 text-center">画像一覧</h3>
-        </div>
+        </div class="pull-left">
         <div class="float-right">
             <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/picture/create')}}"> 新規登録</a>
         </div>
