@@ -58,7 +58,6 @@
                 </div>
             </div>
 
-
             <!-- 模态框（Modal） -->
             <div class="modal fade" id="gotcha-{{ $gotcha->id }}" tabindex="-1" role="dialog" aria-labelledby="sliverLabel-{{ $gotcha->id }}"
                 aria-hidden="true">
@@ -78,10 +77,10 @@
 
                         <div class="text-center">
                             <div>
-                                <a href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?sid={{ $sid }}">はい</a>
+                                <a class="btn btn-primary btn-lg active" href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?sid={{ $sid }}">はい</a>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-sm" data-dismiss="modal">いいえ</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">いいえ</button>
                             </div>
 
                         </div>
@@ -92,6 +91,7 @@
 
             </div>
         @endif
+    <br>
     @endforeach
     @if ($target_prize_id != '')
     <input type="hidden" id="gotcha_id" name="gotcha_id" value="{{isset($gotcha_id) ? $gotcha_id : ''}}">
@@ -118,9 +118,6 @@
                         <div class="col-8">
                             <p>{{isset($prize) ? $prize->name : ''}}</p>
                         </div>
-
-
-
                     </div>
                 </div>
 

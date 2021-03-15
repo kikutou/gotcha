@@ -14,7 +14,8 @@ class AddLinkToPrizes extends Migration
     public function up()
     {
         Schema::table('prizes', function (Blueprint $table) {
-            $table->string('url')->nullable()->after('picture_id');;
+            $table->string('url')->nullable()->after('picture_id');
+            $table->string('original_id')->nullable()->after('picture_id');
         });
     }
 
@@ -26,7 +27,8 @@ class AddLinkToPrizes extends Migration
     public function down()
     {
         Schema::table('prizes', function (Blueprint $table) {
-            $table->dropColumn(['link']);
+            $table->dropColumn(['url']);
+            $table->dropColumn(['original_id']);
         });
     }
 }

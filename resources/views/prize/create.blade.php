@@ -27,11 +27,6 @@
                 <div class="form-group">
                     <label for="type">景品種別</label>
                     <select name="type_id">
-                        <option value="1"
-                            @if(old('type_id') && old("type_id") == 1)
-                                selected
-                            @endif
-                        >ゲーム内利用</option>
                         <option value="2"
                             @if(old('type_id') && old("type_id") == 2)
                                 selected
@@ -68,6 +63,24 @@
                 <div class="form-group">
                     <img id="preview" class="img-fluid img-responsive">
                 </div>
+
+                <div class="form-group">
+                    <label for="url">発送物</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="URL"
+                        id="url"
+                        name="url"
+                        value="{{ old('url') }}"
+                    >
+                    @if ($errors->first('url'))   <!-- ここ追加 -->
+                        <div class="text-danger mt-3">
+                            <p class="validation">※{{$errors->first('url')}}</p>
+                        </div>
+                    @endif
+                </div>
+
                 <div class="row">
                     <div class="col-xs-6 col-md-6 text-left">
                         <a href="{{ route('prize') }}" class="btn btn-primary" >もどる</a>

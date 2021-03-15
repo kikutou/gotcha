@@ -8,6 +8,12 @@
         <div class="form-area">  
         <form action="{{url('/prize/link')}}" method="post">
                 @csrf
+                <br style="clear:both">
+                <label for="prize_id">景品ID：</label>{{$prize->id}}
+                <input type="hidden" id="prize_id" name="prize_id" value="{{$prize->id}}">
+                <div class="form-group">
+                    <label for="name">景品名称</label>{{$prize->name}}
+                </div>
                 <div class="form-group">
                     <label for="url">発送物</label>
                     <input 

@@ -77,7 +77,7 @@ class PrizeController extends Controller
             // validation check
             $check = $this->check($request);
             if($check->fails()) {
-                return redirect()->back()->withErrors($check)->withInput()->with("error", "景品登録失敗");
+                return redirect()->back()->withErrors($check)->withInput()->with("error", "景品を更新失敗しました");
             }
             $result = $this->up($request);
             if($result){
@@ -85,7 +85,7 @@ class PrizeController extends Controller
             }else{
                 session()->flash('flash_message', '失敗しました');
             }
-            return redirect()->route('prize');
+            return redirect()->route("prize")->with('message', '景品を更新しました。');
         }
         $prize = Prize::find($id)->with('picture')->where('id',$id)->first();
         $pictures = Picture::where('type',3)->get();
@@ -94,38 +94,6 @@ class PrizeController extends Controller
 	        	'prize' => $prize,
 		        'pictures' => $pictures,
 		        "title" => "ガチャ-景品"
-	        ]
-        );
-    }
-
-    public function prizeLink(Request $request)
-    {
-        if($request->isMethod('post')){
-            // validation check
-            $check = $this->check($request, "url");
-            if($check->fails()) {
-                return redirect()->back()->withErrors($check)->withInput()->with("error", "景品種別挙動登録失敗しました");
-            }
-
-            $prizes = Prize::query()->where('type',2)->get();
-            if (!isset($prizes[0])){
-                return redirect()->back()->with("error", "景品種別挙動登録失敗しました \n 発送物が存在しません");
-            }
-            foreach($prizes as $prize) {
-                $prize->url = $request->get('url');
-                $prize->save();
-            }
-            redirect()->back()->with("message", '成功しました');
-        }
-        $prize = Prize::query()->where('type',2)->first();
-        $url = null;
-        if (isset($prize)){
-            $url = $prize->url;
-        }
-        return view('prize.link',
-	        [
-	        	'url' => $url,
-		        "title" => "ガチャ-景品種別挙動"
 	        ]
         );
     }
@@ -140,11 +108,14 @@ class PrizeController extends Controller
         $name = $request->get('name');
         $type = $request->get('type_id');
         $picture_id = $request->get('picture_id');
+        $url = $request->get('url');
         
         $prize = Prize::find($prize_id);
         $prize->name = $name;
         $prize->type = $type;
         $prize->picture_id = $picture_id;
+        $prize->url = $url;
+        $prize->original_id = $prize_id;
         if (is_null($prize) || empty($prize)){
             return redirect()->back()->with("error", "更新失敗しました");
         }
@@ -157,12 +128,22 @@ class PrizeController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function insert(Request $request){
+
+        $prize_id = $request->get('prize_id');
+        $name = $request->get('name');
+        $type = $request->get('type_id');
+        $picture_id = $request->get('picture_id');
+        $url = $request->get('url');
+
         $prize = new Prize();
-        $prize->name = $request->get('name');
-        $prize->type = $request->get('type_id');
-        $prize->picture_id = $request->get('picture_id');
+        $prize->name = $name;
+        $prize->type = $type;
+        $prize->picture_id = $picture_id;
+        $prize->url = $url;
         $result = $prize->save();
         if($result){
+            $prize->original_id = $prize->id;
+            $prize->save();
             return true;
         }else{
             return false;
@@ -210,29 +191,22 @@ class PrizeController extends Controller
         ]);
     }
 
-    public function check(Request $request, $type=null){
-        if($type == "url"){
-            $rules = [
-                'url' => 'required|url'
-            ];
-            $errors = [
-                'url.required' => 'URLを入力してください', 
-                'url.url' => '正確のURLを入力してください',
-            ];
-        }else {
-            $rules = [
-                'name' => 'required',
-                'type_id' => 'required',
-                'picture_id' => 'required|min:1',
-            ];
+    public function check(Request $request){
+        $rules = [
+            'name' => 'required',
+            'type_id' => 'required',
+            'picture_id' => 'required|min:1',
+            'url' => 'required|url'
+        ];
     
-            $errors = [
-                'name.required' => '景品名称を入力してください', 
-                'type_id.required' => '景品種別を選択してください',
-                'picture_id.required' => '画像を選択してください',
-            ];
-        }
-
+        $errors = [
+            'name.required' => '景品名称を入力してください', 
+            'type_id.required' => '景品種別を選択してください',
+            'picture_id.required' => '画像を選択してください',
+            'url.required' => 'URLを入力してください',
+            'url.url' => '正確のURLを入力してください',
+        ];
         return $validator = Validator::make($request->all(), $rules, $errors);
     }
+
 }

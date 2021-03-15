@@ -30,10 +30,6 @@
                 <div class="form-group">
                     <label for="type">景品種別</label>
                     <select name="type_id">
-                        <option value="1"
-                            {{ (($prize->type == 1)
-                                ||(old('type_id') && old('type_id')) == 1) ? 'selected' : '' }}
-                        >ゲーム内利用</option>
                         <option value="2"
                             {{ ( ($prize->type == 2)
                                 ||(old('type_id') && old('type_id')) == 2) ? 'selected' : '' }}
@@ -65,11 +61,28 @@
                         </div>
                     @endif
                 </div>
+                
                 <div class="form-group">
                     @if (is_null($prize->picture->url) || $prize->picture->type != 3)
                         <img id="preview" class="img-fluid img-responsive" src="">
                     @else
                         <img id="preview" class="img-fluid img-responsive" src="{{ asset('storage/imgs/' . $prize->picture->url) }}">
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="url">発送物</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="URL"
+                        id="url"
+                        name="url"
+                        value="{{ old('url', $prize->url) }}"
+                    >
+                    @if ($errors->first('url'))   <!-- ここ追加 -->
+                        <div class="text-danger mt-3">
+                            <p class="validation">※{{$errors->first('url')}}</p>
+                        </div>
                     @endif
                 </div>
                 <div class="row">

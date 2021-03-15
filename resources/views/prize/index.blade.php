@@ -7,7 +7,7 @@
         </div>
 
         <div class="float-right">
-            <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/prize/create')}}"> 新規登録</a>
+            <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/prize/create')}}">新規登録</a>
         </div>
 
         @if(!empty($prizes) || !is_null($prizes))
