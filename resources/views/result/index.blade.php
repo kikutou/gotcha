@@ -6,7 +6,7 @@
         <div class="page-title justify-content-center">
             <h3 class="mb-3 mt-6 text-center">ガチャ結果一覧</h3>
         </div>
-        @if(!empty($results) || !is_null($results))
+        
             <table class="table table-striped custab">
                 <thead>
                     <tr>
@@ -21,6 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                @if($results["total"] > 0)
                     @foreach ($results as $result)
                         <tr>
                             <td>{{$result->gotcha->id}}</td>
@@ -33,11 +34,14 @@
                             <td>{{config('const.result_status')[$result->status]}}</td>
                         </tr>
                     @endforeach
+                @else
+                    <tr>
+                        <td colspan="8">該当情報がありません</td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
-        @else
-            <p>該当情報がありません</p>
-        @endif
+ 
     </section>
     <div class="container fixed-bottom text-center">
         {{$results->links("pagination::bootstrap-4")}}
