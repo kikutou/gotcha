@@ -108,7 +108,7 @@ class PrizeController extends Controller
             }
 
             $prizes = Prize::query()->where('type',2)->get();
-            if (isset($prizes[0])){
+            if (!isset($prizes[0])){
                 return redirect()->back()->with("error", "景品種別挙動登録失敗しました \n 発送物が存在しません");
             }
             foreach($prizes as $prize) {
