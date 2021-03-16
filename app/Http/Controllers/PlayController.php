@@ -153,8 +153,12 @@ class PlayController extends Controller
 			$result->status = 1;
 			$result->save();
 
+			$gotcha->use_numbers = $gotcha->use_numbers + 1;
+			$gotcha->save();
+			
 			$user_ticket->gotcha_result_id = $result->id;
 			$user_ticket->save();
+
 
 			$log = new Log();
 			$log->log = "ユーザーID：" . $uid
