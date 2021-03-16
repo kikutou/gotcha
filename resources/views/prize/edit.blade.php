@@ -21,7 +21,7 @@
                         name="name"
                         value="{{ old('name', $prize->name) }}"
                     >
-                    @if ($errors->first('name'))   <!-- ここ追加 -->
+                    @if ($errors->first('name'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('name')}}</p>
                         </div>
@@ -35,7 +35,7 @@
                                 ||(old('type_id') && old('type_id')) == 2) ? 'selected' : '' }}
                         >発送物</option>
                     </select>
-                    @if ($errors->first('type_id'))   <!-- ここ追加 -->
+                    @if ($errors->first('type_id'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('type_id')}}</p>
                         </div>
@@ -55,7 +55,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @if ($errors->first('picture_id'))   <!-- ここ追加 -->
+                    @if ($errors->first('picture_id'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('picture_id')}}</p>
                         </div>
@@ -69,8 +69,26 @@
                         <img id="preview" class="img-fluid img-responsive" src="{{ asset('storage/imgs/' . $prize->picture->url) }}">
                     @endif
                 </div>
+
                 <div class="form-group">
-                    <label for="url">発送物</label>
+                    <label for="original_id">オリジナルID</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="original_id"
+                        name="original_id"
+                        value="{{ old('original_id', $prize->original_id) }}"
+                        readonly
+                    >
+                    @if ($errors->first('url'))
+                        <div class="text-danger mt-3">
+                            <p class="validation">※{{$errors->first('original_id')}}</p>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="url">景品遷移</label>
                     <input
                         type="text"
                         class="form-control"
@@ -79,7 +97,7 @@
                         name="url"
                         value="{{ old('url', $prize->url) }}"
                     >
-                    @if ($errors->first('url'))   <!-- ここ追加 -->
+                    @if ($errors->first('url'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('url')}}</p>
                         </div>

@@ -18,7 +18,7 @@
                         name="name"
                         value="{{ old('name') }}"
                     >
-                    @if ($errors->first('name'))   <!-- ここ追加 -->
+                    @if ($errors->first('name'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('name')}}</p>
                         </div>
@@ -33,7 +33,7 @@
                             @endif
                         >発送物</option>
                     </select>
-                    @if ($errors->first('type_id'))   <!-- ここ追加 -->
+                    @if ($errors->first('type_id'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('type_id')}}</p>
                         </div>
@@ -54,7 +54,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @if ($errors->first('picture_id'))   <!-- ここ追加 -->
+                    @if ($errors->first('picture_id'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('picture_id')}}</p>
                         </div>
@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="url">発送物</label>
+                    <label for="url">景品遷移</label>
                     <input
                         type="text"
                         class="form-control"
@@ -74,7 +74,7 @@
                         name="url"
                         value="{{ old('url') }}"
                     >
-                    @if ($errors->first('url'))   <!-- ここ追加 -->
+                    @if ($errors->first('url'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('url')}}</p>
                         </div>

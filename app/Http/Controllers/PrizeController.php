@@ -109,13 +109,12 @@ class PrizeController extends Controller
         $type = $request->get('type_id');
         $picture_id = $request->get('picture_id');
         $url = $request->get('url');
-        
+
         $prize = Prize::find($prize_id);
         $prize->name = $name;
         $prize->type = $type;
         $prize->picture_id = $picture_id;
         $prize->url = $url;
-        $prize->original_id = $prize_id;
         if (is_null($prize) || empty($prize)){
             return redirect()->back()->with("error", "更新失敗しました");
         }
@@ -204,7 +203,7 @@ class PrizeController extends Controller
             'type_id.required' => '景品種別を選択してください',
             'picture_id.required' => '画像を選択してください',
             'url.required' => 'URLを入力してください',
-            'url.url' => '正確のURLを入力してください',
+            'url.url' => '正確のURLを入力してください'
         ];
         return $validator = Validator::make($request->all(), $rules, $errors);
     }
