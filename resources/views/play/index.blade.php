@@ -135,7 +135,7 @@
 
                 <div class="modal-body text-center">
                     <div class="text-center">
-                        <img style="width: 50%" src="{{ asset('storage/imgs/'.$result_gotcha->picture->url) }}">
+                        <img style="width: 50%" src="{{ asset('storage/imgs/'.$result_gotcha->result_picture->url) }}">
                     </div>
                     <p>以下の獲得しました。</p>
                     <div class="row">

@@ -23,7 +23,8 @@ class PlayController extends Controller
 		if(isset($result)){
 			$target_prize_id = $result['target_prize_id'];
 			$gotcha_id = $result['gotcha_id'];
-			$result_gotcha = Gotcha::find($gotcha_id);
+			// $result_gotcha = Gotcha::find($gotcha_id);
+			$result_gotcha = Gotcha::with('result_picture')->find($gotcha_id);
 			$prize = Prize::find($target_prize_id);
 		}
     	$uid = $request->get("uid");
@@ -155,7 +156,7 @@ class PlayController extends Controller
 
 			$gotcha->use_numbers = $gotcha->use_numbers + 1;
 			$gotcha->save();
-			
+
 			$user_ticket->gotcha_result_id = $result->id;
 			$user_ticket->save();
 
