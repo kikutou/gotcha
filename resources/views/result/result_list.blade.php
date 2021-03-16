@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                @if($results["total"] > 0)
+                @if($results->total() > 0)
                     @foreach ($results as $result)
                         <tr>
                             <td>{{$result->gotcha->id}}</td>
@@ -41,9 +41,5 @@
                 @endif
                 </tbody>
             </table>
- 
     </section>
-    <div class="container fixed-bottom text-center">
-        {{$results->links("pagination::bootstrap-4")}}
-    </div>
 @endsection

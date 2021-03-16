@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\GotchaPrize;
-use Illuminate\Http\Request;
 use App\Services\GotchaService;
 use App\Models\Picture;
 use App\Models\Prize;
 use App\Models\Gotcha;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+
 
 class GotchaController extends Controller
 {
@@ -19,7 +20,7 @@ class GotchaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * ガチャ一覧表示
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -35,7 +36,7 @@ class GotchaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * ガチャ新規画面
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -67,7 +68,7 @@ class GotchaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * ガチャ編集画面
      * @param  \Illuminate\Http\Request  $request
      * @param  $id
      * @return \Illuminate\Http\Response
@@ -106,7 +107,7 @@ class GotchaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * ガチャの景品登録
      * @param  \Illuminate\Http\Request  $request
      * @param  $id
      * @return \Illuminate\Http\Response
@@ -173,7 +174,7 @@ class GotchaController extends Controller
     }
     
     /**
-     * Display a listing of the resource.
+     * ガチャ登録処理
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -193,7 +194,7 @@ class GotchaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * ガチャ更新処理
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -214,7 +215,7 @@ class GotchaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * ガチャ削除処理
      * @param  $id
      * @return \Illuminate\Http\Response
      */

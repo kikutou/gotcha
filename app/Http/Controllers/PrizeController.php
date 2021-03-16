@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\PrizeService;
 use App\Models\Picture;
 use App\Models\Prize;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 
@@ -17,7 +17,7 @@ class PrizeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 景品一覧表示
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -34,7 +34,7 @@ class PrizeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 景品新規画面
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -65,7 +65,7 @@ class PrizeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 景品編集画面
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -99,7 +99,7 @@ class PrizeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 景品更新処理
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -122,13 +122,12 @@ class PrizeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 景品登録処理
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     private function insert(Request $request){
 
-        $prize_id = $request->get('prize_id');
         $name = $request->get('name');
         $type = $request->get('type_id');
         $picture_id = $request->get('picture_id');
@@ -141,8 +140,6 @@ class PrizeController extends Controller
         $prize->url = $url;
         $result = $prize->save();
         if($result){
-            $prize->original_id = $prize->id;
-            $prize->save();
             return true;
         }else{
             return false;
@@ -150,7 +147,7 @@ class PrizeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 景品削除処理
      * @param  $id
      * @return \Illuminate\Http\Response
      */
@@ -172,7 +169,7 @@ class PrizeController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 景品情報取得
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */

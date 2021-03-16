@@ -138,6 +138,7 @@ class PlayController extends Controller
 			$user_ticket->api_token = $sid;
 			$user_ticket->tickets = $gotcha->cost_value;
 			$user_ticket->type = 2;
+			$user_ticket->gotcha_result_id = $id;
 			$user_ticket->save();
 
 			$result = new Result();
@@ -146,6 +147,10 @@ class PlayController extends Controller
 			$result->prize_id = $target_prize_id;
 			$result->status = 1;
 			$result->save();
+
+			$user_ticket->gotcha_result_id = $result->id;
+			$user_ticket->save();
+			
 		} catch (Throwable $e) {
 			return redirect()->back()->with('error',$e);
 		}

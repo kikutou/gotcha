@@ -71,23 +71,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="original_id">オリジナルID</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="original_id"
-                        name="original_id"
-                        value="{{ old('original_id', $prize->original_id) }}"
-                        readonly
-                    >
-                    @if ($errors->first('url'))
-                        <div class="text-danger mt-3">
-                            <p class="validation">※{{$errors->first('original_id')}}</p>
-                        </div>
-                    @endif
-                </div>
-
-                <div class="form-group">
                     <label for="url">景品遷移</label>
                     <input
                         type="text"

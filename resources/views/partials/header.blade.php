@@ -17,15 +17,18 @@
                 " href="{{url('picture')}}">画像</a>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link h4 mr-3
-                {{ isset($title) && $title == "ガチャ結果一覧" ? "active" : "" }}
-                " href="{{url('result')}}">ガチャ結果一覧</a>
-            </li>
+                {{ isset($title) && $title == "チケット一覧" ? "active" : "" }}
+                " href="{{url('ticket')}}">チケット一覧</a>
+            </li> -->
 
             <li class="nav-item">
-                <a class="nav-link h4 mr-3" href="{{url('gotcha')}}">ログ</a>
+                <a class="nav-link h4 mr-3
+                {{ isset($title) && $title == "ログ一覧" ? "active" : "" }}
+                " href="{{url('log')}}">ログ一覧</a>
             </li>
+            
             <!-- Authentication Links -->
             @guest
                 @if (Route::has('login'))

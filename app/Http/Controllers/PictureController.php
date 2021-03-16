@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\PictureService;
 use App\Models\Picture;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 
@@ -16,7 +16,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 画像一覧表示
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -31,7 +31,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 画像新規画面
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -61,7 +61,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 画像編集画面
      * @param  \Illuminate\Http\Request  $request
      * @param  $id
      * @return \Illuminate\Http\Response
@@ -93,7 +93,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 画像削除処理
      * @param  $id
      * @return \Illuminate\Http\Response
      */
@@ -116,7 +116,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 画像登録処理
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -136,7 +136,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 画像更新処理
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -153,7 +153,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 画像情報取得
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
