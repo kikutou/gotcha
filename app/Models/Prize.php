@@ -14,6 +14,7 @@ class Prize extends Model
     use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
+    protected $table = "prizes";
     
     public function picture(){
         return $this->hasOne(Picture::class, 'id', 'picture_id')->withDefault();

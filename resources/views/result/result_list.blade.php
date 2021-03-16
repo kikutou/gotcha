@@ -28,7 +28,7 @@
                             <td>{{$result->gotcha->name}}</td>
                             <td>{{$result->gotcha->cost_name}}</td>
                             <td>{{$result->gotcha->cost_value}}</td>
-                            <td>{{$result->participant}}</td>
+                            <td>{{$result->uid}}</td>
                             <td>{{$result->prize->id}}</td>
                             <td>{{$result->prize->name}}</td>
                             <td>{{config('const.result_status')[$result->status]}}</td>

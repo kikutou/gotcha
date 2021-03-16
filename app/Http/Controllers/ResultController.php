@@ -39,14 +39,14 @@ class ResultController extends Controller
         if($check->fails()) {
             return redirect()->back()->withErrors($check)->withInput()->with("error", "検索失敗");
         }
-        $results = Userticket::query()->where('sid',$request->get('user_id'))->where('deleted_at',NULL)->get();
+        $results = Userticket::query()->where('uid',$request->get('user_id'))->where('deleted_at',NULL)->get();
         $get_tickets = Userticket::query()
-            ->where('sid',$request->get('user_id'))
+            ->where('uid',$request->get('user_id'))
             ->where('type',1)
             ->where('deleted_at',NULL)
             ->sum("tickets");
         $used_tickets = Userticket::query()
-            ->where('sid',$request->get('user_id'))
+            ->where('uid',$request->get('user_id'))
             ->where('type',2)
             ->where('deleted_at',NULL)
             ->sum("tickets");

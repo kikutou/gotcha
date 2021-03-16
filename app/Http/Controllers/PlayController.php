@@ -33,7 +33,7 @@ class PlayController extends Controller
 
 	    $tickets = 0;
 
-    	$all_records = UserTicket::query()->where("sid", $uid)->get();
+    	$all_records = UserTicket::query()->where("uid", $uid)->get();
     	foreach ($all_records as $record) {
     		if($record->type == 1) {
     			$tickets += $record->tickets;
@@ -53,7 +53,7 @@ class PlayController extends Controller
     	return view("play.index", [
     		"gotchas" => $gotchas,
 		    "tickets" => $tickets,
-		    "sid" => $uid,
+		    "uid" => $uid,
 			"gotcha_id" => $gotcha_id,
 			"target_prize_id" => $target_prize_id,
 			"result_gotcha" => $result_gotcha,
@@ -64,8 +64,8 @@ class PlayController extends Controller
     public function list(Request $request, $id)
     {
 
-	    $sid = $request->get("sid");
-	    if (!$sid) {
+	    $uid = $request->get("uid");
+	    if (!$uid) {
 		    throw new NotFoundHttpException();
 	    }
 
@@ -88,7 +88,7 @@ class PlayController extends Controller
 
 	    $tickets = 0;
 
-	    $all_records = UserTicket::query()->where("sid", $uid)->get();
+	    $all_records = UserTicket::query()->where("uid", $uid)->get();
 	    foreach ($all_records as $record) {
 		    if($record->type == 1) {
 			    $tickets += $record->tickets;
@@ -139,7 +139,7 @@ class PlayController extends Controller
 			$prize = Prize::find($target_prize_id);
 
 			$user_ticket = new UserTicket();
-			$user_ticket->sid = $uid;
+			$user_ticket->uid = $uid;
 			$user_ticket->api_token = $uid;
 			$user_ticket->tickets = $gotcha->cost_value;
 			$user_ticket->type = 2;
@@ -148,7 +148,7 @@ class PlayController extends Controller
 
 			$result = new Result();
 			$result->gotcha_id = $id;
-			$result->participant = $uid;
+			$result->uid = $uid;
 			$result->prize_id = $target_prize_id;
 			$result->status = 1;
 			$result->save();
@@ -170,7 +170,7 @@ class PlayController extends Controller
 		}
 
 		return redirect()->back()->with('play',[
-		    "sid" => $uid,
+		    "uid" => $uid,
 			"target_prize_id" => $target_prize_id,
 			"gotcha_id" => $id,
 		]);

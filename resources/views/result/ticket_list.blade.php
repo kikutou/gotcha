@@ -48,7 +48,7 @@
                 @if(count($results) > 0)
                     @foreach ($results as $result)
                         <tr>
-                            <td>{{$result->sid}}</td>
+                            <td>{{$result->uid}}</td>
                             <td>{{$result->tickets}}</td>
                             <td>{{config('const.user_ticket_type')[$result->type]}}</td>
                             <td>{{$result->created_at}}</td>

@@ -15,7 +15,7 @@ class CreateUserTicketsTable extends Migration
     {
         Schema::create('user_tickets', function (Blueprint $table) {
             $table->id();
-            $table->string("sid", 255);
+            $table->string("uid", 255);
             $table->string('api_token', 255);
             $table->integer('tickets');
 	        $table->integer('type')->default(0)->comment("1: 加算　2: 減算");

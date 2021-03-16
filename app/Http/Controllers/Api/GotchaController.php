@@ -11,16 +11,16 @@ class GotchaController extends Controller
 
 	public function add_user_ticket(Request $request)
 	{
-		$sid = $request->get("sid");
+		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
 		$tickets = $request->get("tickets", 1);
 
-		if (!$sid or !$api_token or !$tickets) {
+		if (!$uid or !$api_token or !$tickets) {
 			return "parameters are not corret";
 		}
 
 		$user_ticket = new UserTicket();
-		$user_ticket->sid = $sid;
+		$user_ticket->uid = $uid;
 		$user_ticket->api_token = $api_token;
 		$user_ticket->tickets = $tickets;
 		$user_ticket->type = 1;

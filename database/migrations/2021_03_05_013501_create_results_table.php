@@ -16,7 +16,7 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('gotcha_id');
-            $table->text('participant');
+            $table->text('uid');
             $table->unsignedBigInteger('prize_id');
             $table->integer('status')->default(1)->comment("1: 未発送 2: 発送済み 3: 発送失敗 4: 予想外");
             $table->softDeletes();

@@ -11,6 +11,8 @@ class Result extends Model
 {
     use HasFactory;
 
+    protected $table = "results";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -18,7 +20,7 @@ class Result extends Model
      */
     protected $fillable = [
         'gotcha_id',
-        'participant',
+        'uid',
         'prize_id',
         'status'
     ];

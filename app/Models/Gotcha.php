@@ -12,6 +12,7 @@ class Gotcha extends Model
     use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
+    protected $table = "gotchas";
 
     public function picture(){
         return $this->hasOne(Picture::class, 'id', 'picture_id')->withDefault();

@@ -56,6 +56,9 @@ use Illuminate\Support\Facades\Route;
 		Route::get('/picture/{id}/delete', 'App\Http\Controllers\PictureController@delete')->name('picture.delete');
 		Route::post('/picture/get', 'App\Http\Controllers\PictureController@getPicture')->name('picture.get');
 
+		// Log
+		Route::get('/log', 'App\Http\Controllers\LogController@index')->name('log');
+		
 		//result
 		Route::get('/ticket', 'App\Http\Controllers\ResultController@ticketIndex')->name('ticket');
 		Route::post('/ticket/search', 'App\Http\Controllers\ResultController@ticketSearch')->name('ticket.search');

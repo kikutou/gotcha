@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="text-center">
-                    <a href="{{ route('get_play_list', ['id' => $gotcha->id]) }}?sid={{ $sid }}">内容物詳細</a>
+                    <a href="{{ route('get_play_list', ['id' => $gotcha->id]) }}?uid={{ $uid }}">内容物詳細</a>
                 </div>
 
                 <div class="text-center">
@@ -77,7 +77,7 @@
 
                         <div class="text-center">
                             <div>
-                                <a href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?uid={{ $sid }}">はい</a>
+                                <a href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?uid={{ $uid }}">はい</a>
                             </div>
                             <div>
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">いいえ</button>
