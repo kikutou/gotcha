@@ -77,7 +77,7 @@
 
                         <div class="text-center">
                             <div>
-                                <a href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?sid={{ $sid }}">はい</a>
+                                <a href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?uid={{ $sid }}">はい</a>
                             </div>
                             <div>
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">いいえ</button>

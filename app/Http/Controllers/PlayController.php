@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gotcha;
 use App\Models\GotchaPrize;
+use App\Models\Log;
 use App\Models\Prize;
 use App\Models\Result;
 use App\Models\UserTicket;
@@ -25,14 +26,14 @@ class PlayController extends Controller
 			$result_gotcha = Gotcha::find($gotcha_id);
 			$prize = Prize::find($target_prize_id);
 		}
-    	$sid = $request->get("sid");
-    	if (!$sid) {
+    	$uid = $request->get("uid");
+    	if (!$uid) {
     		throw new NotFoundHttpException();
 	    }
 
 	    $tickets = 0;
 
-    	$all_records = UserTicket::query()->where("sid", $sid)->get();
+    	$all_records = UserTicket::query()->where("sid", $uid)->get();
     	foreach ($all_records as $record) {
     		if($record->type == 1) {
     			$tickets += $record->tickets;
@@ -45,10 +46,14 @@ class PlayController extends Controller
 
 	    $gotchas = Gotcha::with('prizes')->get();
 
+    	$log = new Log();
+    	$log->log = "ユーザーID：" . $uid . " はガチャ一覧ページにアクセスした。";
+    	$log->save();
+
     	return view("play.index", [
     		"gotchas" => $gotchas,
 		    "tickets" => $tickets,
-		    "sid" => $sid,
+		    "sid" => $uid,
 			"gotcha_id" => $gotcha_id,
 			"target_prize_id" => $target_prize_id,
 			"result_gotcha" => $result_gotcha,
@@ -76,14 +81,14 @@ class PlayController extends Controller
     public function result(Request $request, $id)
     {
 
-	    $sid = $request->get("sid");
-	    if (!$sid) {
+	    $uid = $request->get("uid");
+	    if (!$uid) {
 		    throw new NotFoundHttpException();
 	    }
 
 	    $tickets = 0;
 
-	    $all_records = UserTicket::query()->where("sid", $sid)->get();
+	    $all_records = UserTicket::query()->where("sid", $uid)->get();
 	    foreach ($all_records as $record) {
 		    if($record->type == 1) {
 			    $tickets += $record->tickets;
@@ -134,8 +139,8 @@ class PlayController extends Controller
 			$prize = Prize::find($target_prize_id);
 
 			$user_ticket = new UserTicket();
-			$user_ticket->sid = $sid;
-			$user_ticket->api_token = $sid;
+			$user_ticket->sid = $uid;
+			$user_ticket->api_token = $uid;
 			$user_ticket->tickets = $gotcha->cost_value;
 			$user_ticket->type = 2;
 			$user_ticket->gotcha_result_id = $id;
@@ -143,20 +148,29 @@ class PlayController extends Controller
 
 			$result = new Result();
 			$result->gotcha_id = $id;
-			$result->participant = $sid;
+			$result->participant = $uid;
 			$result->prize_id = $target_prize_id;
 			$result->status = 1;
 			$result->save();
 
 			$user_ticket->gotcha_result_id = $result->id;
 			$user_ticket->save();
+
+			$log = new Log();
+			$log->log = "ユーザーID：" . $uid
+				. "はガチャID：" . $id
+				. "をプレーした。賞品ID：" . $target_prize_id
+				. "　消費したチケット数：" . $gotcha->cost_value
+				. "　チケット残高：" . ($tickets - $gotcha->cost_value);
+
+			$log->save();
 			
 		} catch (Throwable $e) {
 			return redirect()->back()->with('error',$e);
 		}
 
 		return redirect()->back()->with('play',[
-		    "sid" => $sid,
+		    "sid" => $uid,
 			"target_prize_id" => $target_prize_id,
 			"gotcha_id" => $id,
 		]);
