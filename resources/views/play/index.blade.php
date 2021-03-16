@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="text-center">
-                    <a href="{{ route('get_play_list', ['id' => $gotcha->id]) }}?uid={{ $uid }}">内容物詳細</a>
+                    <button class="btn btn-primary btn-lg mt-3" data-toggle="modal" data-target="#gotcha-detail-{{ $gotcha->id }}">内容物詳細</button>
                 </div>
 
                 <div class="text-center">
@@ -89,6 +89,34 @@
 
                 </div>
 
+            </div>
+
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="gotcha-detail-{{ $gotcha->id }}" tabindex="-1" role="dialog" aria-labelledby="sliverLabel-{{ $gotcha->id }}"
+                aria-hidden="true">
+                <div class="modal-dialog" style="height:800px">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="sliverLabel-{{ $gotcha->id }}" style=" text-align:center">景品詳細</h4>
+                        </div>
+
+                        <div class="modal-body text-center">
+                            @foreach($gotcha->prizes as $prize)
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img class="w-75" src="{{ asset('storage/imgs/'.$prize->picture->url) }}">
+                                    </div>
+                                    <div class="col-8">
+                                        <p>{{ $prize->name }}</p>
+                                    </div>
+                                </div>
+
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             </div>
         @endif
     <br>
