@@ -26,6 +26,7 @@
                         </div>
                     @endif
                 </div>
+            </form>
         <div>
         @if($get_tickets && $used_tickets && $rest_tickets)
         <div class="user_ticket_result">
