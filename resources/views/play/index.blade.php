@@ -125,7 +125,7 @@
     <input type="hidden" id="gotcha_id" name="gotcha_id" value="{{isset($gotcha_id) ? $gotcha_id : ''}}">
     <!-- 模态框（Modal） -->
     <div class="modal fade" id="result-{{ isset($gotcha_id) ? $gotcha_id : '' }}" tabindex="-1" role="dialog" aria-labelledby="resultLabel-{{ isset($gotcha_id) ? $gotcha_id :'' }}"
-         aria-hidden="true">
+         aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" style="height:800px">
             <div class="modal-content">
 
