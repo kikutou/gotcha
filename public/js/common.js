@@ -161,9 +161,9 @@ window.onload = function () {
             var frequency = parseInt($('#frequency_' + index).val());
             if (prize_id != "" && frequency > 0) {
                 occurrence_rate = frequency / frequency_sum;
-                console.log(frequency);
-                console.log(frequency_sum);
-                console.log(occurrence_rate);
+                // console.log(frequency);
+                // console.log(frequency_sum);
+                // console.log(occurrence_rate);
                 $('#occurrence_rate_' + index).text((occurrence_rate * 100).toFixed(1) + '%');
             } else {
                 $('#occurrence_rate_' + index).text("");
@@ -174,6 +174,12 @@ window.onload = function () {
 
     $(document).on('change', '.frequency', function () {
 
+        var text = $(this).val();
+        if (text.search("-") != -1) {
+            $(this).val("");
+        } else {
+            $(this).val(parseInt(text));
+        }
         occurrence_rate_sum();
     });
 
