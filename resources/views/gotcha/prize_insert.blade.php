@@ -42,13 +42,14 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><input type="number" class="frequency form-control" id="frequency" name="frequency[]" value="@if(isset($records[$row])){{ $records[$row]["frequency"] }}@endif"></td>
-                        <td><p>
+                        <td><input type="number" class="frequency form-control" id="frequency_{{$row}}" name="frequency[]" value="@if(isset($records[$row])){{ $records[$row]["frequency"] }}@endif"></td>
+                        <td>
+                            <p id="occurrence_rate_{{$row}}">
                                 @if(isset($records[$row]))
                                     {{ $records[$row]["chance"] }}
                                 @endif
-
-                            </p></td>
+                            </p>
+                        </td>
                     </tr>
 
                     @endfor

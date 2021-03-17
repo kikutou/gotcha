@@ -149,21 +149,22 @@ window.onload = function () {
             $('input[name="occurrence_rate[' + index + ']"]').attr("value", "");
 
             var prize_id = $("#id_" + index).find("option:selected").val();
-            var frequency = parseInt($('input[name="frequency[' + index + ']"').val());
-            // $('input[name="frequency[' + index + ']"').val(frequency)
+            // var frequency = parseInt($('.frequency_' + index).val());
+            var frequency = $('#frequency_' + index).val();
+            // $('input[id="frequency[' + index + ']"').val(frequency)
             if (prize_id != "" && frequency > 0) {
                 frequency_sum = parseInt(frequency_sum) + parseInt(frequency);
             }
         });
         $('.frequency').each(function (index) {
             var prize_id = $("#id_" + index).find("option:selected").val();
-            var frequency = parseInt($('input[name="frequency[' + index + ']"').val());
+            var frequency = parseInt($('#frequency_' + index).val());
             if (prize_id != "" && frequency > 0) {
                 occurrence_rate = frequency / frequency_sum;
                 console.log(frequency);
                 console.log(frequency_sum);
                 console.log(occurrence_rate);
-                $('input[name="occurrence_rate[' + index + ']"]').attr("value", (occurrence_rate * 100).toFixed(1));
+                $('#occurrence_rate_' + index).text((occurrence_rate * 100).toFixed(1) + '%');
             }
 
         });
