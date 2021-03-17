@@ -27,7 +27,7 @@
                 @for($row = 0; $row < 10; $row++)
                     <tr>
                         <td>
-                            <select id="id_0" name="prize_id[]" class="optionSelect">
+                            <select id="id_{{$row}}" name="prize_id[]" class="optionSelect">
                                 <option value="" selected>
                                     景品を選択してください
                                 </option>

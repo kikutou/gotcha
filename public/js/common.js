@@ -165,6 +165,8 @@ window.onload = function () {
                 console.log(frequency_sum);
                 console.log(occurrence_rate);
                 $('#occurrence_rate_' + index).text((occurrence_rate * 100).toFixed(1) + '%');
+            } else {
+                $('#occurrence_rate_' + index).text("");
             }
 
         });
@@ -180,34 +182,13 @@ window.onload = function () {
         var select_str = $(this).attr("id");
         var str_start = select_str.indexOf("_");
         var num = select_str.substring(str_start + 1)
+        console.log($(this).val());
+        console.log(select_str);
         if ($(this).val() != "") {
-            $('input[name="frequency[' + num + ']"').removeAttr("readonly");
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "/prize/get",
-                type: 'POST',
-                dataType: "json",
-                data: { 'id': $(this).val() }
-            })
-                // Ajaxリクエストが成功した場合
-                .done(function (data) {
-                    var name = data.name;
-                    if (data.name == '') {
-                        console.log("失敗しました");
-                    } else {
-                        console.log("成功しました");
-                        $('input[name="prize_name[' + num + ']"]').attr("value", name);
-                    }
-                })
-                // Ajaxリクエストが失敗した場合
-                .fail(function (data) {
-                    console.log("失敗しました");
-                });
+            occurrence_rate_sum();
         } else {
-            $('input[name="frequency[' + num + ']"').attr('readonly', 'readonly');
-            $('input[name="frequency[' + num + ']"').val("");
+            $('#frequency_' + num).val("");
+            $('#occurrence_rate_' + num).text("");
             occurrence_rate_sum();
         }
     });
