@@ -10,6 +10,7 @@ use App\Models\Prize;
 use App\Models\Result;
 use App\Models\UserTicket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GotchaController extends Controller
 {
