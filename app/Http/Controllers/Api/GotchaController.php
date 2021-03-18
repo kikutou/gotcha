@@ -40,7 +40,7 @@ class GotchaController extends Controller
 	{
 		$status = "";
 		$reason = "";
-		$gotcha_lists = [];
+		$gotcha_list = [];
 		$result = "";
 		$img_url = "";
 		$uid = $request->get("uid");
@@ -52,7 +52,7 @@ class GotchaController extends Controller
 			$result = [
 				'status' => $status,
 				'reason' => $reason,
-				'gotcha_list' => $gotcha_lists
+				'gotcha_list' => $gotcha_list
 			];
 			return json_encode($result);
 		}
@@ -65,7 +65,7 @@ class GotchaController extends Controller
 			$result = [
 				'status' => $status,
 				'reason' => $reason,
-				'gotcha_list' => $gotcha_lists
+				'gotcha_list' => $gotcha_list
 			];
 			return json_encode($result);
 		}
@@ -80,7 +80,7 @@ class GotchaController extends Controller
 			if(!is_null($gotcha->picture->url) && $gotcha->picture->type == 1){
 				$img_url = asset('storage/imgs/'.$gotcha->picture->url);
 			}
-			$gotcha_lists[] = [
+			$gotcha_list[] = [
 				'name' => $gotcha->name,
 				'cost_name' => $gotcha->cost_name,
 				'cost_value' => $gotcha->cost_value,
@@ -88,7 +88,7 @@ class GotchaController extends Controller
 			];
 		}
 
-		if(count($gotcha_lists) > 0){
+		if(count($gotcha_list) > 0){
 			$status = 'ok';
 			$reason = 'ガチャ情報取得しました';
 		}else{
@@ -100,7 +100,7 @@ class GotchaController extends Controller
 		$result = [
 				'status' => $status,
 				'reason' => $reason,
-				'gotcha_list' => $gotcha_lists
+				'gotcha_list' => $gotcha_list
 		];
 		return json_encode($result);
 	}
