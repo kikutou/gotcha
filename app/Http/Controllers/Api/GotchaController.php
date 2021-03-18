@@ -42,6 +42,7 @@ class GotchaController extends Controller
 		$reason = "";
 		$gotcha_lists = [];
 		$result = "";
+		$img_url = "";
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
 		//　ログインユーザー確認
@@ -76,11 +77,14 @@ class GotchaController extends Controller
 			if(count($gotcha->prizes) == 0){
 				continue;
 			}
+			if(!is_null($gotcha->picture->url) && $gotcha->picture->type == 1){
+				$img_url = asset('storage/imgs/'.$gotcha->picture->url);
+			}
 			$gotcha_lists[] = [
 				'name' => $gotcha->name,
 				'cost_name' => $gotcha->cost_name,
 				'cost_value' => $gotcha->cost_value,
-				'img_url' => asset('storage/imgs/'.$gotcha->picture->url)
+				'img_url' => $img_url
 			];
 		}
 
@@ -106,6 +110,8 @@ class GotchaController extends Controller
 		$status = "";
 		$reason = "";
 		$gotcha_prize_list = [];
+
+		$img_url = "";
 		$result = "";
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
@@ -144,11 +150,15 @@ class GotchaController extends Controller
 		}else{
 			$status = 'ok';
 			$reason = "ガチャ景品情報が取得できました";
+
 			// 景品情報配列にセット
 			foreach($gotcha->prizes as $prize){
+				if(!is_null($prize->picture->url) && $prize->picture->type == 3){
+					$img_url = asset('storage/imgs/'.$prize->picture->url);
+				}
 				$gotcha_prize_list[] = [
 					'name' => $prize->name,
-					'img_url' => asset('storage/imgs/'.$prize->picture->url)
+					'img_url' => $img_url
 				];
 			}
 		}
@@ -305,13 +315,21 @@ class GotchaController extends Controller
 			$reason = 'おめでとうございます！';
 
 			$prize = Prize::with('picture')->where('id',$target_prize_id)->first();
+			
+			if(!is_null($gotcha->picture->url) && $gotcha->picture->type == 2){
+				$gotcha_result_img_url = asset('storage/imgs/'.$gotcha->picture->url);
+			}
 
+			if(!is_null($prize->picture->url) && $prize->picture->type == 3){
+				$prize_img_url = asset('storage/imgs/'.$prize->picture->url);
+			}
+			
 			$result = [
 				'status' => $status,
 				'reason' => $reason,
-				'gotcha_result_img_url' => asset('storage/imgs/'.$gotcha->picture->url),
+				'gotcha_result_img_url' => $gotcha_result_img_url,
 				'prize_name' => $prize->name,
-				'prize_img_url' => asset('storage/imgs/'.$prize->picture->url),
+				'prize_img_url' => $prize_img_url,
 				'redirect' => $prize->url
 			];
 			
