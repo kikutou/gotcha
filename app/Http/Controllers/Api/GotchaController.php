@@ -42,7 +42,6 @@ class GotchaController extends Controller
 		$reason = "";
 		$gotcha_list = [];
 		$result = "";
-		$img_url = "";
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
 		//　ログインユーザー確認
@@ -79,6 +78,8 @@ class GotchaController extends Controller
 			}
 			if(!is_null($gotcha->picture->url) && $gotcha->picture->type == 1){
 				$img_url = asset('storage/imgs/'.$gotcha->picture->url);
+			}else{
+				$img_url = "";
 			}
 			$gotcha_list[] = [
 				'name' => $gotcha->name,
@@ -155,6 +156,8 @@ class GotchaController extends Controller
 			foreach($gotcha->prizes as $prize){
 				if(!is_null($prize->picture->url) && $prize->picture->type == 3){
 					$img_url = asset('storage/imgs/'.$prize->picture->url);
+				}else{
+					$img_url = "";
 				}
 				$gotcha_prize_list[] = [
 					'name' => $prize->name,
@@ -318,10 +321,14 @@ class GotchaController extends Controller
 			
 			if(!is_null($gotcha->picture->url) && $gotcha->picture->type == 2){
 				$gotcha_result_img_url = asset('storage/imgs/'.$gotcha->picture->url);
+			}else{
+				$gotcha_result_img_url = "";
 			}
 
 			if(!is_null($prize->picture->url) && $prize->picture->type == 3){
 				$prize_img_url = asset('storage/imgs/'.$prize->picture->url);
+			}else{
+				$prize_img_url = "";
 			}
 			
 			$result = [
