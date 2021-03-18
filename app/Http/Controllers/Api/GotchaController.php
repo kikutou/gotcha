@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gotcha;
+use App\Models\GotchaPrize;
+use App\Models\Log;
+use App\Models\Prize;
+use App\Models\Result;
 use App\Models\UserTicket;
 use Illuminate\Http\Request;
 
