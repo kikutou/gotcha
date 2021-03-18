@@ -41,6 +41,7 @@ class GotchaController extends Controller
 		$status = "";
 		$reason = "";
 		$gotcha_list = [];
+		$tickets = 0;
 		$result = "";
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
@@ -51,7 +52,8 @@ class GotchaController extends Controller
 			$result = [
 				'status' => $status,
 				'reason' => $reason,
-				'gotcha_list' => $gotcha_list
+				'gotcha_list' => $gotcha_list,
+				'tickets' => $tickets
 			];
 			return json_encode($result);
 		}
@@ -64,7 +66,8 @@ class GotchaController extends Controller
 			$result = [
 				'status' => $status,
 				'reason' => $reason,
-				'gotcha_list' => $gotcha_list
+				'gotcha_list' => $gotcha_list,
+				'tickets' => $tickets
 			];
 			return json_encode($result);
 		}
@@ -97,6 +100,19 @@ class GotchaController extends Controller
 			$reason = "ガチャの景品情報がありません";
 		}
 
+
+
+    	$all_records = UserTicket::query()->where("uid", $uid)->get();
+    	foreach ($all_records as $record) {
+    		if($record->type == 1) {
+    			$tickets += $record->tickets;
+		    }
+
+		    if ($record->type == 2) {
+    			$tickets -= $record->tickets;
+		    }
+	    }
+
 		$log = new Log();
 		$log->log = "ユーザーID：" . $uid . " はガチャ一覧ページにアクセスした。";
 		$log->save();
@@ -105,7 +121,8 @@ class GotchaController extends Controller
 		$result = [
 				'status' => $status,
 				'reason' => $reason,
-				'gotcha_list' => $gotcha_list
+				'gotcha_list' => $gotcha_list,
+				'tickets' => $tickets
 		];
 		return json_encode($result);
 	}
