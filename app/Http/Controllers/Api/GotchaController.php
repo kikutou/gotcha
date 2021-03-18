@@ -109,10 +109,10 @@ class GotchaController extends Controller
 		$result = "";
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
-		$gid = intval($request->get("gid"));
+		$gotcha_id = intval($request->get("gotcha_id"));
 
 		//　ログインユーザー確認
-		if (!$uid || !$api_token || !$gid) {
+		if (!$uid || !$api_token || !$gotcha_id) {
 			$status = 'no';
 			$reason = "parameters are not corret";
 			$result = [
@@ -123,7 +123,7 @@ class GotchaController extends Controller
 			return json_encode($result);
 		}
 
-		$gotcha = Gotcha::with('prizes')->where('id',$gid)->first();
+		$gotcha = Gotcha::with('prizes')->where('id',$gotcha_id)->first();
 		//　ガチャ情報確認
 		if(is_null($gotcha)){
 			$status = 'no';
@@ -175,10 +175,10 @@ class GotchaController extends Controller
 
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
-		$gid = intval($request->get("gid"));
+		$gotcha_id = intval($request->get("gotcha_id"));
 
 		//　ログインユーザー確認
-		if (!$uid || !$api_token || !$gid) {
+		if (!$uid || !$api_token || !$gotcha_id) {
 			$status = 'no';
 			$reason = "parameters are not corret";
 			$result = [
@@ -200,7 +200,7 @@ class GotchaController extends Controller
 		    }
 	    }
 
-		$gotcha = Gotcha::with('picture')->where('id',$gid)->first();
+		$gotcha = Gotcha::with('picture')->where('id',$gotcha_id)->first();
 
 		//　ガチャ情報確認
 		if(is_null($gotcha)){
@@ -226,7 +226,7 @@ class GotchaController extends Controller
 
 		// 景品情報取得
 	    $records = [];
-	    $gotcha_prize = GotchaPrize::query()->where("gotcha_id", $gid)->get()->toArray();
+	    $gotcha_prize = GotchaPrize::query()->where("gotcha_id", $gotcha_id)->get()->toArray();
 
 		// 景品情報チェック
 		if( count($gotcha_prize) == 0){
@@ -275,11 +275,11 @@ class GotchaController extends Controller
 			$user_ticket->api_token = $uid;
 			$user_ticket->tickets = $gotcha->cost_value;
 			$user_ticket->type = 2;
-			$user_ticket->gotcha_result_id = $gid;
+			$user_ticket->gotcha_result_id = $gotcha_id;
 			$user_ticket->save();
 	
 			$result = new Result();
-			$result->gotcha_id = $gid;
+			$result->gotcha_id = $gotcha_id;
 			$result->uid = $uid;
 			$result->prize_id = $target_prize_id;
 			$result->status = 1;
@@ -294,7 +294,7 @@ class GotchaController extends Controller
 	
 			$log = new Log();
 			$log->log = "ユーザーID：" . $uid
-				. "はガチャID：" . $gid
+				. "はガチャID：" . $gotcha_id
 				. "をプレーした。賞品ID：" . $target_prize_id
 				. "　消費したチケット数：" . $gotcha->cost_value
 				. "　チケット残高：" . ($tickets - $gotcha->cost_value);
