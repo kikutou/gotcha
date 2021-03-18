@@ -97,6 +97,10 @@ class GotchaController extends Controller
 			$reason = "ガチャの景品情報がありません";
 		}
 
+		$log = new Log();
+		$log->log = "ユーザーID：" . $uid . " はガチャ一覧ページにアクセスした。";
+		$log->save();
+
 		//　返す値をセットする
 		$result = [
 				'status' => $status,
