@@ -146,22 +146,24 @@ class GotchaController extends Controller
         }
 
         $records = [];
-        $gotcha_prize = GotchaPrize::query()->where("gotcha_id", $id)->get()->toArray();
-
+        $gotcha_prize = GotchaPrize::with('prize')->where("gotcha_id", $id)->get()->toArray();
 
         $sum = 0;
 	    for($i=0; $i < count($gotcha_prize); $i++) {
-		    $sum += $gotcha_prize[$i]["frequency"];
-
+            if( array_key_exists ("deleted_at",$gotcha_prize[$i]["prize"]) ){
+                $sum += $gotcha_prize[$i]["frequency"];
+            }
 	    }
 
         for($i=0; $i < count($gotcha_prize); $i++) {
-        	$one_record = array();
-        	$one_record["prize_id"] = $gotcha_prize[$i]["prize_id"];
-        	$one_record["frequency"] = $gotcha_prize[$i]["frequency"];
-        	$one_record["chance"] = sprintf('%.1f',$gotcha_prize[$i]["frequency"]/$sum * 100) . "%";
+            if( array_key_exists ("deleted_at",$gotcha_prize[$i]["prize"]) ){
+                $one_record = array();
+                $one_record["prize_id"] = $gotcha_prize[$i]["prize_id"];
+                $one_record["frequency"] = $gotcha_prize[$i]["frequency"];
+                $one_record["chance"] = sprintf('%.1f',$gotcha_prize[$i]["frequency"]/$sum * 100) . "%";
 
-        	$records[] = $one_record;
+                $records[] = $one_record;
+            }
         }
 
         return view('gotcha.prize_insert',[

@@ -129,6 +129,7 @@ window.onload = function () {
         var row_cnt = $("[id=prize_data] tbody").children().length;// 現在のDOMで表示されているtrの数
         $(tr_row).appendTo($('[id=prize_data] > tbody'));// tbody末尾にテンプレートを挿入
         $('#id_0').find('option').clone().appendTo('#id_' + length);
+        console.log($('#id').find('option'));
         $('[id=prize_data] > tbody > tr:last > td > input').each(function () {
             var base_name = $(this).attr('name');
             $(this).attr('name', base_name + '[' + row_cnt + ']');
@@ -199,3 +200,23 @@ window.onload = function () {
         }
     });
 };
+
+
+
+function add() {
+    var length = $('[id=prize_data] > tbody > tr').length - 1;
+    var tr_row = '' +
+        '<tr>' +
+        '<td>' +
+        '<select id="id_' + length + '" name="prize_id[]" class="optionSelect"></select>' +
+        '<td><input type="number" class="frequency form-control" id="frequency_' + length + '" name="frequency[]" class="frequency"></td>' +
+        '<td><p id="occurrence_rate_' + length + '"></p></td>' +
+        '</tr>';// 挿入する行のテンプレート
+    var row_cnt = $("[id=prize_data] tbody").children().length;// 現在のDOMで表示されているtrの数
+    $(tr_row).appendTo($('[id=prize_data] > tbody'));// tbody末尾にテンプレートを挿入
+    $('#clone_option').find('option').clone().appendTo('#id_' + length);
+    // $('[id=prize_data] > tbody > tr:last > td > input').each(function () {
+    //     var base_id = $(this).attr('id');
+    //     $(this).attr('id', base_id + '_' + row_cnt);
+    // });// input id部分を変更
+}

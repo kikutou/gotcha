@@ -1,34 +1,5 @@
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
+    <nav class="navbar navbar-expand-sm bg-dark mb-0 rounded-0 navbar-dark flex-row-reverse">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link h4 mr-3
-                {{ isset($title) && $title == "ガチャ-ガチャ" ? "active" : "" }}
-                " href="{{url('gotcha')}}">ガチャ</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link h4 mr-3
-                {{ isset($title) && $title == "ガチャ-景品" ? "active" : "" }}
-                 " href="{{url('prize')}}">景品</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link h4 mr-3
-                {{ isset($title) && $title == "ガチャ-画像" ? "active" : "" }}
-                " href="{{url('picture')}}">画像</a>
-            </li>
-
-            <!-- <li class="nav-item">
-                <a class="nav-link h4 mr-3
-                {{ isset($title) && $title == "チケット一覧" ? "active" : "" }}
-                " href="{{url('ticket')}}">チケット一覧</a>
-            </li> -->
-
-            <li class="nav-item">
-                <a class="nav-link h4 mr-3
-                {{ isset($title) && $title == "ログ一覧" ? "active" : "" }}
-                " href="{{url('log')}}">ログ一覧</a>
-            </li>
-            
             <!-- Authentication Links -->
             @guest
                 @if (Route::has('login'))
@@ -40,7 +11,7 @@
             @else
                 <li class="nav-item dropdown pull-right">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle h4 mr-3 btn-primary rounded" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->name }}
+                        アドミン
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

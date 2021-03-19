@@ -22,4 +22,8 @@ class GotchaPrize extends Model
         'prize_id',
         'frequency',
     ];
+
+    public function prize(){
+        return $this->hasOne(Prize::class, 'id', 'prize_id')->withDefault();
+    }
 }
