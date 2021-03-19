@@ -234,7 +234,7 @@ class GotchaController extends Controller
         }else{
             session()->flash('flash_message', '失敗しました');
         }
-        return redirect()->route('gotcha');
+        return redirect()->route("gotcha")->with('message', 'ガチャを削除しました。');
     }
 
     public function check(Request $request) {

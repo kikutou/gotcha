@@ -112,7 +112,7 @@ class PictureController extends Controller
         }else{
             session()->flash('flash_message', '失敗しました');
         }
-        return redirect()->route('picture');
+        return redirect()->route("gotcha")->with('message', '画像を削除しました。');
     }
 
     /**
