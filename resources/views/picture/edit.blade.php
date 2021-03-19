@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="container">
-        <h3 class="mb-3 mt-6">画像詳細/編集</h3>
+        <h3 class="mb-3 mt-6 text-center">画像詳細/編集</h3>
         <div class="form-area">
             <form action="{{url('picture/edit')}}" method="post" enctype="multipart/form-data">
                 @csrf
