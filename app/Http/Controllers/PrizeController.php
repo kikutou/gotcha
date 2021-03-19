@@ -165,7 +165,7 @@ class PrizeController extends Controller
         }else{
             session()->flash('flash_message', '失敗しました');
         }
-        return redirect()->route("gotcha")->with('message', '景品を削除しました。');
+        return redirect()->route("prize")->with('message', '景品を削除しました。');
     }
 
     /**
