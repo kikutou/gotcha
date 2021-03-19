@@ -24,7 +24,7 @@ class PrizeController extends Controller
     public function index(Request $request)
     {
         // $prizes = Prize::all()->pictures;
-        $prizes = Prize::with('picture')->get();
+        $prizes = Prize::with('picture')->paginate(10);
         return view('prize.index',
 	        [
 	        	'prizes' => $prizes,

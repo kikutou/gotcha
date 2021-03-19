@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container">
+    <section>
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">景品一覧</h3>
+            <h3 class="mb-3 mt-6">景品一覧</h3>
         </div>
 
         <div class="float-right">
@@ -46,4 +46,7 @@
             <p>該当情報がありません</p>
         @endif
     </section>
+    <div class="d-flex justify-content-center">
+        {!! $prizes->links('vendor.pagination.bootstrap-4') !!}
+    </div>
 @endsection

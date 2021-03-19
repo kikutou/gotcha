@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container">
+    <section>
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">ガチャ一覧</h3>
+            <h3 class="mb-3 mt-6">ガチャ一覧</h3>
         </div>
         <div class="float-right">
         <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/gotcha/create')}}"> 新規登録</a>

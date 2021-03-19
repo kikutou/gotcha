@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container">
+    <section>
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">画像一覧</h3>
+            <h3 class="mb-3 mt-6">画像一覧</h3>
         </div class="pull-left">
         <div class="float-right">
             <a class="btn btn-primary btn-md pull-left mb-3" href="{{url('/picture/create')}}"> 新規登録</a>
@@ -14,7 +14,7 @@
                 <thead>
                     <tr class="d-flex">
                         <th class="col-1">画像ID</th>
-                        <th class="col-3">⽤途</th>
+                        <th class="col-3">画像名</th>
                         <th class="col-2">種別</th>
                         <th class="col-4">画像</th>
                         <th class="col-2"></th>
@@ -39,4 +39,7 @@
             <p>該当情報がありません</p>
         @endif
     </section>
+    <div class="d-flex justify-content-center">
+        {!! $pictures->links('vendor.pagination.bootstrap-4') !!}
+    </div>
 @endsection

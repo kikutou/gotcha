@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container">
+    <section>
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">景品登録</h3>
+            <h3 class="mb-3 mt-6">景品登録</h3>
         </div>
         <div class="form-area">  
             <form action="{{url('prize/create')}}" method="post">
                 @csrf
                 <div class="form-group">
-                    <label for="name">景品名称</label>
+                    <label for="name">景品名</label>
                     <input 
                         type="text"
                         class="form-control"
@@ -40,7 +40,7 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="picture_id">画像素材</label>
+                    <label for="picture_id">画像名</label>
                     <select name="picture_id">
                         <option value="">
                             画像選択してください

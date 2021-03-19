@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container">
+    <section>
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">ガチャ登録</h3>
+            <h3 class="mb-3 mt-6">ガチャ登録</h3>
         </div>
         <div class="form-area">  
             <form action="{{url('gotcha/create')}}" method="post" enctype="multipart/form-data">

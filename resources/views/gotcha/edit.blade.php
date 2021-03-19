@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container">
+    <section>
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">ガチャ景品登録</h3>
+            <h3 class="mb-3 mt-6">ガチャ詳細</h3>
         </div>
         <div class="form-area">  
             <form action="{{url('gotcha/edit')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <br style="clear:both">
-                <label for="id">ガチャ画像ID：</label>{{$gotcha->id}}
+                <label for="id">ガチャID：</label>{{$gotcha->id}}
                 <input type="hidden" id="id" name="id" value="{{$gotcha->id}}">        
                 <div class="form-group">
                     <label for="name">ガチャ名称</label>
@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="id_img_disp">画像ID(ガチャ)</label>
+                    <label for="id_img_disp">画像名(ガチャ)</label>
                     <select name="id_img_disp">
                         <option value="">
                             画像選択してください
@@ -72,7 +72,7 @@
                 </div>
                                              
                 <div class="form-group">
-                    <label for="id_img_result">画像ID(結果)</label>
+                    <label for="id_img_result">画像名(結果)</label>
                     <select name="id_img_result">
                         <option value="">
                             画像選択してください
@@ -101,7 +101,7 @@
 
                 <div class="row mt-3">
                     <div class="col-xs-6 col-md-6 text-left">
-                    <a class='btn btn-info btn-md' href="{{ route('gotcha.prize.insert', ['id' => $gotcha->id]) }}">景品登録</a>
+                    <a class='btn btn-info btn-md' href="{{ route('gotcha.prize.insert', ['id' => $gotcha->id]) }}">景品テーブル登録</a>
                         <!-- <a href="{{ route('gotcha') }}" class="btn btn-primary" >もどる</a> -->
                         <button type="submit" id="insert" name="insert" class="btn btn-success" >更新する</button>
                     </div>

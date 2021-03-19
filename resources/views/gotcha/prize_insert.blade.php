@@ -3,9 +3,9 @@
 @section('content')
 
 
-    <section class="container">
+    <section>
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">ガチャ景品登録</h3>
+            <h3 class="mb-3 mt-6">景品テーブル登録</h3>
         </div>
         <form action="{{url('/gotcha/prize')}}" method="post" enctype="multipart/form-data">
             @csrf
@@ -15,7 +15,7 @@
             <table id="prize_data" class="table-bordered w-100">
                 <thead>
                     <tr>
-                        <th>景品ID</th>
+                        <th>景品名</th>
                         <th>重み</th>
                         <th>参考出現率(%)</th>
                     </tr>

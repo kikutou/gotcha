@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container">
-        <h3 class="mb-3 mt-6 text-center">画像詳細/編集</h3>
+    <section>
+        <h3 class="mb-3 mt-6">画像詳細/編集</h3>
         <div class="form-area">
             <form action="{{url('picture/edit')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <br style="clear:both">
-                <label for="picture_id">ガチャ画像ID：</label>{{$picture->id}}
+                <label for="picture_id">画像ID：</label>{{$picture->id}}
                 <input type="hidden" id="picture_id" name="picture_id" value="{{$picture->id}}">
                 <div class="form-group">
-                    <label for="description">⽤途</label>
+                    <label for="description">画像名</label>
                     <input
                             type="text"
                             class="form-control"

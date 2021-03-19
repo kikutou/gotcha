@@ -22,7 +22,7 @@ class PictureController extends Controller
      */
     public function index(Request $request)
     {
-        $pictures = Picture::all();
+        $pictures = Picture::query()->where('deleted_at', NULL)->paginate(10);
 
         return view('picture.index', [
         	"pictures" => $pictures,
