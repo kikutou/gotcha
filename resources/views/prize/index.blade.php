@@ -31,7 +31,7 @@
                             @if (is_null($prize->picture->url) || $prize->picture->type != 3)
                                 <p>画像が存在しない</p>
                             @else
-                                <img class="img-thumbnail" src="{{ asset('storage/imgs/'.$prize->picture->url) }}" style="height:130px; width:150px" alt="{{$prize->picture->url}}">
+                                <img loading="lazy" class="img-thumbnail" src="{{ asset('storage/imgs/'.$prize->picture->url) }}" style="height:130px; width:150px" alt="{{$prize->picture->url}}">
                             @endif
                         </td>
                         <td class="col-2">
