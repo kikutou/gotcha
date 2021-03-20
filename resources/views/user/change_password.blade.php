@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container">
+    <section>
         <div class="page-title justify-content-center">
-            <h3 class="mb-3 mt-6 text-center">パスワード変更</h3>
+            <h3 class="mb-3 mt-6">パスワード変更</h3>
         </div>
-        <div class="form-area">  
+        <div class="form-area w-75">  
             <form action="{{ route("post_change_password") }}" method="post">
                 @csrf
                 <div class="form-group">

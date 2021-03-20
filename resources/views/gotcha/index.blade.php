@@ -41,4 +41,7 @@
             <p>該当情報がありません</p>
         @endif
     </section>
+    <div class="d-flex justify-content-center">
+        {!! $pictures->links('vendor.pagination.bootstrap-4') !!}
+    </div>
 @endsection

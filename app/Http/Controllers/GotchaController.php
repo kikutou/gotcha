@@ -26,7 +26,7 @@ class GotchaController extends Controller
      */
     public function index(Request $request)
     {
-        $gotchas = Gotcha::all();
+        $gotchas = Gotcha::all()->paginate(10);
         return view('gotcha.index',
 	        [
 	        	'gotchas' => $gotchas,
