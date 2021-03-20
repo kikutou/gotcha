@@ -26,7 +26,7 @@ class GotchaController extends Controller
      */
     public function index(Request $request)
     {
-        $gotchas = Gotcha::all()->paginate(10);
+        $gotchas = Gotcha::query()->where('deleted_at',NULL)->paginate(10);
         return view('gotcha.index',
 	        [
 	        	'gotchas' => $gotchas,
