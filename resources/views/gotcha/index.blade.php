@@ -42,6 +42,6 @@
         @endif
     </section>
     <div class="d-flex justify-content-center">
-        {!! $pictures->links('vendor.pagination.bootstrap-4') !!}
+        {!! $gotchas->links('vendor.pagination.bootstrap-4') !!}
     </div>
 @endsection
