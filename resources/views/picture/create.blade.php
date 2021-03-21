@@ -9,7 +9,7 @@
             <form action="{{url('picture/create')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label for="description">⽤途</label>
+                    <label for="description">画像名</label>
                     <input
                             type="text"
                             class="form-control"
@@ -18,7 +18,7 @@
                             name="description"
                             value="{{ old('description') }}"
                     >
-                    @if ($errors->first('description'))   <!-- ここ追加 -->
+                    @if ($errors->first('description'))
                         <div class="text-danger mt-3">
                             <p class="validation">※{{$errors->first('description')}}</p>
                         </div>

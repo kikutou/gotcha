@@ -5,51 +5,55 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? "ガチャシステム" }}</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- JS -->
+    <script src="{{ asset('/js/jquery.min-3.2.1.js')}}"></script>
+    <script src="{{ asset('/js/popper.min.js')}}"></script>
+    <script src="{{ asset('/js/bootstrap.min-twitter-4.3.1.js')}}"></script>
+    <script src="{{ asset('/js/bootstrap.min-3.3.0.js')}}"></script>
+    <!-- <script src="{{ asset('/js/jquery-1.11.1.min.js')}}"></script> -->
     <script src="{{ asset('/js/common.js')}}"></script>
 
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"> -->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
     <link href="{{ asset('/css/common.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/css/style.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/css/startmin.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
 
 </head>
 <body>
-    @include('partials.header')
+    
+        @if(Auth::check())
+            <div class="dashboard-main-wrapper">
+                @include('partials.header')
+                @include('partials.sidebar')
+                <div class="dashboard-wrapper">
+                    <div class="dashboard-ecommerce">
+                        <div class="container-fluid dashboard-content ">
+                            <!-- フラッシュメッセージ -->
+                            @if (session('message'))
+                                <div class="alert alert-primary message" role="alert">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
 
-    <div class="container-fluid h-100">
-        <div class="row">
-            @if(Auth::check())
-                <div class="col-sm-2 mb-0 rounded-0">
-                    @include('partials.sidebar')
+                            <!-- フラッシュメッセージ -->
+                            @if (session('error'))
+                                <div class="alert alert-danger error" role="alert">
+                                    {!! nl2br(session('error')) !!}
+                                </div>
+                            @endif
+                        @yield('content')
+                        </div>
+                    </div>
                 </div>
-            @endif
-
-            <div class="col-sm-10"> 
-                <section class="container-fluid">
-
-                    <!-- フラッシュメッセージ -->
-                    @if (session('message'))
-                        <div class="alert alert-primary message" role="alert">
-                            {{ session('message') }}
-                        </div>
-                    @endif
-
-                    <!-- フラッシュメッセージ -->
-                    @if (session('error'))
-                        <div class="alert alert-danger error" role="alert">
-                            {!! nl2br(session('error')) !!}
-                        </div>
-                    @endif
-
-                </section>
-                @yield('content')
             </div>
-        </div>
-    </div> 
+        @else
+            @yield('content')
+        @endif
+    
 </body>
 </html>

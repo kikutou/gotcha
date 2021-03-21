@@ -64,9 +64,9 @@
                     @endif
                     <div class="form-group">
                         @if (is_null($gotcha->picture->url) || $gotcha->picture->type != 1)
-                            <img id="preview" class="img-thumbnail img-responsive" src="">
+                            <img id="preview" class="img-responsive" src="">
                         @else
-                            <img id="preview" class="img-thumbnail img-responsive" src="{{ asset('storage/imgs/' . $gotcha->picture->url) }}">
+                            <img id="preview" class="img-responsive" src="{{ asset('storage/imgs/' . $gotcha->picture->url) }}">
                         @endif
                     </div>
                 </div>
@@ -92,9 +92,9 @@
                     @endif
                     <div class="form-group">
                     @if (is_null($gotcha->result_picture->url) || $gotcha->result_picture->type != 2)
-                            <img id="preview_result" class="img-thumbnail img-responsive" src="">
+                            <img id="preview_result" class="img-fluid img-responsive">
                         @else
-                            <img id="preview_result" class="img-thumbnail img-responsive" src="{{ asset('storage/imgs/' . $gotcha->result_picture->url) }}">
+                            <img id="preview_result" class="img-responsive" src="{{ asset('storage/imgs/' . $gotcha->result_picture->url) }}">
                         @endif
                     </div>
                 </div>

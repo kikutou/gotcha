@@ -42,7 +42,7 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="picture_id">画像名</label>
+                    <label for="picture_id">画像名(景品)</label>
                     <select name="picture_id">
                         <option value="">
                             画像選択してください

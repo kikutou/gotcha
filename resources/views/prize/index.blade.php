@@ -17,8 +17,8 @@
                         <th class="col-1">景品ID</th>
                         <th class="col-3">景品名</th>
                         <th class="col-2">種別</th>
-                        <th class="col-4">画像</th>
-                        <th class="col-2"></th>
+                        <th class="col-3">画像</th>
+                        <th class="col-3"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,14 +27,14 @@
                         <td class="col-1">{{$prize->id}}</td>
                         <td class="col-3">{{$prize->name}}</td>
                         <td class="col-2">{{config('const.prize_type')[$prize->type]}}</td>
-                        <td class="col-4">
+                        <td class="col-3">
                             @if (is_null($prize->picture->url) || $prize->picture->type != 3)
-                                <p>画像が存在しない</p>
+                                <p>画像情報がありません</p>
                             @else
-                                <img loading="lazy" class="img-thumbnail" src="{{ asset('storage/imgs/'.$prize->picture->url) }}" style="height:130px; width:150px" alt="{{$prize->picture->url}}">
+                                <img loading="lazy" class="" src="{{ asset('storage/imgs/'.$prize->picture->url) }}" style="height:130px; width:150px" alt="{{$prize->picture->url}}">
                             @endif
                         </td>
-                        <td class="col-2">
+                        <td class="col-3">
                             <a class="btn btn-info btn-md" href="{{ route('prize.edit', ['id' => $prize->id]) }}">詳細/編集</a>
                             <a class="btn btn-danger btn-md" onclick="return confirm('この内容を削除しますか︖')" href="{{ route('prize.delete', ['id' => $prize->id]) }}">削除</a>
                         </td>
