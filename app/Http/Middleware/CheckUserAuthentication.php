@@ -25,10 +25,6 @@ class CheckUserAuthentication
 		}
 
 		$client = new \GuzzleHttp\Client();
-		// //　2021/03/22 add
-		// $client = new \GuzzleHttp\Client(
-        //     [\GuzzleHttp\RequestOptions::VERIFY => false]
-        // );
 
 		$url = env("UFO_URL", "https://152.165.120.112") . "/api/user_stat.php";
 

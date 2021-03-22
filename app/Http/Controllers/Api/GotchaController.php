@@ -22,12 +22,6 @@ class GotchaController extends Controller
 
 		$tickets = $request->get("tickets", 1);
 
-		// add uid,api_token check
-		$check_result = $this->checkUid($uid, $api_token);
-		if($check_result["status"] == 'no'){
-			return $check_result;
-		}
-
 		if (!$uid or !$api_token or !$tickets) {
 			$status = "no";
 			$reason = "parameters are not corret";
@@ -66,13 +60,6 @@ class GotchaController extends Controller
 		$result = "";
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
-
-		// add uid,api_token check
-		$check_result = $this->checkUid($uid, $api_token);
-		if($check_result["status"] == 'no'){
-			return $check_result;
-		}
-
 		
 		//　ログインユーザー確認
 		if (!$uid or !$api_token) {
@@ -168,12 +155,6 @@ class GotchaController extends Controller
 		$api_token = $request->get("api_token");
 		$gotcha_id = intval($request->get("gotcha_id"));
 
-		// add uid,api_token check
-		$check_result = $this->checkUid($uid, $api_token);
-		if($check_result["status"] == 'no'){
-			return $check_result;
-		}
-
 		//　ログインユーザー確認
 		if (!$uid || !$api_token || !$gotcha_id) {
 			$status = "no";
@@ -245,12 +226,6 @@ class GotchaController extends Controller
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
 		$gotcha_id = intval($request->get("gotcha_id"));
-
-		// add uid,api_token check
-		$check_result = $this->checkUid($uid, $api_token);
-		if($check_result["status"] == 'no'){
-			return $check_result;
-		}
 
 		//　ログインユーザー確認
 		if (!$uid || !$api_token || !$gotcha_id) {
@@ -414,40 +389,4 @@ class GotchaController extends Controller
 		return $result;
 	}
 
-	public function checkUid($uid, $api_token) {
-		$client = new \GuzzleHttp\Client(
-            [\GuzzleHttp\RequestOptions::VERIFY => false]
-        );
-		$url = env("UFO_URL", "https://152.165.120.112") . "/api/user_stat.php";
-		$response = $client->request(
-			'POST',
-			$url,
-			[
-				'form_params' => [
-					'uid' => $uid,
-					'api_token' => $api_token
-				]
-			]
-		);
-
-		if ($response->getStatusCode() == 200) {
-			$result = json_decode($response->getBody());
-			if ($result->status == "no") {
-				$reason = "token not match";
-			}else{
-				$reason = "token check success";
-			}
-			$result = [
-				"status" => $result->status,
-				"reason" => $reason
-			];
-			return $result;
-		}else{
-			$result = [
-				"status" => "no",
-				"reason" => "token not match"
-			];
-			return $result;	
-		}
-	}
 }
