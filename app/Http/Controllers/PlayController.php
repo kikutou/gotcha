@@ -36,8 +36,7 @@ class PlayController extends Controller
 				
 			}
 		}
-		var_dump($response);
-		dd($result);
+		dd($response);
 
 		return response()->json([
 			"status" => "ng",
