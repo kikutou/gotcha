@@ -15,34 +15,6 @@ class PlayController extends Controller
 {
     public function index(Request $request)
     {
-		// add start
-		$uid = $request->get("uid");
-		$api_token = $request->get("api_token");
-		$client = new \GuzzleHttp\Client();
-		$url = route("post_disp_gotchas");
-		$response = $client->request(
-			'POST',
-			$url,
-			[
-				'form_params' => [
-					'uid' => $uid,
-					'api_token' => $api_token
-				]
-			]
-		);
-		if ($response->getStatusCode() == 200) {
-			$result = json_decode($response->getBody());
-			if ($result->status == "ok") {
-				
-			}
-		}
-		dd($response);
-
-		return response()->json([
-			"status" => "ng",
-			"error_msg"=> "token not match"
-		]);
-		// add end
 
 		$target_prize_id = '';
 		$gotcha_id = '';
