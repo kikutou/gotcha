@@ -23,7 +23,13 @@ class GotchaController extends Controller
 		$tickets = $request->get("tickets", 1);
 
 		if (!$uid or !$api_token or !$tickets) {
-			return "parameters are not corret";
+			$status = "no";
+			$reason = "parameters are not corret";
+			$result = [
+				"status" => $status,
+				"reason" => $reason
+			];
+			return $result;
 		}
 
 		$user_ticket = new UserTicket();
@@ -33,7 +39,15 @@ class GotchaController extends Controller
 		$user_ticket->type = 1;
 		$user_ticket->save();
 
-		return ["status" => "ok"];
+		$status = "ok";
+		$reason = "チケットを取得しました";
+
+		$result = [
+			"status" => $status,
+			"reason" => $reason
+		];
+
+		return $result;
 
 	}
 
@@ -48,27 +62,27 @@ class GotchaController extends Controller
 		$api_token = $request->get("api_token");
 		//　ログインユーザー確認
 		if (!$uid or !$api_token) {
-			$status = 'no';
+			$status = "no";
 			$reason = "parameters are not corret";
 			$result = [
-				'status' => $status,
-				'reason' => $reason,
-				'gotcha_list' => $gotcha_list,
-				'tickets' => $tickets
+				"status" => $status,
+				"reason" => $reason,
+				"gotcha_list" => $gotcha_list,
+				"tickets" => $tickets
 			];
-			return json_encode($result);
+			return $result;
 		}
 
 		$gotchas = Gotcha::with('prizes')->get();
 		//　ガチャ情報確認
 		if(count($gotchas) == 0){
-			$status = 'no';
+			$status = "no";
 			$reason = "ガチャ情報がありません";
 			$result = [
-				'status' => $status,
-				'reason' => $reason,
-				'gotcha_list' => $gotcha_list,
-				'tickets' => $tickets
+				"status" => $status,
+				"reason" => $reason,
+				"gotcha_list" => $gotcha_list,
+				"tickets" => $tickets
 			];
 			return json_encode($result);
 		}
@@ -86,18 +100,18 @@ class GotchaController extends Controller
 				$img_url = "";
 			}
 			$gotcha_list[] = [
-				'name' => $gotcha->name,
-				'cost_name' => $gotcha->cost_name,
-				'cost_value' => $gotcha->cost_value,
-				'img_url' => $img_url
+				"name" => $gotcha->name,
+				"cost_name" => $gotcha->cost_name,
+				"cost_value" => $gotcha->cost_value,
+				"img_url" => $img_url
 			];
 		}
 
 		if(count($gotcha_list) > 0){
-			$status = 'ok';
-			$reason = 'ガチャ情報取得しました';
+			$status = "ok";
+			$reason = "ガチャ情報取得しました";
 		}else{
-			$status = 'no';
+			$status = "no";
 			$reason = "ガチャの景品情報がありません";
 		}
 
@@ -120,10 +134,10 @@ class GotchaController extends Controller
 
 		//　返す値をセットする
 		$result = [
-				'status' => $status,
-				'reason' => $reason,
-				'gotcha_list' => $gotcha_list,
-				'tickets' => $tickets
+				"status" => $status,
+				"reason" => $reason,
+				"gotcha_list" => $gotcha_list,
+				"tickets" => $tickets
 		];
 		return $result;
 	}
@@ -142,12 +156,12 @@ class GotchaController extends Controller
 
 		//　ログインユーザー確認
 		if (!$uid || !$api_token || !$gotcha_id) {
-			$status = 'no';
+			$status = "no";
 			$reason = "parameters are not corret";
 			$result = [
-				'status' => $status,
-				'reason' => $reason,
-				'gotcha_prize_list' => $gotcha_prize_list
+				"status" => $status,
+				"reason" => $reason,
+				"gotcha_prize_list" => $gotcha_prize_list
 			];
 			return json_encode($result);
 		}
@@ -155,12 +169,12 @@ class GotchaController extends Controller
 		$gotcha = Gotcha::with('prizes')->where('id',$gotcha_id)->first();
 		//　ガチャ情報確認
 		if(is_null($gotcha)){
-			$status = 'no';
+			$status = "no";
 			$reason = "ガチャ情報が存在しません";
 			$result = [
-				'status' => $status,
-				'reason' => $reason,
-				'gotcha_prize_list' => $gotcha_prize_list
+				"status" => $status,
+				"reason" => $reason,
+				"gotcha_prize_list" => $gotcha_prize_list
 			];
 			return json_encode($result);
 		}
@@ -168,10 +182,10 @@ class GotchaController extends Controller
 		//　ガチャ景品情報確認
 		if(count($gotcha->prizes) == 0)
 		{
-			$status = 'no';
+			$status = "no";
 			$reason = "ガチャ景品情報が存在しません";
 		}else{
-			$status = 'ok';
+			$status = "ok";
 			$reason = "ガチャ景品情報が取得できました";
 
 			// 景品情報配列にセット
@@ -182,17 +196,17 @@ class GotchaController extends Controller
 					$img_url = "";
 				}
 				$gotcha_prize_list[] = [
-					'name' => $prize->name,
-					'img_url' => $img_url
+					"name" => $prize->name,
+					"img_url" => $img_url
 				];
 			}
 		}
 
 		//　戻り値セット
 		$result = [
-			'status' => $status,
-			'reason' => $reason,
-			'gotcha_prize_list' => $gotcha_prize_list
+			"status" => $status,
+			"reason" => $reason,
+			"gotcha_prize_list" => $gotcha_prize_list
 		];
 		return $result;
 	}
@@ -214,11 +228,11 @@ class GotchaController extends Controller
 
 		//　ログインユーザー確認
 		if (!$uid || !$api_token || !$gotcha_id) {
-			$status = 'no';
+			$status = "no";
 			$reason = "parameters are not corret";
 			$result = [
-				'status' => $status,
-				'reason' => $reason
+				"status" => $status,
+				"reason" => $reason
 			];
 			return json_encode($result);
 		}
@@ -239,22 +253,22 @@ class GotchaController extends Controller
 
 		//　ガチャ情報確認
 		if(is_null($gotcha)){
-			$status = 'no';
+			$status = "no";
 			$reason = "ガチャ情報がありません";
 			$result = [
-				'status' => $status,
-				'reason' => $reason
+				"status" => $status,
+				"reason" => $reason
 			];
 			return json_encode($result);
 		}
 
 		// ユーザー利用可能チケット数とガチャ必要チケット数確認
 	    if($tickets < $gotcha->cost_value) {
-			$status = 'no';
+			$status = "no";
 			$reason = "チケット数が足りない";
 			$result = [
-				'status' => $status,
-				'reason' => $reason
+				"status" => $status,
+				"reason" => $reason
 			];
 			return json_encode($result);
 	    }
@@ -267,8 +281,8 @@ class GotchaController extends Controller
 		if( count($gotcha_prize) == 0){
 			$reason = "景品情報がありません";
 			$result = [
-				'status' => $status,
-				'reason' => $reason
+				"status" => $status,
+				"reason" => $reason
 			];
 			return json_encode($result);
 		}
@@ -336,8 +350,8 @@ class GotchaController extends Controller
 	
 			$log->save();
 			DB::commit();
-			$status = 'ok';
-			$reason = 'おめでとうございます！';
+			$status = "ok";
+			$reason = "おめでとうございます！";
 
 			$prize = Prize::with('picture')->where('id',$target_prize_id)->first();
 			
@@ -354,21 +368,21 @@ class GotchaController extends Controller
 			}
 			
 			$result = [
-				'status' => $status,
-				'reason' => $reason,
-				'gotcha_result_img_url' => $gotcha_result_img_url,
-				'prize_name' => $prize->name,
-				'prize_img_url' => $prize_img_url,
-				'redirect' => $prize->url
+				"status" => $status,
+				"reason" => $reason,
+				"gotcha_result_img_url" => $gotcha_result_img_url,
+				"prize_name" => $prize->name,
+				"prize_img_url" => $prize_img_url,
+				"redirect" => $prize->url
 			];
 			
 		}catch(\Exception $e){
 			DB::rollBack();
-			$status = 'no';
+			$status = "no";
 			$reason = $e->getMessage();
 			$result = [
-				'status' => $status,
-				'reason' => $reason
+				"status" => $status,
+				"reason" => $reason
 			];
 		}
 		return $result;
