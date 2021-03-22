@@ -30,7 +30,7 @@ class CheckUserAuthentication
         //     [\GuzzleHttp\RequestOptions::VERIFY => false]
         // );
 
-		$url = env("UFO_URL", "http://152.165.120.112") . "/api/user_stat.php";
+		$url = env("UFO_URL", "https://152.165.120.112") . "/api/user_stat.php";
 
 
 		$response = $client->request(
