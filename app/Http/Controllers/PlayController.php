@@ -29,6 +29,7 @@ class PlayController extends Controller
 			$prize = Prize::find($target_prize_id);
 		}
     	$uid = $request->get("uid");
+		$api_token = $request->get("api_token");
     	if (!$uid) {
     		throw new NotFoundHttpException();
 	    }
