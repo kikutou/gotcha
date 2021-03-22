@@ -22,7 +22,9 @@ class GotchaController extends Controller
 
 		$tickets = $request->get("tickets", 1);
 
-		$client = new \GuzzleHttp\Client();
+		$client = new \GuzzleHttp\Client(
+            [\GuzzleHttp\RequestOptions::VERIFY => false]
+        );
 		$url = env("UFO_URL", "https://152.165.120.112") . "/api/user_stat.php";
 		$response = $client->request(
 			'POST',
