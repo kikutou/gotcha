@@ -39,29 +39,21 @@ class GotchaController extends Controller
 
 		if ($response->getStatusCode() == 200) {
 			$result = json_decode($response->getBody());
-			if ($result->status == "ok") {
-				return $result->status;
+			if ($result->status == "ng") {
+				$reason = "token not match";
+				$result = [
+					"status" => $result->status,
+					"reason" => $reason
+				];
+				return $result;
 			}
+		}else{
+			$result = [
+				"status" => "ng",
+				"reason" => "request error"
+			];
+			return $result;	
 		}
-
-
-		return response()->json([
-			"status" => "ng",
-			"error_msg"=> "token not match"
-		]);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
