@@ -44,7 +44,7 @@ class PrizeController extends Controller
             // validation check
             $check = $this->check($request);
 		    if($check->fails()) {
-			    return redirect()->back()->withErrors($check)->withInput()->with("error", "画像登録失敗");
+			    return redirect()->back()->withErrors($check)->withInput()->with("error", "景品登録失敗");
 		    }
 
             $result = $this->insert($request);
@@ -192,7 +192,8 @@ class PrizeController extends Controller
             'name' => 'required',
             'type_id' => 'required',
             'picture_id' => 'required|min:1',
-            'url' => 'required|url'
+            'url' => 'required|url',
+            'redirect_url' => 'required|url'
         ];
     
         $errors = [
@@ -200,7 +201,9 @@ class PrizeController extends Controller
             'type_id.required' => '景品種別を選択してください',
             'picture_id.required' => '画像を選択してください',
             'url.required' => 'URLを入力してください',
-            'url.url' => '正確のURLを入力してください'
+            'url.url' => '正確のURLを入力してください',
+            'redirect_url.required' => '結果画面遷移URLを入力してください',
+            'redirect_url.url' => '正確の結果画面遷移URLを入力してください'
         ];
         return $validator = Validator::make($request->all(), $rules, $errors);
     }
