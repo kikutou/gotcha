@@ -19,6 +19,7 @@ class GotchaController extends Controller
 	{
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
+
 		$tickets = $request->get("tickets", 1);
 
 		if (!$uid or !$api_token or !$tickets) {
@@ -32,7 +33,7 @@ class GotchaController extends Controller
 		$user_ticket->type = 1;
 		$user_ticket->save();
 
-		return "ok";
+		return ["status" => "ok"];
 
 	}
 
@@ -124,7 +125,7 @@ class GotchaController extends Controller
 				'gotcha_list' => $gotcha_list,
 				'tickets' => $tickets
 		];
-		return json_encode($result);
+		return $result;
 	}
 
 	public function gotcha_detail(Request $request)
@@ -193,7 +194,7 @@ class GotchaController extends Controller
 			'reason' => $reason,
 			'gotcha_prize_list' => $gotcha_prize_list
 		];
-		return json_encode($result);
+		return $result;
 	}
 	
 	public function gotcha_result(Request $request)
@@ -370,6 +371,6 @@ class GotchaController extends Controller
 				'reason' => $reason
 			];
 		}
-		return json_encode($result);
+		return $result;
 	}
 }
