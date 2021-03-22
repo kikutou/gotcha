@@ -56,6 +56,7 @@ class PlayController extends Controller
     		"gotchas" => $gotchas,
 		    "tickets" => $tickets,
 		    "uid" => $uid,
+			"api_token" => $api_token,
 			"gotcha_id" => $gotcha_id,
 			"target_prize_id" => $target_prize_id,
 			"result_gotcha" => $result_gotcha,
