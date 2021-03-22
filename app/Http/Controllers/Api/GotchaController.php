@@ -40,7 +40,7 @@ class GotchaController extends Controller
 		if ($response->getStatusCode() == 200) {
 			$result = json_decode($response->getBody());
 			if ($result->status == "ok") {
-				return $next($request);
+				return $result->status;
 			}
 		}
 
