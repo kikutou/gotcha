@@ -128,7 +128,7 @@ class GotchaController extends Controller
             foreach ($old_gotcha_prize as $old_record) {
             	$old_record->delete();
             }
-
+            
             for ($i = 0; $i < count($prize_ids) ; $i++) {
             	$prize_id = $prize_ids[$i];
             	$frequency = $frequencies[$i];
@@ -141,7 +141,6 @@ class GotchaController extends Controller
 	            }
 
             }
-
             return redirect()->back()->with("message", '成功しました');
         }
 
