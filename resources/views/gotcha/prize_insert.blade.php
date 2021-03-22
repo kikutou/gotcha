@@ -24,7 +24,7 @@
                         <tbody>
                             <tr class="d-none">
                                 <td>
-                                    <select id="clone_option" name="prize_id[]" class="optionSelect">
+                                    <select id="clone_option" name="prize_id_hidden" class="optionSelect">
                                         <option value="" selected>
                                             景品を選択してください
                                         </option>
@@ -32,6 +32,9 @@
                                             <option value="{{$prize->id}}">{{$prize->name}}</option>
                                         @endforeach
                                     </select>
+                                </td>
+                                <td>
+                                    <input type="number" class="frequency form-control" id="frequency_hidden" name="frequency_hidden" value="">
                                 </td>
                             </tr>
                         @for($row = 0; $row < 10; $row++)
