@@ -23,7 +23,7 @@ class GotchaController extends Controller
 		$tickets = $request->get("tickets", 1);
 
 		// add uid,api_token check
-		$check_result = $this->checkUid($request);
+		$check_result = $this->checkUid($uid, $api_token);
 		if($check_result->status == 'no'){
 			return $check_result;
 		}
@@ -394,7 +394,7 @@ class GotchaController extends Controller
 		return $result;
 	}
 
-	public function checkUid(Request $request) {
+	public function checkUid($uid, $api_token) {
 		$client = new \GuzzleHttp\Client(
             [\GuzzleHttp\RequestOptions::VERIFY => false]
         );
