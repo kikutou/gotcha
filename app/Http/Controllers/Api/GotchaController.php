@@ -24,7 +24,7 @@ class GotchaController extends Controller
 
 		// add uid,api_token check
 		$check_result = $this->checkUid($uid, $api_token);
-		if($check_result->status == 'no'){
+		if($check_result["status"] == 'no'){
 			return $check_result;
 		}
 
