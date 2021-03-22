@@ -66,6 +66,14 @@ class GotchaController extends Controller
 		$result = "";
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
+
+		// add uid,api_token check
+		$check_result = $this->checkUid($uid, $api_token);
+		if($check_result["status"] == 'no'){
+			return $check_result;
+		}
+
+		
 		//　ログインユーザー確認
 		if (!$uid or !$api_token) {
 			$status = "no";
@@ -160,6 +168,12 @@ class GotchaController extends Controller
 		$api_token = $request->get("api_token");
 		$gotcha_id = intval($request->get("gotcha_id"));
 
+		// add uid,api_token check
+		$check_result = $this->checkUid($uid, $api_token);
+		if($check_result["status"] == 'no'){
+			return $check_result;
+		}
+
 		//　ログインユーザー確認
 		if (!$uid || !$api_token || !$gotcha_id) {
 			$status = "no";
@@ -231,6 +245,12 @@ class GotchaController extends Controller
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
 		$gotcha_id = intval($request->get("gotcha_id"));
+
+		// add uid,api_token check
+		$check_result = $this->checkUid($uid, $api_token);
+		if($check_result["status"] == 'no'){
+			return $check_result;
+		}
 
 		//　ログインユーザー確認
 		if (!$uid || !$api_token || !$gotcha_id) {
