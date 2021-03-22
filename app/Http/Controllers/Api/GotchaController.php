@@ -22,6 +22,34 @@ class GotchaController extends Controller
 
 		$tickets = $request->get("tickets", 1);
 
+		// add user check
+		$client = new \GuzzleHttp\Client();
+		$url = env("UFO_URL", "http://152.165.120.112") . "/api/user_stat.php";
+		$response = $client->request(
+			'POST',
+			$url,
+			[
+				'form_params' => [
+					'uid' => $uid,
+					'api_token' => $api_token
+				]
+			]
+		);
+		if ($response->getStatusCode() == 200) {
+			$result = json_decode($response->getBody());
+			if ($result->status == "ok") {
+				return $next($request);
+			}
+		}
+
+
+		return response()->json([
+			"status" => "ng",
+			"error_msg"=> "token not match"
+		]);
+
+
+
 		if (!$uid or !$api_token or !$tickets) {
 			$status = "no";
 			$reason = "parameters are not corret";

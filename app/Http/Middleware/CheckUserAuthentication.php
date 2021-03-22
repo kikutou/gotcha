@@ -23,10 +23,12 @@ class CheckUserAuthentication
 		if (!$uid or !$api_token) {
 			throw new NotFoundHttpException();
 		}
-		//　2021/03/22 add
-		$client = new \GuzzleHttp\Client(
-            [\GuzzleHttp\RequestOptions::VERIFY => false]
-        );
+
+		$client = new \GuzzleHttp\Client();
+		// //　2021/03/22 add
+		// $client = new \GuzzleHttp\Client(
+        //     [\GuzzleHttp\RequestOptions::VERIFY => false]
+        // );
 
 		$url = env("UFO_URL", "http://152.165.120.112") . "/api/user_stat.php";
 
