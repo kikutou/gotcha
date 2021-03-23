@@ -15,46 +15,69 @@ class PlayController extends Controller
 {
     public function index(Request $request)
     {
-
-		$target_prize_id = '';
-		$gotcha_id = '';
-		$result_gotcha = '';
-		$prize = '';
-		$result = $request->session()->get('play');
-		if(isset($result)){
-			$target_prize_id = $result['target_prize_id'];
-			$gotcha_id = $result['gotcha_id'];
-			// $result_gotcha = Gotcha::find($gotcha_id);
-			$result_gotcha = Gotcha::with('result_picture')->find($gotcha_id);
-			$prize = Prize::find($target_prize_id);
-		}
-    	$uid = $request->get("uid");
+		$gotcha_list = [];
+		$gotchas = [];
+		$reason = "";
+		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
-    	if (!$uid) {
-    		throw new NotFoundHttpException();
-	    }
 
-	    $tickets = 0;
+		$gotcha_id = "";
+		$target_prize_id = "";
+		$result_gotcha = "";
+		$prize = "";
 
-    	$all_records = UserTicket::query()->where("uid", $uid)->get();
-    	foreach ($all_records as $record) {
-    		if($record->type == 1) {
-    			$tickets += $record->tickets;
-		    }
 
-		    if ($record->type == 2) {
-    			$tickets -= $record->tickets;
-		    }
-	    }
+		//　get gotcha_list
+		$client = new \GuzzleHttp\Client();
+		$url = "http://18.181.193.90/api/disp_gotchas";
+		$response = $client->request(
+			'POST',
+			$url,
+			[
+				'form_params' => [
+					'uid' => $uid,
+					'api_token' => $api_token
+				]
+			]
+		);
 
-	    $gotchas = Gotcha::with('prizes')->get();
+		if ($response->getStatusCode() == 200) {
+			$result = (array)json_decode($response->getBody(), true);
 
-    	$log = new Log();
-    	$log->log = "ユーザーID：" . $uid . " はガチャ一覧ページにアクセスした。";
-    	$log->save();
+			if ($result["status"] == "ok") {
+				$gotcha_list = $result["gotcha_list"];
+				$reason = $result["reason"];
+				$tickets = $result["tickets"];
+			}
+		}
 
+		for ($i = 0; $i < count($gotcha_list); $i++) {
+			
+			//　get gotcha_prize_list
+			$client = new \GuzzleHttp\Client();
+			$url = "http://18.181.193.90/api/gotcha_detail";
+			$response = $client->request(
+				'POST',
+				$url,
+				[
+					'form_params' => [
+						'uid' => $uid,
+						'api_token' => $api_token,
+						'gotcha_id' => $gotcha_list[$i]["id"]
+					]
+				]
+			);
+			
+			if ($response->getStatusCode() == 200) {
+				$result = (array)json_decode($response->getBody(), true);
+				if ($result["status"] == "ok") {
+					$gotcha_list[$i]["prizes"] = [];
+					$gotcha_list[$i]["prizes"] = $result["gotcha_prize_list"];
+				}
+			}
+		}
     	return view("play.index", [
-    		"gotchas" => $gotchas,
+    		"gotchas" => $gotcha_list,
 		    "tickets" => $tickets,
 		    "uid" => $uid,
 			"api_token" => $api_token,
@@ -63,6 +86,52 @@ class PlayController extends Controller
 			"result_gotcha" => $result_gotcha,
 	    	"prize" => $prize
 	    ]);
+		// $target_prize_id = '';
+		// $gotcha_id = '';
+		// $result_gotcha = '';
+		// $prize = '';
+		// $result = $request->session()->get('play');
+		// if(isset($result)){
+		// 	$target_prize_id = $result['target_prize_id'];
+		// 	$gotcha_id = $result['gotcha_id'];
+		// 	// $result_gotcha = Gotcha::find($gotcha_id);
+		// 	$result_gotcha = Gotcha::with('result_picture')->find($gotcha_id);
+		// 	$prize = Prize::find($target_prize_id);
+		// }
+
+    	// if (!$uid) {
+    	// 	throw new NotFoundHttpException();
+	    // }
+
+	    // $tickets = 0;
+
+    	// $all_records = UserTicket::query()->where("uid", $uid)->get();
+    	// foreach ($all_records as $record) {
+    	// 	if($record->type == 1) {
+    	// 		$tickets += $record->tickets;
+		//     }
+
+		//     if ($record->type == 2) {
+    	// 		$tickets -= $record->tickets;
+		//     }
+	    // }
+
+	    // $gotchas = Gotcha::with('prizes')->get();
+
+    	// $log = new Log();
+    	// $log->log = "ユーザーID：" . $uid . " はガチャ一覧ページにアクセスした。";
+    	// $log->save();
+
+    	// return view("play.index", [
+    	// 	"gotchas" => $gotchas,
+		//     "tickets" => $tickets,
+		//     "uid" => $uid,
+		// 	"api_token" => $api_token,
+		// 	"gotcha_id" => $gotcha_id,
+		// 	"target_prize_id" => $target_prize_id,
+		// 	"result_gotcha" => $result_gotcha,
+	    // 	"prize" => $prize
+	    // ]);
     }
 
     public function list(Request $request, $id)
