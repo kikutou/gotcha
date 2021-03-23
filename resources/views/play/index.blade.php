@@ -45,6 +45,7 @@
                 $("#result-gotcha-img").attr("src",data.gotcha_result_img_url);
                 $("#result-prize-img").attr("src",data.prize_img_url);
                 $("#result-prize-name").text(data.prize_name);
+                $("#user-tickets").text(data.tickets);
                 $("#btn-area").append(html);
                 $("#result").modal("toggle");
                 
@@ -88,7 +89,7 @@
 
                 <div class="text-center">
 
-                    <h3>{{ $gotcha["cost_name"] }} {{ $tickets }}/{{ $gotcha["cost_value"] }}枚</h3>
+                    <h3 id="user-tickets">{{ $gotcha["cost_name"] }} {{ $tickets }}/{{ $gotcha["cost_value"] }}枚</h3>
                     @if($tickets >= $gotcha["cost_value"])
                         <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#gotcha-{{ $gotcha['id'] }}"  data-backdrop="static" data-keyboard="false">ガチャを引く</button>
                     @else

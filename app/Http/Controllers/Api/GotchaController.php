@@ -369,6 +369,17 @@ class GotchaController extends Controller
 				$prize_img_url = "";
 			}
 			
+			$all_records = UserTicket::query()->where("uid", $uid)->get();
+			foreach ($all_records as $record) {
+				if($record->type == 1) {
+					$tickets += $record->tickets;
+				}
+	
+				if ($record->type == 2) {
+					$tickets -= $record->tickets;
+				}
+			}
+
 			$result = [
 				"status" => $status,
 				"reason" => $reason,
@@ -376,7 +387,8 @@ class GotchaController extends Controller
 				"prize_name" => $prize->name,
 				"prize_img_url" => $prize_img_url,
 				"url" => $prize->url,
-				"redirect_url" => $prize->redirect_url
+				"redirect_url" => $prize->redirect_url,
+				"tickets" => $tickets
 			];
 			
 		}catch(\Exception $e){
