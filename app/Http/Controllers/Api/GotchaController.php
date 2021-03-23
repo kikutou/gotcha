@@ -375,7 +375,8 @@ class GotchaController extends Controller
 				"gotcha_result_img_url" => $gotcha_result_img_url,
 				"prize_name" => $prize->name,
 				"prize_img_url" => $prize_img_url,
-				"redirect" => $prize->url
+				"url" => $prize->url,
+				"redirect_url" => $prize->redirect_url
 			];
 			
 		}catch(\Exception $e){
