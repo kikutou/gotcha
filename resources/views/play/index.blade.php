@@ -60,7 +60,7 @@
             $('#result').modal('hide');
             $("#btn-result-close").remove();
             if(url == null){
-                window.location.href = location.reload();
+                location.reload();
             }else{
                 window.location.href = url;
             }
