@@ -101,6 +101,7 @@ class GotchaController extends Controller
 				$img_url = "";
 			}
 			$gotcha_list[] = [
+				"id" => $gotcha->id,
 				"name" => $gotcha->name,
 				"cost_name" => $gotcha->cost_name,
 				"cost_value" => $gotcha->cost_value,
