@@ -86,6 +86,24 @@
                         </div>
                     @endif
                 </div>
+
+                <div class="form-group">
+                    <label for="url">結果画面遷移</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="URL"
+                        id="redirect_url"
+                        name="redirect_url"
+                        value="{{ old('redirect_url', $prize->redirect_url) }}"
+                    >
+                    @if ($errors->first('redirect_url'))
+                        <div class="text-danger mt-3">
+                            <p class="validation">※{{$errors->first('redirect_url')}}</p>
+                        </div>
+                    @endif
+                </div>
+                
                 <div class="row">
                     <div class="col-xs-6 col-md-6 text-left">
                         <a href="{{ route('prize') }}" class="btn btn-primary" >もどる</a>
