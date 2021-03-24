@@ -109,12 +109,15 @@ class PrizeController extends Controller
         $type = $request->get('type_id');
         $picture_id = $request->get('picture_id');
         $url = $request->get('url');
+        $redirect_url = $request->get('redirect_url');
 
         $prize = Prize::find($prize_id);
         $prize->name = $name;
         $prize->type = $type;
         $prize->picture_id = $picture_id;
         $prize->url = $url;
+        $prize->redirect_url = $redirect_url;
+
         if (is_null($prize) || empty($prize)){
             return redirect()->back()->with("error", "更新失敗しました");
         }
@@ -132,12 +135,14 @@ class PrizeController extends Controller
         $type = $request->get('type_id');
         $picture_id = $request->get('picture_id');
         $url = $request->get('url');
+        $redirect_url = $request->get('redirect_url');
 
         $prize = new Prize();
         $prize->name = $name;
         $prize->type = $type;
         $prize->picture_id = $picture_id;
         $prize->url = $url;
+        $prize->redirect_url = $redirect_url;
         $result = $prize->save();
         if($result){
             return true;
