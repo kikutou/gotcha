@@ -77,7 +77,7 @@
 
                         <div class="text-center">
                             <div>
-                                <a href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?uid={{ $uid }}">はい</a>
+                                <a href="{{ route('get_play_result', ['id' => $gotcha->id]) }}?uid={{ $uid }}&api_token=f2648a5aea4fc9b76e07ff3f6b5aa5ae9832c22a">はい</a>
                             </div>
                             <div>
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">いいえ</button>

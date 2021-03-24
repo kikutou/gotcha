@@ -83,7 +83,8 @@ class PlayController extends Controller
     {
 
 	    $uid = $request->get("uid");
-	    if (!$uid) {
+	    $api_token = $request->get("api_token");
+	    if (!$uid or !$api_token) {
 		    throw new NotFoundHttpException();
 	    }
 
@@ -159,6 +160,31 @@ class PlayController extends Controller
 
 			$user_ticket->gotcha_result_id = $result->id;
 			$user_ticket->save();
+
+
+			// UFOと連動
+			$url = $prize->url;
+
+			$client = new \GuzzleHttp\Client();
+
+
+			$response = $client->request(
+				'POST',
+				$url,
+				[
+					'form_params' => [
+						'uid' => $uid,
+						'api_token' => $api_token
+					]
+				]
+			);
+
+			if ($response->getStatusCode() == 200) {
+				$result = json_decode($response->getBody());
+				if ($result->status != "ok") {
+					throw new NotFoundHttpException();
+				}
+			}
 
 
 			$log = new Log();
