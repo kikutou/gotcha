@@ -25,7 +25,7 @@ class PlayController extends Controller
 		$target_prize_id = "";
 		$result_gotcha = "";
 		$prize = "";
-
+		$tickets = 0;
 
 		//　get gotcha_list
 		$client = new \GuzzleHttp\Client();
