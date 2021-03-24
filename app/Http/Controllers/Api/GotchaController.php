@@ -32,15 +32,77 @@ class GotchaController extends Controller
 			return $result;
 		}
 
-		$user_ticket = new UserTicket();
-		$user_ticket->uid = $uid;
-		$user_ticket->api_token = $api_token;
-		$user_ticket->tickets = $tickets;
-		$user_ticket->type = 1;
-		$user_ticket->save();
 
-		$status = "ok";
-		$reason = "チケットを取得しました";
+		if (env('APP_DEBUG')) {
+			$user_ticket = new UserTicket();
+			$user_ticket->uid = $uid;
+			$user_ticket->api_token = $api_token;
+			$user_ticket->tickets = $tickets;
+			$user_ticket->type = 1;
+			$user_ticket->save();
+
+			$status = "ok";
+			$reason = "チケットを取得しました";
+
+			$result = [
+				"status" => $status,
+				"reason" => $reason
+			];
+
+			return $result;
+		}
+
+		// last ceiling balance
+		$last_balance = 0;
+		$record = UserTicket::query()->where("uid", $uid)->orderBy("updated_at", "DESC")->first();
+		if($record) {
+			$last_balance = $record->ceiling_balance;
+		}
+
+		// get current ceiling balance
+		$client = new \GuzzleHttp\Client();
+		$url = env("UFO_URL", "https://152.165.120.112") . "/api/gotcha_get_ceiling_balance.php";
+
+		$response = $client->request(
+			'POST',
+			$url,
+			[
+				'form_params' => [
+					'uid' => $uid,
+					'api_token' => $api_token
+				]
+			]
+		);
+
+		if ($response->getStatusCode() == 200) {
+			$result = json_decode($response->getBody());
+
+			if($last_balance != $result) {
+
+				$user_ticket = new UserTicket();
+				$user_ticket->uid = $uid;
+				$user_ticket->api_token = $api_token;
+				$user_ticket->tickets = $tickets;
+				$user_ticket->type = 1;
+				$user_ticket->ceiling_balance = $result;
+				$user_ticket->save();
+
+				$status = "ok";
+				$reason = "チケットを取得しました";
+
+				$result = [
+					"status" => $status,
+					"reason" => $reason
+				];
+
+				return $result;
+
+			}
+		}
+
+
+		$status = "ng";
+		$reason = "チケットすでに付与された可能性があります";
 
 		$result = [
 			"status" => $status,
