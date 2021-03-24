@@ -153,7 +153,9 @@
                                         <p>{{ $prize["name"] }}</p>
                                     </div>
                                 </div>
-
+                                @if(!$loop->last)
+                                <br>
+                                @endif
                             @endforeach
                         </div>
                     </div>
