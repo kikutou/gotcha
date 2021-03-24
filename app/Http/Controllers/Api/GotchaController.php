@@ -251,8 +251,8 @@ class GotchaController extends Controller
 		    }
 	    }
 
-		$gotcha = Gotcha::with('picture')->where('id',$gotcha_id)->first();
-
+		$gotcha = Gotcha::with('result_picture')->where('id',$gotcha_id)->first();
+		return json_encode($gotcha);
 		//　ガチャ情報確認
 		if(is_null($gotcha)){
 			$status = "no";
@@ -357,10 +357,8 @@ class GotchaController extends Controller
 
 			$prize = Prize::with('picture')->where('id',$target_prize_id)->first();
 			
-			if(!is_null($gotcha->picture->url) && $gotcha->picture->type == 2){
-				$gotcha_result_img_url = asset('storage/imgs/'.$gotcha->picture->url);
-			}else{
-				$gotcha_result_img_url = "";
+			if(!is_null($gotcha->result_picture->url) && $gotcha->result_picture->type == 2){
+				$gotcha_result_img_url = asset('storage/imgs/'.$gotcha->result_picture->url);
 			}
 
 			if(!is_null($prize->picture->url) && $prize->picture->type == 3){

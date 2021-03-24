@@ -46,6 +46,7 @@
                 }else{
                     var html = '<a class="btn btn-sm" href="">はい</a>';
                 }
+                console.log(data);
                 $("#result-gotcha-img").attr("src",data.gotcha_result_img_url);
                 $("#result-prize-img").attr("src",data.prize_img_url);
                 $("#result-prize-name").text(data.prize_name);
