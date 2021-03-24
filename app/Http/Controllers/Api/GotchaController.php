@@ -252,7 +252,7 @@ class GotchaController extends Controller
 	    }
 
 		$gotcha = Gotcha::with('result_picture')->where('id',$gotcha_id)->first();
-		return json_encode($gotcha);
+
 		//　ガチャ情報確認
 		if(is_null($gotcha)){
 			$status = "no";
