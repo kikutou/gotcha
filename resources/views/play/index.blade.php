@@ -41,7 +41,13 @@
         })
             // Ajaxリクエストが成功した場合
             .done(function (data) {
-                var html = '<button id="btn-result-close" type="button" class="btn btn-sm" onclick="resultModal(' + data.redirect_url + ')">はい</button>';
+                console.log(data.redirect_url);
+                if(data.redirect_url != null){
+                    var html = '<a class="btn btn-sm" href="' + data.redirect_url + '">はい</a>';
+                }else{
+                    var html = '<a class="btn btn-sm" href="">はい</a>';
+                }
+                var html = '<a class="btn btn-sm" href="' + data.redirect_url + '">はい</a>';
                 $("#result-gotcha-img").attr("src",data.gotcha_result_img_url);
                 $("#result-prize-img").attr("src",data.prize_img_url);
                 $("#result-prize-name").text(data.prize_name);
@@ -56,15 +62,6 @@
             });
         }
 
-        function resultModal(url){
-            $('#result').modal('hide');
-            $("#btn-result-close").remove();
-            if(url == null){
-                location.reload();
-            }else{
-                window.location.href = url;
-            }
-        }
     </script>
 </head>
 
