@@ -440,13 +440,28 @@ class GotchaController extends Controller
 				}
 			}
 
+			//　API gotcha prize insert
+			$client = new \GuzzleHttp\Client();
+			$url = $prize->url;
+			$response = $client->request(
+				'POST',
+				$url,
+				[
+					'form_params' => [
+						'uid' => $uid,
+						'api_token' => $api_token,
+					]
+				]
+			);
+
+
 			$result = [
 				"status" => $status,
 				"reason" => $reason,
 				"gotcha_result_img_url" => $gotcha_result_img_url,
 				"prize_name" => $prize->name,
 				"prize_img_url" => $prize_img_url,
-				"url" => $prize->url,
+				// "url" => $prize->url,
 				"redirect_url" => $prize->redirect_url,
 				"tickets" => $tickets
 			];
