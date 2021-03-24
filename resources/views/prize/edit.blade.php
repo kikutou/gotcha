@@ -95,7 +95,7 @@
                         placeholder="URL"
                         id="redirect_url"
                         name="redirect_url"
-                        value="{{ old('redirect_url', $prize->redirect_url)) }}"
+                        value="{{ old('redirect_url', $prize->redirect_url) }}"
                     >
                     @if ($errors->first('redirect_url'))
                         <div class="text-danger mt-3">
