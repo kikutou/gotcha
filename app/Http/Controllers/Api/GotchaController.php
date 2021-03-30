@@ -254,7 +254,7 @@ class GotchaController extends Controller
 			$sum = 0;
 
 			// 総重み取得
-			$sum = GotchaPrize::where('gotcha_id', $gotcha_id)->sum('frequency');
+			$sum = intval(GotchaPrize::where('gotcha_id', $gotcha_id)->sum('frequency'));
 
 			// 景品情報配列にセット
 			foreach($gotcha->prizes as $prize){
@@ -266,6 +266,7 @@ class GotchaController extends Controller
 
 				$frequency = GotchaPrize::where('gotcha_id', $gotcha_id)
 					->where('prize_id', $prize->id)
+					->first()
 					->select('frequency')
 					->pluck('frequency');
 
