@@ -266,9 +266,9 @@ class GotchaController extends Controller
 
 				$frequency = GotchaPrize::where('gotcha_id', $gotcha_id)
 					->where('prize_id', $prize->id)
-					->first()
 					->select('frequency')
-					->pluck('frequency');
+					->pluck('frequency')
+					->first();
 
 				// 確率計算
 				return [
