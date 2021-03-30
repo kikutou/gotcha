@@ -28,7 +28,7 @@ class GotchaPrize extends Model
     }
 
     static public function getGotchaPrizeFrequency($gotcha_id, $prize_id){
-        return GotchaPrize::query('select frequency')
+        return GotchaPrize::query('select gotchas_prizes.frequency')
             ->from('gotchas_prizes')
             ->where('gotcha_id', $gotcha_id)
             ->where('prize_id', $prize_id)

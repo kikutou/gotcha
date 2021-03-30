@@ -265,7 +265,7 @@ class GotchaController extends Controller
 				}
 
 				$frequency = GotchaPrize::getGotchaPrizeFrequency($gotcha_id, $prize->id);
-				return $prize;
+				return $frequency;
 				// $chance = sprintf('%.1f',$prize->frequency/$sum * 100) . "%";
 				$gotcha_prize_list[] = [
 					"name" => $prize->name,
