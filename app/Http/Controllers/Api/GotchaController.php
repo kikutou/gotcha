@@ -254,10 +254,8 @@ class GotchaController extends Controller
 			$sum = 0;
 
 			// 総重み取得
-			foreach ($gotcha->prizes as $prize){
-				$sum = $prize->frequency;
-			}
-
+			$sum = GotchaPrize::getGotchaPrizeFrequencySum($gotcha_id);
+			return $sum;
 			// 景品情報配列にセット
 			foreach($gotcha->prizes as $prize){
 				if(!is_null($prize->picture->url) && $prize->picture->type == 3){

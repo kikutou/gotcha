@@ -26,4 +26,19 @@ class GotchaPrize extends Model
     public function prize(){
         return $this->hasOne(Prize::class, 'id', 'prize_id')->withDefault();
     }
+
+    static public function getGotchaPrizeFrequencySum($gotcha_id){
+        return GotchaPrize::query('select sum(frequency)')
+        ->from('gotchas_prizes')
+        ->where('gotcha_id', $gotcha_id)
+        ->get();
+    }
+    
+    static public function getGotchaPrizeFrequency($gotcha_id, $prize_id){
+        return GotchaPrize::query('select frequency')
+            ->from('gotchas_prizes')
+            ->where('gotcha_id', $gotcha_id)
+            ->where('prize_id', $prize_id)
+            ->first();
+    }
 }
