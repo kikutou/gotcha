@@ -265,12 +265,12 @@ class GotchaController extends Controller
 				}else{
 					$img_url = "";
 				}
-				return $sum;
+				
 				$chance = sprintf('%.1f',$prize->frequency/$sum * 100) . "%";
 				$gotcha_prize_list[] = [
 					"name" => $prize->name,
 					"img_url" => $img_url,
-					"chance" => $chance
+					"frequency" => $prize->frequency
 				];
 			}
 		}
