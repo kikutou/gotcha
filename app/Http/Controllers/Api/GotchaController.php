@@ -270,6 +270,10 @@ class GotchaController extends Controller
 					->pluck('frequency');
 
 				// 確率計算
+				return [
+					"frequency" =>gettype($frequency),
+					"sum" =>gettype($sum)
+				];
 				$chance = sprintf('%.1f', intval($frequency)/intval($sum) * 100) . "%";
 
 				$gotcha_prize_list[] = [
