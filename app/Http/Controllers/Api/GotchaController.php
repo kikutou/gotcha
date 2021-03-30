@@ -251,6 +251,12 @@ class GotchaController extends Controller
 		}else{
 			$status = "ok";
 			$reason = "ガチャ景品情報が取得できました";
+			$sum = 0;
+
+			// 総重み取得
+			foreach ($gotcha->prizes as $prize){
+				$sum = $prize->frequency;
+			}
 
 			// 景品情報配列にセット
 			foreach($gotcha->prizes as $prize){
@@ -261,7 +267,8 @@ class GotchaController extends Controller
 				}
 				$gotcha_prize_list[] = [
 					"name" => $prize->name,
-					"img_url" => $img_url
+					"img_url" => $img_url,
+					"chance" => sprintf('%.1f',$prize->frequency/$sum * 100) . "%"
 				];
 			}
 		}
