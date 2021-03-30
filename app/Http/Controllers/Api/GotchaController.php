@@ -263,8 +263,11 @@ class GotchaController extends Controller
 				}else{
 					$img_url = "";
 				}
-
-				$frequency = GotchaPrize::getGotchaPrizeFrequency($gotcha_id, $prize->id);
+				$frequency = GotchaPrize::where('gotcha_id', $gotcha_id)
+					->where('prize_id', $prize->id)
+					->select('frequency')
+					->pluck('frequency');
+				// $frequency = GotchaPrize::getGotchaPrizeFrequency($gotcha_id, $prize->id);
 				return $frequency;
 				// $chance = sprintf('%.1f',$prize->frequency/$sum * 100) . "%";
 				$gotcha_prize_list[] = [
