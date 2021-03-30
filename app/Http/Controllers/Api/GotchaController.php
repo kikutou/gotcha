@@ -271,11 +271,7 @@ class GotchaController extends Controller
 					->first();
 
 				// 確率計算
-				return [
-					"frequency" =>$frequency,
-					"sum" =>$sum
-				];
-				$chance = sprintf('%.1f', intval($frequency)/intval($sum) * 100) . "%";
+				$chance = sprintf('%.1f', $frequency/$sum * 100) . "%";
 
 				$gotcha_prize_list[] = [
 					"name" => $prize->name,
