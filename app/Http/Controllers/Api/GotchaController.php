@@ -271,8 +271,8 @@ class GotchaController extends Controller
 
 				// 確率計算
 				return [
-					"frequency" =>gettype($frequency),
-					"sum" =>gettype($sum)
+					"frequency" =>$frequency,
+					"sum" =>$sum
 				];
 				$chance = sprintf('%.1f', intval($frequency)/intval($sum) * 100) . "%";
 
