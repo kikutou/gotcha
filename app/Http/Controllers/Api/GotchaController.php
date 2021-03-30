@@ -254,7 +254,7 @@ class GotchaController extends Controller
 			$sum = 0;
 
 			// 総重み取得
-			$sum = GotchaPrizeAuth::where('gotcha_id', $gotcha_id)->sum('frequency');
+			$sum = GotchaPrize::where('gotcha_id', $gotcha_id)->sum('frequency');
 			return $sum;
 			// 景品情報配列にセット
 			foreach($gotcha->prizes as $prize){
