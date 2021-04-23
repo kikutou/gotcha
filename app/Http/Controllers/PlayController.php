@@ -15,6 +15,7 @@ class PlayController extends Controller
 {
     public function index(Request $request)
     {
+
 		$gotcha_list = [];
 		$gotchas = [];
 		$reason = "";
@@ -29,7 +30,7 @@ class PlayController extends Controller
 
 		//　get gotcha_list
 		$client = new \GuzzleHttp\Client();
-		$url = "http://18.181.193.90/api/disp_gotchas";
+		$url = $url = env("UFO_URL", "https://152.165.120.112") . "/api/disp_gotchas";
 		$response = $client->request(
 			'POST',
 			$url,
@@ -55,7 +56,7 @@ class PlayController extends Controller
 			
 			//　get gotcha_prize_list
 			$client = new \GuzzleHttp\Client();
-			$url = "http://18.181.193.90/api/gotcha_detail";
+			$url = $url = env("UFO_URL", "https://152.165.120.112") . "/api/gotcha_detail";
 			$response = $client->request(
 				'POST',
 				$url,

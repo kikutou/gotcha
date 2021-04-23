@@ -41,6 +41,7 @@ class PictureController extends Controller
     	if($request->isMethod('post')) {
             // validation check
             $check = $this->check($request, "create");
+
 		    if($check->fails()) {
 			    return redirect()->back()->withErrors($check)->withInput()->with("error", "画像登録失敗");
 		    }
@@ -71,6 +72,7 @@ class PictureController extends Controller
         if($request->isMethod('post')){
             // validation check
             $check = $this->check($request, "edit");
+
 		    if($check->fails()) {
 			    return redirect()->back()->withErrors($check)->withInput()->with("error", "画像登録失敗");
 		    }
@@ -176,7 +178,7 @@ class PictureController extends Controller
             $rules = [
                 'description' => 'required',
                 'type_id' => 'required',
-                'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000', // max 10000kb
+                'image' => 'mimes:jpeg,jpg,png,gif|required|max:1000000', // max 10000kb
             ];
 
             $errors = [
