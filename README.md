@@ -19,4 +19,4 @@ https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/ec2-lamp-amazon-linux-
 2. 上記のドキュメントでインストールされたPHPバージョンは7.2なので、最低限7.4までアップグレードする必要があります。
 https://qiita.com/nagahama/items/2fdc820791bee5d564ca
 3. PHPのアップロードファイルのサイズ制限を解除する必要があります。
-https://qiita.com/katsukii/items/243d24ad81c787b14d4d
+https://www.rumahtulip.nl/blog/index.php/apache/how-to-increase-upload-file-size-limit-on-php-apache
