@@ -20,3 +20,4 @@ https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/ec2-lamp-amazon-linux-
 https://qiita.com/nagahama/items/2fdc820791bee5d564ca
 3. PHPのアップロードファイルのサイズ制限を解除する必要があります。
 https://www.rumahtulip.nl/blog/index.php/apache/how-to-increase-upload-file-size-limit-on-php-apache
+https://www.zbame.me/archives/36
