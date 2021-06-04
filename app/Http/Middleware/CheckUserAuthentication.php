@@ -17,6 +17,12 @@ class CheckUserAuthentication
 	 */
 	public function handle(Request $request, Closure $next)
 	{
+
+		// add by kiku
+		// 20210603
+		// https://adtech-ag.backlog.com/view/OCG-247
+//		return response('サービスアクセス不可', 200)->header('Content-Type', 'text/plain');
+
 		$uid = $request->get("uid");
 		$api_token = $request->get("api_token");
 
